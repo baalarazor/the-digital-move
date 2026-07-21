@@ -868,7 +868,9 @@ export function ContactSection({ locale }: LocaleProps) {
     setStatus("loading");
     setMessage("");
 
-    const formData = new FormData(event.currentTarget);
+    // Capture the form element synchronously to avoid React event pooling issues
+    const form = event.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
     const payload = {
       name: formData.get("name")?.toString() || "",
       email: formData.get("email")?.toString() || "",
@@ -877,21 +879,22 @@ export function ContactSection({ locale }: LocaleProps) {
     };
 
     try {
-      const response = await fetch("/api/contact", {
+      // Submit directly to Formspree endpoint (no server required)
+      const response = await fetch("https://formspree.io/f/xzdnvjgk", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(payload),
       });
 
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        throw new Error(result.error || "Unable to send inquiry.");
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || err.message || "Unable to send inquiry.");
       }
 
       setStatus("success");
       setMessage("Thanks! Your inquiry has been sent successfully. We will be in touch shortly.");
-      event.currentTarget.reset();
+      // Reset the captured form element
+      form.reset();
     } catch (error) {
       setStatus("error");
       setMessage(error instanceof Error ? error.message : "Unable to send inquiry.");
@@ -917,10 +920,7 @@ export function ContactSection({ locale }: LocaleProps) {
             <a href="tel:+491755017453" className="flex items-center transition hover:text-blue-600">
               <Compass className="mr-3 h-5 w-5 text-blue-600" /> +49 175 5017453
             </a>
-            <p className="flex items-start">
-              <Compass className="mr-3 mt-1 h-5 w-5 text-blue-600" />
-              Hektorstraße 18, 10711 Berlin, Germany
-            </p>
+            {/* Physical address removed per request */}
           </div>
         </div>
         <form onSubmit={handleSubmit} className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
