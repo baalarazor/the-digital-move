@@ -34,6 +34,23 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        {/* Hreflang / canonical for EN/DE */}
+        <link rel="alternate" hrefLang="en" href="https://thedigitalmove.com/" />
+        <link rel="alternate" hrefLang="de" href="https://thedigitalmove.com/de" />
+        <link rel="canonical" href={process.env.SITE_URL ?? "https://thedigitalmove.com"} />
+
+        {/* Basic meta + OpenGraph (fallback to metadata export) */}
+        <meta name="description" content={"The Digital Move helps businesses move from manual operations to intelligent automation with AI, workflow automation, custom software, and modern websites."} />
+        <meta property="og:title" content={"The Digital Move | AI Automation & Digital Transformation"} />
+        <meta property="og:description" content={"Helping businesses move from manual operations to intelligent automation."} />
+        <meta property="og:image" content={"/og-image.svg"} />
+        <meta property="og:url" content={process.env.SITE_URL ?? "https://thedigitalmove.com"} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={"/og-image.svg"} />
+      </head>
+
       <body className="min-h-full bg-white text-slate-950">
         {/* Google Analytics (gtag.js) - uses NEXT_PUBLIC_GA_ID if set, otherwise falls back to provided ID */}
         <Script src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID ?? "G-ES538VSWD8"}`} strategy="afterInteractive" />
