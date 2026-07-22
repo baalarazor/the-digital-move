@@ -349,7 +349,7 @@ export function Chatbot() {
         const next = [...prev];
         next[next.length - 1] = {
           sender: "bot",
-          text: "That's a great one — best to chat about that on a quick call so we can look at your setup properly.",
+          text: "Hmm, I didn't quite catch that — could you rephrase? Or if you'd like to speak directly, just book a free call and we'll sort it out properly.",
         };
         return next;
       });
@@ -443,6 +443,55 @@ export function Chatbot() {
     ].some((phrase) => normalized.includes(phrase));
   };
 
+  const getLocalResponse = (text: string): string | null => {
+    const t = text.trim().toLowerCase();
+
+    // How are you / wellbeing
+    if (/how are you|how('s| is) it going|how do you do|you ok|all good/.test(t)) {
+      return "I'm doing great, thanks for asking! 😊 Ready to help you grow your business. What kind of business are you running?";
+    }
+
+    // Where are you / location
+    if (/where are you|where('re| are) you (based|located|from)|your (office|location|address)|berlin/.test(t)) {
+      return "We're based in Berlin, Germany — and we work with businesses across Europe and worldwide remotely. Is your business based in Berlin too?";
+    }
+
+    // Who are you / what is this / what do you do
+    if (/who are you|what are you|what is (this|the digital move|your company|your business)|tell me about (yourself|you|your company)/.test(t)) {
+      return "I'm Alex — a consultant at The Digital Move, a Berlin-based digital agency. We help businesses save time, get more customers, and grow using AI automation, workflow tools, and modern websites. What can I help you with today?";
+    }
+
+    // What services do you offer
+    if (/what (do you (offer|do|provide)|services|can you do)|your services|services you offer/.test(t)) {
+      return "We offer: AI Automation, Workflow Automation, Website Development, Custom Software, and System Integration. Which of these sounds most relevant to you?";
+    }
+
+    // Contact / email / phone
+    if (/contact|email|phone|reach you|get in touch|call you/.test(t)) {
+      return "Best way to reach us is through this chat or by emailing hello@thedigitalmove.com. Want to book a free consultation so we can chat properly?";
+    }
+
+    // Thank you
+    if (/^(thank(s| you)|cheers|appreciate it|great|awesome|perfect|sounds good|nice)/.test(t)) {
+      return "You're welcome! 😊 Is there anything else I can help you with?";
+    }
+
+    // Bye / goodbye
+    if (/^(bye|goodbye|see you|talk later|cya|ttyl|gtg|good night|good evening)/.test(t)) {
+      return "It was great chatting! Feel free to come back anytime. Have a wonderful day! 👋";
+    }
+
+    // Yes / No standalone
+    if (/^(yes|yeah|yep|yup|sure|absolutely|definitely)$/.test(t)) {
+      return "Great! Fill in your details in the form below and we'll send a calendar invite straight to your inbox.";
+    }
+    if (/^(no|nope|not (now|yet)|maybe later)$/.test(t)) {
+      return "No worries! Take your time. I'm here if you have any questions or want to book when you're ready.";
+    }
+
+    return null; // no local match — send to OpenAI
+  };
+
   const handleSend = async () => {
     if (!inputValue.trim()) return;
     if (stage === "form" || stage === "done") return;
@@ -463,11 +512,21 @@ export function Chatbot() {
       setStage("form");
       return;
     }
+
     if (isPricingQuestion(text)) {
       addUserMessage(text);
       addBotMessage("Great question! Honestly, it depends a lot on the scope and what you need. We don't have a fixed price list — the best way is a quick free call where we look at your specific situation and give you a realistic number. Want to book one?");
       return;
     }
+
+    // Handle common conversational questions locally without needing OpenAI
+    const localReply = getLocalResponse(text);
+    if (localReply) {
+      addUserMessage(text);
+      addBotMessage(localReply);
+      return;
+    }
+
     await askAssistant(text);
   };
 
