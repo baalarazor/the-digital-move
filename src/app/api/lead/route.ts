@@ -9,22 +9,38 @@ function generateICS(data: {
   time: string;
   notes: string;
   businessType: string;
+  duration?: string; // minutes as string, e.g. "30" or "60"
 }): string {
-  const { clientName, clientEmail, businessName, date, time, notes, businessType } = data;
+  const { clientName, clientEmail, businessName, date, time, notes, businessType, duration } = data;
+  const durationMins = parseInt(duration ?? "60", 10);
 
-  // Parse date and time into ICS format (YYYYMMDDTHHMMSS)
-  const [year, month, day] = date.split("-");
-  const [hour, minute] = time.split(":");
-  const dtStart = `${year}${month}${day}T${hour}${minute}00`;
-
-  // End time = start + 1 hour
-  const endHour = String(parseInt(hour, 10) + 1).padStart(2, "0");
-  const dtEnd = `${year}${month}${day}T${endHour}${minute}00`;
+  // Parse date and time — support both YYYY-MM-DD and natural language best-effort
+  let dtStart = "";
+  let dtEnd = "";
+  try {
+    const [year, month, day] = date.split("-");
+    // time is always HH:MM from the chatbot normaliser
+    const [hRaw, mRaw] = time.split(":");
+    const h = parseInt(hRaw, 10);
+    const m = parseInt(mRaw ?? "0", 10);
+    const hStr = String(h).padStart(2, "0");
+    const mStr = String(m).padStart(2, "0");
+    const endDate = new Date(`${year}-${month}-${day}T${hStr}:${mStr}:00`);
+    endDate.setMinutes(endDate.getMinutes() + durationMins);
+    dtStart = `${year}${month}${day}T${hStr}${mStr}00`;
+    dtEnd = `${endDate.getFullYear()}${String(endDate.getMonth() + 1).padStart(2, "0")}${String(endDate.getDate()).padStart(2, "0")}T${String(endDate.getHours()).padStart(2, "0")}${String(endDate.getMinutes()).padStart(2, "0")}00`;
+  } catch {
+    // Fallback: use current time + 1 hour if parsing fails
+    const now = new Date();
+    const pad = (n: number) => String(n).padStart(2, "0");
+    dtStart = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}T${pad(now.getHours())}${pad(now.getMinutes())}00`;
+    const end = new Date(now.getTime() + durationMins * 60000);
+    dtEnd = `${end.getFullYear()}${pad(end.getMonth() + 1)}${pad(end.getDate())}T${pad(end.getHours())}${pad(end.getMinutes())}00`;
+  }
 
   const now = new Date();
   const dtStamp = now.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
   const uid = `tdm-${Date.now()}@thedigitalmove.com`;
-
   const ownerEmail = process.env.OWNER_EMAIL ?? "scbaala@gmail.com";
 
   return [
@@ -38,17 +54,17 @@ function generateICS(data: {
     `DTSTAMP:${dtStamp}`,
     `DTSTART:${dtStart}`,
     `DTEND:${dtEnd}`,
-    `SUMMARY:Free Consultation - ${clientName} (${businessName})`,
-    `DESCRIPTION:Business Type: ${businessType}\\nBusiness Name: ${businessName}\\nClient: ${clientName}\\nNotes: ${notes || "None"}`,
+    `SUMMARY:${durationMins}-min Consultation - ${clientName}`,
+    `DESCRIPTION:Business Type: ${businessType}\\nBusiness Name: ${businessName}\\nClient: ${clientName}\\nDuration: ${durationMins} minutes\\nNotes: ${notes || "None"}`,
     `ORGANIZER;CN=The Digital Move:MAILTO:${ownerEmail}`,
     `ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;CN=${clientName}:MAILTO:${clientEmail}`,
     `ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;CN=The Digital Move:MAILTO:${ownerEmail}`,
     "STATUS:CONFIRMED",
     "SEQUENCE:0",
     "BEGIN:VALARM",
-    "TRIGGER:-PT30M",
+    "TRIGGER:-PT15M",
     "ACTION:DISPLAY",
-    "DESCRIPTION:Consultation reminder — The Digital Move",
+    "DESCRIPTION:Consultation in 15 minutes — The Digital Move",
     "END:VALARM",
     "END:VEVENT",
     "END:VCALENDAR",
@@ -67,6 +83,7 @@ async function sendCalendarEmail(data: {
   businessType: string;
   challenge: string;
   transcript?: string;
+  duration?: string;
 }): Promise<void> {
   const smtpHost = process.env.SMTP_HOST;
   const smtpUser = process.env.SMTP_USER;
@@ -86,7 +103,16 @@ async function sendCalendarEmail(data: {
   });
 
   const hasDateTime = data.date && data.time;
-  const icsContent = hasDateTime ? generateICS(data) : null;
+  const icsContent = hasDateTime ? generateICS({
+    clientName: data.clientName,
+    clientEmail: data.clientEmail,
+    businessName: data.businessName,
+    date: data.date,
+    time: data.time,
+    notes: data.notes,
+    businessType: data.businessType,
+    duration: data.duration,
+  }) : null;
 
   const dateLabel = hasDateTime
     ? `${data.date} at ${data.time}`
@@ -174,7 +200,10 @@ export async function POST(request: NextRequest) {
           time: data.time ?? "",
           notes: data.notes ?? "",
           businessType: data.businessType ?? "",
-          challenge: data.challenge ?? "",          transcript: data.transcript ?? "",        });
+          challenge: data.challenge ?? "",
+          transcript: data.transcript ?? "",
+          duration: data.duration ?? "60",
+        });
       } catch (emailError) {
         console.error("Calendar email failed (non-fatal):", emailError);
       }
