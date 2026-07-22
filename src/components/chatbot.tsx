@@ -88,7 +88,7 @@ export function Chatbot() {
     setMessages([
       {
         sender: "bot",
-        text: "👋 Hey! I'm Baala, founder of The Digital Move. We help businesses grow with AI, automation, and modern websites. What brings you here today?",
+        text: "👋 Hey there! I'm Baala, and I'm genuinely excited to meet you! 😊 I founded The Digital Move because I'm passionate about helping businesses like yours harness the power of AI, automation, and beautiful modern websites to truly thrive. Whether you're looking to streamline your operations, connect with your audience better, or explore something entirely new, I'm here to listen and help you find the perfect solution. What's on your mind today?",
       },
     ]);
   }
