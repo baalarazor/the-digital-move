@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useSpring } from "framer-motion";
 import { ArrowUp, Menu, MessageCircle, X } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   AboutSection,
@@ -17,8 +18,8 @@ import {
   TestimonialsSection,
   TrustSection,
   WhyChooseUsSection,
-  CareerSection,
 } from "@/components/sections";
+import { Chatbot } from "@/components/chatbot";
 
 export function SiteShell() {
   const [locale, setLocale] = useState<"en" | "de">(() => {
@@ -54,6 +55,9 @@ export function SiteShell() {
   }, [locale]);
 
   const navItems = locale === "de" ? ["Start", "Leistungen", "Branchen", "Über uns", "Blog", "Kontakt"] : ["Home", "Services", "Industries", "About", "Blog", "Contact"];
+  const navLinks = navItems.map((item) =>
+    item === "Leistungen" || item === "Services" ? "/services" : `#${item.toLowerCase()}`
+  );
 
   const acceptCookies = () => {
     window.localStorage.setItem("tdm-cookie-consent", "accepted");
@@ -65,12 +69,12 @@ export function SiteShell() {
       <motion.div className="fixed inset-x-0 top-0 z-50 h-1 origin-left bg-blue-600" style={{ scaleX }} />
       <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/80">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:px-8 lg:px-10">
-          <a href="#home" className="text-lg font-semibold tracking-tight text-slate-950 dark:text-white">
+          <Link href="/" className="text-lg font-semibold tracking-tight text-slate-950 dark:text-white">
             The Digital Move
-          </a>
+          </Link>
           <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex dark:text-slate-300">
-            {navItems.map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="transition hover:text-blue-600">
+            {navItems.map((item, index) => (
+              <a key={item} href={navLinks[index]} className="transition hover:text-blue-600">
                 {item}
               </a>
             ))}
@@ -90,6 +94,9 @@ export function SiteShell() {
                 DE
               </button>
             </div>
+            <a href="https://wa.me/491755017453" target="_blank" rel="noreferrer" className="hidden rounded-full border border-emerald-500 bg-emerald-500/10 px-4 py-2 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-500/20 sm:inline-flex">
+              WhatsApp
+            </a>
             <a href="#contact" className="hidden rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 sm:inline-flex">
               {locale === "de" ? "Kostenlose Beratung buchen" : "Book Free Consultation"}
             </a>
@@ -105,11 +112,14 @@ export function SiteShell() {
         {mobileMenuOpen ? (
           <div className="border-t border-slate-200 bg-white/95 px-6 py-4 backdrop-blur md:hidden dark:border-slate-800 dark:bg-slate-950/95">
             <div className="flex flex-col gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
-              {navItems.map((item) => (
-                <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMobileMenuOpen(false)}>
+              {navItems.map((item, index) => (
+                <a key={item} href={navLinks[index]} onClick={() => setMobileMenuOpen(false)}>
                   {item}
                 </a>
               ))}
+              <a href="https://wa.me/491755017453" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)} className="text-emerald-700 hover:text-emerald-900">
+                WhatsApp
+              </a>
             </div>
           </div>
         ) : null}
@@ -123,7 +133,6 @@ export function SiteShell() {
         <IndustriesSection locale={locale} />
         <WhyChooseUsSection locale={locale} />
         <ProcessSection locale={locale} />
-        <CareerSection locale={locale} />
         <BlogSection locale={locale} />
         <FAQSection locale={locale} />
         <CTASection locale={locale} />
@@ -131,16 +140,8 @@ export function SiteShell() {
       </main>
 
       <FooterSection locale={locale} />
+      <Chatbot />
 
-      <a
-        href="https://wa.me/491755017453"
-        target="_blank"
-        rel="noreferrer"
-        className="fixed bottom-6 right-6 z-40 inline-flex items-center rounded-full bg-emerald-500 p-4 text-white shadow-lg transition hover:scale-105"
-        aria-label="Contact us on WhatsApp"
-      >
-        <MessageCircle className="h-6 w-6" />
-      </a>
 
       {showBackToTop ? (
         <button

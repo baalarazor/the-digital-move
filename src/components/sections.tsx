@@ -80,23 +80,23 @@ export function HeroSection({ locale }: LocaleProps) {
         badge: "KI • Automatisierung • Digitale Transformation",
         headline: "Machen Sie Ihren",
         highlight: "digitalen Schritt",
-        subheadline: "Wir helfen Unternehmen, manuelle Abläufe durch intelligente Automatisierung, moderne Websites und smarte Integrationen zu ersetzen.",
+        subheadline: "Wir liefern KI-Automatisierung, Workflow-Automatisierung, Website-Entwicklung, CRM-Integrationen und individuelle Software, damit manuelle Arbeit reduziert und Wachstum beschleunigt wird.",
         primary: "Kostenlose Beratung buchen",
         secondary: "Leistungen entdecken",
-        pill1: "KI-gestützt",
+        pill1: "KI-Automatisierung",
         pill2: "Workflow-Automatisierung",
-        pill3: "Individuelle Software",
+        pill3: "Digitale Transformation",
       }
     : {
         badge: "AI • Automation • Digital Transformation",
         headline: "Make Your",
         highlight: "Digital Move",
-        subheadline: "We help businesses replace manual operations with intelligent automation, polished websites, and smart integrations that scale.",
+        subheadline: "We deliver AI automation, workflow automation, website development, CRM integration, and custom software that reduces manual work and accelerates growth.",
         primary: "Book a Free Consultation",
         secondary: "Explore Services",
-        pill1: "AI Powered",
+        pill1: "AI Automation",
         pill2: "Workflow Automation",
-        pill3: "Custom Software",
+        pill3: "Digital Transformation",
       };
 
   return (
@@ -124,7 +124,7 @@ export function HeroSection({ locale }: LocaleProps) {
               {copy.primary}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
-            <Link href="#services" className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:text-blue-700">
+            <Link href="/services" className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:text-blue-700">
               {copy.secondary}
             </Link>
           </div>
@@ -195,74 +195,86 @@ export function ServicesSection({ locale }: LocaleProps) {
           description: "Ersetzen Sie repetitive Aufgaben durch KI, die mit Ihrem Team und Ihren Systemen zusammenarbeitet.",
           features: ["KI-Copiloten", "Intelligente Workflows", "Entscheidungshilfe"],
           icon: Bot,
+          href: "/services/ai-automation",
         },
         {
           title: "Workflow-Automatisierung",
           description: "Koordinieren Sie Freigaben, E-Mails, CRM-Updates und Dokumentenabläufe ohne Reibung.",
           features: ["n8n", "E-Mail-Automatisierung", "CRM-Automatisierung"],
           icon: Workflow,
+          href: "/services/workflow-automation",
         },
         {
           title: "KI-Chatbots",
           description: "Bieten Sie Kunden und Mitarbeitenden sofortige Antworten über Website- und WhatsApp-Assistenten.",
           features: ["Website-Chatbot", "WhatsApp-Bot", "Wissensassistent"],
           icon: MessageCircleMore,
+          href: "/services/ai-automation",
         },
         {
           title: "Webseitenentwicklung",
           description: "Starten Sie hochwertige Websites, die auf jedem Gerät gut funktionieren und konvertieren.",
           features: ["Landingpages", "Unternehmensseiten", "SEO-freundlich"],
           icon: Globe2,
+          href: "/services/website-development",
         },
         {
           title: "Individuelle Software",
           description: "Erstellen Sie interne Dashboards, Reporting-Tools und Automatisierungsplattformen für Ihr Unternehmen.",
           features: ["Dashboards", "ERP-Integrationen", "Reporting"],
           icon: Cpu,
+          href: "/services/custom-software",
         },
         {
           title: "Systemintegration",
           description: "Verbinden Sie die Tools, die Ihr Team bereits nutzt, ohne unnötige Umwege.",
           features: ["Microsoft 365", "Google Workspace", "Slack", "Jira", "REST APIs"],
           icon: Layers3,
+          href: "/services/system-integration",
         },
       ]
     : [
         {
           title: "AI Automation",
-          description: "Replace repetitive manual tasks with AI that works across your team and systems.",
+          description: "Replace repetitive manual tasks with AI workflows, automated data capture, and intelligent process orchestration.",
           features: ["AI copilots", "Smart workflows", "Decision support"],
           icon: Bot,
+          href: "/services/ai-automation",
         },
         {
           title: "Workflow Automation",
-          description: "Coordinate approvals, emails, CRM updates, documents, and handoffs without friction.",
+          description: "Coordinate approvals, emails, CRM updates, invoices, and handoffs without friction.",
           features: ["n8n", "Email automation", "CRM automation"],
           icon: Workflow,
+          href: "/services/workflow-automation",
         },
         {
           title: "AI Chatbots",
-          description: "Give customers and employees instant answers through website and WhatsApp assistants.",
+          description: "Give customers and employees instant answers through website and WhatsApp assistants while capturing leads and support requests.",
           features: ["Website chatbot", "WhatsApp bot", "Knowledge assistant"],
           icon: MessageCircleMore,
+          href: "/services/ai-automation",
         },
         {
           title: "Website Development",
-          description: "Launch high-converting websites that look premium and perform beautifully on every device.",
+          description: "Launch conversion-focused websites, landing pages, and digital experiences built for SEO, lead generation, and growth.",
           features: ["Landing pages", "Corporate sites", "SEO friendly"],
           icon: Globe2,
+          href: "/services/website-development",
         },
         {
           title: "Custom Software",
-          description: "Create internal dashboards, reporting tools, and automation platforms made for your business.",
+          description: "Create internal dashboards, reporting tools, and automation platforms tailored to your business.",
           features: ["Dashboards", "ERP integrations", "Reporting"],
           icon: Cpu,
+          href: "/services/custom-software",
         },
         {
           title: "System Integration",
-          description: "Connect the tools your team already uses without forcing painful process changes.",
+          description: "Connect your CRM, email, collaboration tools, and APIs so data flows automatically across your organization.",
           features: ["Microsoft 365", "Google Workspace", "Slack", "Jira", "REST APIs"],
           icon: Layers3,
+          href: "/services/system-integration",
         },
       ];
 
@@ -297,6 +309,9 @@ export function ServicesSection({ locale }: LocaleProps) {
                   </li>
                 ))}
               </ul>
+              <Link href={service.href} className="mt-6 inline-flex items-center text-sm font-semibold text-blue-600 transition hover:text-blue-800">
+                {locale === "de" ? "Mehr erfahren" : "Learn more"}
+              </Link>
             </motion.article>
           ))}
         </div>
@@ -306,49 +321,83 @@ export function ServicesSection({ locale }: LocaleProps) {
 }
 
 export function IndustriesSection({ locale }: LocaleProps) {
-  const industries = locale === "de"
-    ? [
-        ["Gesundheitswesen", "Moderne Patientenerfahrungen und belastbare Arbeitsabläufe"],
-        ["Restaurants", "Reservierungs- und Serviceautomatisierung, die mühelos wirkt"],
-        ["Anwaltskanzleien", "Dokumentenbasierte Workflows mit KI-Unterstützung"],
-        ["Immobilien", "Lead-Erfassung und Follow-up-Automatisierung"],
-        ["Recruiting", "Lebenslaufanalyse und Bewerberprozess-Automatisierung"],
-        ["Buchhaltung", "Schnellere Berichte und Kundenkommunikation"],
-        ["Bau", "Mehr Transparenz und bessere Freigaben"],
-        ["Bildung", "Studierenden-Onboarding und interne Systeme"],
-        ["Logistik", "Sichtbarkeit von Sendungen und Prozesskoordination"],
-        ["Retail", "E-Commerce-Support und Kundenjourneys"],
-        ["Produktion", "Operationale Workflows und Reporting"],
-        ["Kleine Unternehmen", "Einfache Schritte zum sicheren Skalieren"],
-      ]
-    : [
-        ["Healthcare", "Modern patient experiences and workflow resilience"],
-        ["Restaurants", "Reservation and service automation that feels effortless"],
-        ["Law Firms", "Document-based workflows with AI support"],
-        ["Real Estate", "Lead capture and follow-up automation"],
-        ["Recruitment", "Resume analysis and candidate journey orchestration"],
-        ["Accounting", "Faster reporting and client communication"],
-        ["Construction", "Operations visibility and approvals"],
-        ["Education", "Student onboarding and internal systems"],
-        ["Logistics", "Shipment visibility and process coordination"],
-        ["Retail", "Ecommerce support and customer journeys"],
-        ["Manufacturing", "Operational workflows and reporting"],
-        ["Small Businesses", "Simple steps to scale with confidence"],
-      ];
+  const industries = locale === "de" ? null : [
+    {
+      title: "Healthcare",
+      shortDesc: "Modern patient experiences and workflow resilience",
+      fullDesc: "We build modern patient experiences through automated appointment reminders, digital pre-registration, and insurance verification—reducing no-shows and administrative overhead by 40–50%. Our workflow systems coordinate clinical handoffs between departments, ensuring no critical patient information falls through the cracks."
+    },
+    {
+      title: "Restaurants",
+      shortDesc: "Reservation and service automation that feels effortless",
+      fullDesc: "We automate reservation routing to available staff, send table readiness alerts to diners, and manage follow-up communications. Real-time kitchen workflow updates keep staff aligned on order priorities, reducing manual call-handling, speeding seating times, and improving repeat bookings."
+    },
+    {
+      title: "Law Firms",
+      shortDesc: "Document-based workflows with AI support",
+      fullDesc: "We automate client intake, document categorization, deadline tracking, billing triggers, and approval routing. AI-powered document analysis identifies key clauses and flags compliance issues, reducing manual review time by 60% while ensuring deadlines are never missed."
+    },
+    {
+      title: "Real Estate",
+      shortDesc: "Lead capture and follow-up automation",
+      fullDesc: "We route property inquiries directly to agents, trigger virtual tours automatically, schedule showings without manual intervention, and nurture prospects with timely follow-ups. Automated lead scoring prioritizes hot prospects and reduces time-to-close by weeks."
+    },
+    {
+      title: "Recruitment",
+      shortDesc: "Resume analysis and candidate journey orchestration",
+      fullDesc: "We automate resume screening using AI to identify top candidates in seconds, send interview confirmations with meeting links, and track candidates across interview stages. Automated status updates reduce communication gaps while scoring systems ensure only relevant candidates reach hiring managers."
+    },
+    {
+      title: "Accounting",
+      shortDesc: "Faster reporting and client communication",
+      fullDesc: "We automate invoice workflows, expense categorization, approval chains, and client report generation. Automated reconciliation flags discrepancies before reports go out, reducing month-end close time by 30–40% while scheduled digest emails keep clients informed without manual outreach."
+    },
+    {
+      title: "Construction",
+      shortDesc: "Operations visibility and approvals",
+      fullDesc: "We automate purchase orders, site inspection sign-offs, safety alerts, and progress reporting. Automated approval chains keep projects moving without waiting for manager sign-off, real-time safety notifications prevent incidents, and leadership always has current project status."
+    },
+    {
+      title: "Education",
+      shortDesc: "Student onboarding and internal systems",
+      fullDesc: "We automate enrollment workflows to process applications in hours, collect required documents with automated reminders, register students based on prerequisites, and notify staff for preparation. Automated parent communication keeps families informed of milestones, reducing admissions burden by 50%."
+    },
+    {
+      title: "Logistics",
+      shortDesc: "Shipment visibility and process coordination",
+      fullDesc: "We automate tracking updates sent at each shipment milestone, assign drivers based on route optimization, capture proof-of-delivery automatically, and alert support to delays in real time. Automated exception handling reroutes shipments early, reducing complaints by 40%."
+    },
+    {
+      title: "Retail",
+      shortDesc: "Ecommerce support and customer journeys",
+      fullDesc: "We automate order processing, inventory alerts, shipping notifications, and returns workflows end-to-end. Personalized follow-up campaigns remind customers of abandoned carts, recommend related products, and request reviews. This reduces cart abandonment by 15–20% and increases repeat purchases by 30%."
+    },
+    {
+      title: "Manufacturing",
+      shortDesc: "Operational workflows and reporting",
+      fullDesc: "We automate production schedules, route quality checks to supervisors, send equipment maintenance alerts before failures, and generate operational dashboards updated in real time. Automated alerts prevent machinery downtime and quality checks happen systematically without manual oversight."
+    },
+    {
+      title: "Small Businesses",
+      shortDesc: "Simple steps to scale with confidence",
+      fullDesc: "We automate customer follow-ups after purchase, send invoice reminders to reduce payment delays, onboard employees with digital checklists, and route routine approvals without founder involvement. These automations give small teams the operational backbone of larger companies, freeing up time for revenue-generating activities."
+    }
+  ];
 
   return (
     <section className="bg-slate-50 px-6 py-24 sm:px-8 lg:px-10">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow={locale === "de" ? "Branchen" : "Industries"}
-          title={locale === "de" ? "Vertrauenswürdig in Branchen, die Geschwindigkeit und Struktur brauchen" : "Trusted across sectors that need speed and structure"}
-          description={locale === "de" ? "Wir passen jede Umsetzung an die Realität Ihrer Branche, Ihrer Dokumente und Ihrer Kundenerwartungen an." : "We tailor every rollout to the realities of your industry, your documents, and your customer expectations."}
+          title={locale === "de" ? "Vertrauen Sie auf Lösungen, die schnellere Abläufe und klarere Kundenerlebnisse ermöglichen" : "Trusted by businesses that need faster operations and clearer customer journeys"}
+          description={locale === "de" ? "Wir liefern digitale Werkzeuge, bessere Kundenkontaktpunkte und verlässlichere Prozesse für Dienstleister, lokale Geschäfte, Praxen und wachstumsorientierte Teams." : "We deliver digital tools, stronger customer touchpoints, and more reliable processes for service providers, local businesses, clinics, and growing teams."}
         />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {industries.map(([title, description]) => (
-            <div key={title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-              <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-600">{description}</p>
+          {industries?.map((industry) => (
+            <div key={industry.title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+              <h3 className="text-lg font-semibold text-slate-900">{industry.title}</h3>
+              <p className="mt-2 text-sm font-medium text-slate-700">{industry.shortDesc}</p>
+              <p className="mt-3 text-sm leading-6 text-slate-600">{industry.fullDesc}</p>
             </div>
           ))}
         </div>
@@ -361,31 +410,31 @@ export function AboutSection({ locale }: LocaleProps) {
   const copy = locale === "de"
     ? {
         eyebrow: "Über uns",
-        title: "Wir gestalten humane Systeme, die den Alltag leichter machen",
-        description: "The Digital Move hilft Teams, sich von repetitiven Prozessen zu lösen und Klarheit, bessere Kundenerlebnisse und messbaren Fortschritt zu schaffen.",
+        title: "Wir gestalten Geschäftssysteme, die den digitalen Arbeitsalltag einfacher machen",
+        description: "The Digital Move hilft Teams, repetitive Prozesse durch intelligente digitale Systeme, moderne Kundenerlebnisse und messbare Geschäftsergebnisse zu ersetzen, indem wir KI-Automatisierung, Workflow-Automatisierung, Website-Entwicklung und CRM-Integrationen liefern.",
         pill1: "Mission-gesteuert",
         pill2: "Ausführungsstark",
         pill3: "Skalierbar",
         vision: "Vision",
-        visionText: "Unternehmen durch KI, Automatisierung und digitale Transformation stärken.",
+        visionText: "Unternehmen durch KI-Automatisierung, Workflow-Integration und digitale Transformationsberatung stärken.",
         approach: "Ansatz",
-        approachText: "Eine Mischung aus Strategie, Produktdenken und praktischer Umsetzung.",
+        approachText: "Eine Mischung aus Strategie, Produktdenken und schneller technischer Umsetzung.",
         outcome: "Ergebnis",
-        outcomeText: "Weniger manuelle Arbeit, klarere Abläufe und bessere Erfahrungen für Kunden und Mitarbeitende.",
+        outcomeText: "Weniger manuelle Arbeit, klarere Abläufe und messbares Umsatzwachstum.",
       }
     : {
         eyebrow: "About",
-        title: "We design humane systems that make work feel lighter",
-        description: "The Digital Move helps teams replace repetitive processes with clarity, better customer moments, and measurable momentum.",
+        title: "We design business systems that make digital work feel simple",
+        description: "The Digital Move helps teams replace repetitive processes with intelligent digital systems, modern customer experiences, and measurable business outcomes by delivering AI automation, workflow automation, website development, and CRM integration.",
         pill1: "Mission-led",
         pill2: "Execution-focused",
         pill3: "Built to scale",
         vision: "Vision",
-        visionText: "Empowering businesses through AI, automation, and digital transformation.",
+        visionText: "Empowering businesses through AI automation, workflow integration, and digital transformation consulting.",
         approach: "Approach",
-        approachText: "A blend of strategy, product thinking, and hands-on implementation.",
+        approachText: "A blend of strategy, product thinking, and fast technical delivery.",
         outcome: "Outcome",
-        outcomeText: "Less manual effort, clearer operations, and better client and employee experiences.",
+        outcomeText: "Less manual effort, clearer operations, and measurable revenue growth.",
       };
 
   return (
@@ -471,108 +520,6 @@ export function BlogSection({ locale }: LocaleProps) {
               <p className="mt-3 text-sm leading-7 text-slate-600">{post.description}</p>
             </article>
           ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function CareerSection({ locale }: LocaleProps) {
-  const roles = [
-    {
-      title: "Software Developers",
-      description: "Frontend, backend, full stack, mobile, AI, and cloud engineers.",
-      skills: ["React", "Next.js", "Node.js", "TypeScript", "Python", "Java", ".NET"],
-    },
-    {
-      title: "AI & Automation Specialists",
-      description: "Build intelligent business workflows and AI-powered solutions.",
-      skills: ["n8n", "OpenAI", "AI Agents", "RAG Systems", "LangChain", "Workflow Automation"],
-    },
-    {
-      title: "UI/UX Designers",
-      description: "Design beautiful and intuitive digital experiences for modern businesses.",
-      skills: ["Figma", "User Experience", "User Interface Design", "Design Systems", "Prototyping"],
-    },
-    {
-      title: "Content Creators & Copywriters",
-      description: "Help businesses tell their brand story with clear and persuasive content.",
-      skills: ["Website Copy", "Blogs", "SEO Content", "Technical Writing", "Product Content"],
-    },
-    {
-      title: "Digital Marketing Specialists",
-      description: "Drive growth with modern digital marketing strategies and measurement.",
-      skills: ["SEO", "Google Ads", "Meta Ads", "LinkedIn Marketing", "Analytics", "Email Marketing"],
-    },
-    {
-      title: "Graphic Designers",
-      description: "Create visual content that strengthens brands and supports campaigns.",
-      skills: ["Adobe Creative Suite", "Canva", "Brand Identity", "Social Media Graphics", "Motion Graphics"],
-    },
-  ];
-
-  return (
-    <section id="careers" className="bg-slate-50 px-6 py-24 sm:px-8 lg:px-10">
-      <div className="mx-auto max-w-7xl">
-        <SectionHeading
-          eyebrow={locale === "de" ? "Karriere" : "Careers"}
-          title={locale === "de" ? "Werde Teil unseres Talentnetzwerks" : "Join our talent network"}
-          description={locale === "de" ? "Wir bauen eine Community talentierter Freelancer, Kreativer und Technologieprofis, die echte Geschäftsprobleme lösen wollen." : "We are building a community of talented freelancers, creators, and technology professionals who want to solve meaningful business problems."}
-        />
-        <div className="mt-12 grid gap-6 lg:grid-cols-2">
-          <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-            <div className="inline-flex rounded-2xl bg-blue-50 p-3 text-blue-600">
-              <BriefcaseBusiness className="h-6 w-6" />
-            </div>
-            <h3 className="mt-6 text-2xl font-semibold text-slate-900">{locale === "de" ? "Gestalten Sie die Zukunft des digitalen Geschäfts mit uns" : "Build the future of digital business with us"}</h3>
-            <p className="mt-4 text-sm leading-8 text-slate-600">
-              {locale === "de"
-                ? "Bei The Digital Move helfen wir Unternehmen, manuelle Prozesse in intelligente digitale Lösungen zu verwandeln. Ob Entwickler:in, Designer:in, Marketingexpert:in oder KI-Spezialist:in — wir freuen uns über Zusammenarbeit an spannenden Kundenprojekten."
-                : "At The Digital Move, we help businesses transform manual processes into intelligent digital solutions. Whether you're a developer, designer, marketer, or AI specialist, we'd love to collaborate with you on exciting client projects."}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Pill>{locale === "de" ? "Flexible Projekte" : "Flexible Projects"}</Pill>
-              <Pill>{locale === "de" ? "Remote-Kollaboration" : "Remote Collaboration"}</Pill>
-              <Pill>{locale === "de" ? "Langfristige Partnerschaften" : "Long-Term Partnerships"}</Pill>
-            </div>
-          </div>
-          <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-            <h3 className="text-xl font-semibold text-slate-900">{locale === "de" ? "Aktuelle Möglichkeiten" : "Current opportunities"}</h3>
-            <ul className="mt-5 space-y-3 text-sm leading-7 text-slate-600">
-              <li>• {locale === "de" ? "Freiberuflicher Full-Stack-Entwickler" : "Freelance Full Stack Developer"}</li>
-              <li>• {locale === "de" ? "React / Next.js-Entwickler" : "React / Next.js Developer"}</li>
-              <li>• {locale === "de" ? "KI-Automatisierungs-Spezialist (n8n)" : "AI Automation Specialist (n8n)"}</li>
-              <li>• {locale === "de" ? "UI/UX-Designer" : "UI/UX Designer"}</li>
-              <li>• {locale === "de" ? "Content Writer" : "Content Writer"}</li>
-              <li>• {locale === "de" ? "SEO-Spezialist" : "SEO Specialist"}</li>
-              <li>• {locale === "de" ? "Digital Marketing Consultant" : "Digital Marketing Consultant"}</li>
-              <li>• {locale === "de" ? "Grafikdesigner" : "Graphic Designer"}</li>
-            </ul>
-          </div>
-        </div>
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {roles.map((role) => (
-            <div key={role.title} className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-              <h3 className="text-xl font-semibold text-slate-900">{role.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">{role.description}</p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {role.skills.map((skill) => (
-                  <span key={skill} className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-700">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="mt-12 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-          <h3 className="text-2xl font-semibold text-slate-900">{locale === "de" ? "So wirst du Teil unseres Netzwerks" : "How to join"}</h3>
-          <p className="mt-4 text-sm leading-8 text-slate-600">
-            {locale === "de"
-              ? "Bitte sende deinen Lebenslauf oder dein Portfolio, deinen LinkedIn-Profile, relevante Projektbeispiele, deine Hauptkompetenzen, Standort und Zeitzone, Verfügbarkeit und deine stündlichen oder projektbasierten Tarife an "
-              : "Please send your resume or portfolio, LinkedIn profile, relevant project examples, primary skills, location and time zone, availability, and your hourly or project-based rates to "}
-            <a href="mailto:scbaala@gmail.com" className="font-semibold text-blue-600">scbaala@gmail.com</a>.
-          </p>
         </div>
       </div>
     </section>
@@ -847,7 +794,7 @@ export function CTASection({ locale }: LocaleProps) {
           <div className="max-w-2xl">
             <p className="text-sm font-medium uppercase tracking-[0.3em] text-blue-100">{locale === "de" ? "Bereit für den nächsten Schritt" : "Ready to Move"}</p>
             <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">{locale === "de" ? "Bereit, Ihren digitalen Schritt zu machen?" : "Ready to make your digital move?"}</h2>
-            <p className="mt-4 text-lg text-blue-50">{locale === "de" ? "Lassen Sie Ihr Unternehmen mit modernen Systemen, hochwertigen Erfahrungen und messbarem Wachstum automatisieren." : "Let’s automate your business with modern systems, polished experiences, and measurable growth."}</p>
+            <p className="mt-4 text-lg text-blue-50">{locale === "de" ? "Erhalten Sie einen Plan für digitale Transformation und Automatisierung, der manuelle Aufgaben in zuverlässige Wachstumstreiber verwandelt." : "Get a digital transformation plan and automation roadmap that turns manual tasks into reliable growth drivers."}</p>
           </div>
           <Link href="#contact" className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-blue-700 transition hover:scale-[1.01]">
             {locale === "de" ? "Beratung buchen" : "Book Consultation"}
@@ -908,7 +855,7 @@ export function ContactSection({ locale }: LocaleProps) {
           <SectionHeading
             eyebrow={locale === "de" ? "Kontakt" : "Contact"}
             title={locale === "de" ? "Lassen Sie uns die nächste Version Ihres Unternehmens aufbauen" : "Let’s build the next version of your business"}
-            description={locale === "de" ? "Wir sind bereit, über Workflows, Systeme und digitale Erfahrungen zu sprechen, die echten Schwung erzeugen." : "We’re ready to talk through the workflows, systems, and digital experiences that can unlock momentum."}
+            description={locale === "de" ? "Wir sind bereit, Ihren Automatisierungsplan, Website-Fahrplan und Integrationsplan zu erarbeiten, damit Ihr Unternehmen echten Schwung gewinnt." : "We’re ready to scope your automation roadmap, website development plan, and systems integration strategy for measurable business momentum."}
           />
           <div className="mt-8 space-y-4 text-sm text-slate-700">
             <a href="mailto:scbaala@gmail.com" className="flex items-center transition hover:text-blue-600">
@@ -939,7 +886,7 @@ export function ContactSection({ locale }: LocaleProps) {
             </label>
             <label className="text-sm font-medium text-slate-700 sm:col-span-2">
               <span className="mb-2 block">{locale === "de" ? "Nachricht" : "Message"}</span>
-              <textarea name="message" rows={5} required className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none ring-0" placeholder="Tell us about the process you want to improve." />
+              <textarea name="message" rows={5} required className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none ring-0" placeholder="Describe the process you want to improve and the business outcome you expect." />
             </label>
           </div>
           <button type="submit" disabled={status === "loading"} className="mt-6 inline-flex items-center rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70">
@@ -964,7 +911,7 @@ export function FooterSection({ locale }: LocaleProps) {
           <p className="mt-2 text-sm text-slate-600">{locale === "de" ? "Unternehmen dabei unterstützen, von manuellen Abläufen zu intelligenter Automatisierung zu kommen." : "Helping businesses move from manual operations to intelligent automation."}</p>
         </div>
         <div className="flex flex-wrap gap-6 text-sm text-slate-600">
-          <Link href="#services" className="transition hover:text-blue-600">{locale === "de" ? "Leistungen" : "Services"}</Link>
+          <Link href="/services" className="transition hover:text-blue-600">{locale === "de" ? "Leistungen" : "Services"}</Link>
           <Link href="#contact" className="transition hover:text-blue-600">{locale === "de" ? "Kontakt" : "Contact"}</Link>
           <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" className="transition hover:text-blue-600">LinkedIn</a>
           <a href="https://github.com" target="_blank" rel="noreferrer" className="transition hover:text-blue-600">GitHub</a>

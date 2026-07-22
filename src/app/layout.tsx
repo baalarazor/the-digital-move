@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { StructuredData } from "./structured-data";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-
 export const metadata: Metadata = {
-  title: "The Digital Move | AI Automation & Digital Transformation",
-  description: "The Digital Move helps businesses move from manual operations to intelligent automation with AI, workflow automation, custom software, and modern websites.",
-  keywords: ["AI automation", "workflow automation", "digital transformation", "custom software", "websites"],
+  title: "The Digital Move | AI Automation, Workflow Automation & Website Development",
+  description: "The Digital Move provides AI automation services, workflow automation, custom software, website development, CRM integration, and digital transformation consulting for growing companies.",
+  keywords: ["AI automation services", "workflow automation", "digital transformation consulting", "website development", "custom software", "CRM integration", "business process automation", "automation roadmap"],
   metadataBase: new URL("https://thedigitalmove.com"),
   openGraph: {
     title: "The Digital Move",
@@ -33,7 +30,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="en" className="h-full antialiased" suppressHydrationWarning>
       <head>
         {/* Hreflang / canonical for EN/DE */}
         <link rel="alternate" hrefLang="en" href="https://thedigitalmove.com/" />
