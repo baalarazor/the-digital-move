@@ -219,8 +219,8 @@ export function Chatbot() {
 
     if (/^(yes|yeah|yep|sure|absolutely|let'?s do it|book|book a call|book.*consultation)$/.test(n)) {
       addUser(t);
-      addBot("Perfect! Fill in your details below and we'll send a calendar invite straight to your inbox.");
-      setStage("form");
+      addBot("Awesome! Let's get you on the calendar. First, what's your name?");
+      setCollectStage("ask-name");
       return "";
     }
 
@@ -247,13 +247,25 @@ export function Chatbot() {
     })).filter((m) => m.content.trim() !== "");
 
     try {
+      console.log("🤖 Asking assistant:", question);
       const res = await fetch("/api/assistant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question, conversationHistory: history }),
       });
 
-      if (!res.ok || !res.body) throw new Error("Failed");
+      console.log("📨 Assistant response status:", res.status);
+
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error("❌ Assistant request failed:", res.status, errText);
+        throw new Error(`API error: ${res.status}`);
+      }
+
+      if (!res.body) {
+        console.error("❌ No response body from assistant");
+        throw new Error("No response body");
+      }
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -272,7 +284,9 @@ export function Chatbot() {
           });
         }
       }
-    } catch {
+      console.log("✅ Assistant response completed");
+    } catch (error) {
+      console.error("❌ Assistant error:", error);
       setMessages((prev) => {
         const next = [...prev];
         next[next.length - 1] = {
@@ -393,30 +407,12 @@ export function Chatbot() {
     if (local !== null) {
       addUser(text);
       addBot(local);
-      // Ask for name after first meaningful exchange
-      if (botTurnCount >= 1 && collectStage === "idle") {
-        setTimeout(() => {
-          setCollectStage("ask-name");
-          addBot("Oh, and I didn't catch your name — what should I call you? 😊");
-        }, 900);
-      }
+      // Don't auto-trigger name collection — wait for user to show booking interest
       return;
     }
 
     await askAssistant(text);
   };
-
-  const prevBotCount = useRef(botTurnCount);
-  useEffect(() => {
-    if (botTurnCount >= 2 && botTurnCount !== prevBotCount.current && collectStage === "idle" && stage === "chat") {
-      prevBotCount.current = botTurnCount;
-      setTimeout(() => {
-        setCollectStage("ask-name");
-        addBot("By the way — what's your name? 😊");
-      }, 600);
-    }
-    prevBotCount.current = botTurnCount;
-  }, [botTurnCount]);
 
   const submitBooking = async () => {
     setSubmitError("");

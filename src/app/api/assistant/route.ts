@@ -56,6 +56,9 @@ export async function POST(request: NextRequest) {
   ];
 
   try {
+    console.log("📤 Calling OpenAI API with question:", question);
+    console.log("🔑 API Key configured:", !!OPENAI_API_KEY);
+    
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -74,12 +77,15 @@ export async function POST(request: NextRequest) {
       }),
     });
 
+    console.log("📬 OpenAI Response status:", response.status);
+
     if (!response.ok) {
-      const error = await response.text();
-      console.error("OpenAI assistant failed", error);
-      return NextResponse.json({ error: "Assistant step failed." }, { status: 500 });
+      const errorText = await response.text();
+      console.error("❌ OpenAI API Error:", response.status, errorText);
+      return NextResponse.json({ error: `OpenAI error: ${response.status}` }, { status: response.status });
     }
 
+    console.log("✅ Streaming response from OpenAI");
     return new NextResponse(response.body, {
       headers: {
         "Content-Type": "text/event-stream",
@@ -87,7 +93,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("Assistant route error", error);
+    console.error("❌ Assistant route error:", error);
     return NextResponse.json({ error: "Unable to contact assistant." }, { status: 500 });
   }
 }
