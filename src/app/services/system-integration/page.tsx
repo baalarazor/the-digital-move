@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "System Integration | The Digital Move",
-  description: "System integration services for CRM, collaboration tools, and API workflows to keep your business connected.",
+  title: "System Integration Services in Berlin | CRM & API Integration | The Digital Move",
+  description: "Professional system integration services in Berlin for CRM, collaboration tools, and API workflows. Keep your business connected and efficient.",
+  keywords: ["system integration Berlin", "CRM integration Berlin", "API integration services", "business system integration", "data integration Berlin"],
 };
 
 export default function SystemIntegrationPage() {

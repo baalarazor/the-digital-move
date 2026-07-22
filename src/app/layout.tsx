@@ -4,9 +4,9 @@ import "./globals.css";
 import { StructuredData } from "./structured-data";
 
 export const metadata: Metadata = {
-  title: "The Digital Move | AI Automation, Workflow Automation & Website Development",
-  description: "The Digital Move provides AI automation services, workflow automation, custom software, website development, CRM integration, and digital transformation consulting for growing companies.",
-  keywords: ["AI automation services", "workflow automation", "digital transformation consulting", "website development", "custom software", "CRM integration", "business process automation", "automation roadmap"],
+  title: "The Digital Move | AI & Workflow Automation in Berlin | IT Company",
+  description: "Leading AI automation and workflow automation company in Berlin. We deliver custom software, website development, CRM integration, and digital transformation for businesses. Free consultation available.",
+  keywords: ["AI automation Berlin", "workflow automation Berlin", "IT company Berlin", "digital transformation Berlin", "custom software development", "business automation", "business process automation", "automation consulting Berlin", "The Digital Move"],
   metadataBase: new URL("https://thedigitalmove.com"),
   openGraph: {
     title: "The Digital Move",

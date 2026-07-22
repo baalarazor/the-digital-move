@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Custom Software | The Digital Move",
-  description: "Custom software development for internal dashboards, reporting tools, and business automation platforms.",
+  title: "Custom Software Development in Berlin | The Digital Move",
+  description: "Custom software development services in Berlin for internal dashboards, reporting tools, and business automation platforms. Tailored solutions for your business.",
+  keywords: ["custom software development Berlin", "software development Berlin", "business software Berlin", "internal tools development", "software consulting"],
 };
 
 export default function CustomSoftwarePage() {

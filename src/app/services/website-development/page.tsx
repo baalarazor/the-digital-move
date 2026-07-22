@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Website Development | The Digital Move",
-  description: "Website development services for modern, high-converting, SEO-friendly business websites and landing pages.",
+  title: "Website Development in Berlin | SEO-Friendly Websites | The Digital Move",
+  description: "Professional website development in Berlin. Modern, high-converting, SEO-friendly business websites and landing pages that drive results.",
+  keywords: ["website development Berlin", "web design Berlin", "SEO website development", "business website Berlin", "landing page development"],
 };
 
 export default function WebsiteDevelopmentPage() {

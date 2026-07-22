@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "AI Automation | The Digital Move",
-  description: "AI automation services to reduce manual work, improve decision-making, and create intelligent business workflows.",
+  title: "AI Automation Services in Berlin | The Digital Move",
+  description: "AI automation services in Berlin to reduce manual work, improve decision-making, and create intelligent workflows. Expert consultation for digital transformation.",
+  keywords: ["AI automation", "artificial intelligence automation", "AI services Berlin", "intelligent automation", "AI consulting Berlin"],
 };
 
 export default function AIAutomationPage() {

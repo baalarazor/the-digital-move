@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Workflow Automation | The Digital Move",
-  description: "Workflow automation services for approvals, CRM updates, email routing, and repeatable business processes.",
+  title: "Workflow Automation Services in Berlin | The Digital Move",
+  description: "Professional workflow automation for CRM updates, email routing, approvals, and business process automation. Based in Berlin, serving companies across Germany and Europe.",
+  keywords: ["workflow automation", "business process automation", "automation services Berlin", "CRM workflow automation", "approval workflows"],
 };
 
 export default function WorkflowAutomationPage() {
