@@ -5,7 +5,7 @@ export function StructuredData() {
     "name": "The Digital Move",
     "url": "https://thedigitalmove.com",
     "description": "The Digital Move helps businesses move from manual operations to intelligent automation with AI, workflow automation, custom software, and modern websites.",
-    "email": "hello@thedigitalmove.com",
+    "email": "scbaala@gmail.com",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Berlin",
@@ -44,7 +44,7 @@ export function StructuredData() {
     },
     "url": "https://thedigitalmove.com",
     "telephone": "+49-123-456789",
-    "email": "hello@thedigitalmove.com",
+    "email": "scbaala@gmail.com",
     "priceRange": "€€",
     "areaServed": ["Berlin", "Germany", "Europe"],
     "serviceType": ["AI Automation", "Workflow Automation", "Software Development", "Digital Transformation"],

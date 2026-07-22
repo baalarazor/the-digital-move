@@ -25,7 +25,7 @@ function generateICS(data: {
   const dtStamp = now.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
   const uid = `tdm-${Date.now()}@thedigitalmove.com`;
 
-  const ownerEmail = process.env.OWNER_EMAIL ?? "hello@thedigitalmove.com";
+  const ownerEmail = process.env.OWNER_EMAIL ?? "scbaala@gmail.com";
 
   return [
     "BEGIN:VCALENDAR",
@@ -66,11 +66,12 @@ async function sendCalendarEmail(data: {
   notes: string;
   businessType: string;
   challenge: string;
+  transcript?: string;
 }): Promise<void> {
   const smtpHost = process.env.SMTP_HOST;
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASS;
-  const ownerEmail = process.env.OWNER_EMAIL ?? "hello@thedigitalmove.com";
+  const ownerEmail = process.env.OWNER_EMAIL ?? "scbaala@gmail.com";
 
   if (!smtpHost || !smtpUser || !smtpPass) {
     console.warn("SMTP not configured — skipping calendar email");
@@ -106,6 +107,8 @@ Client Details:
 - Notes: ${data.notes || "None"}
 
 ${hasDateTime ? "A calendar invite is attached." : "No specific date was provided — please follow up to arrange a time."}
+
+${data.transcript ? `\n--- Chat Transcript ---\n${data.transcript}\n--- End Transcript ---` : ""}
   `.trim();
 
   const clientEmailBody = `
@@ -120,7 +123,7 @@ What to expect:
 - No obligation, no sales pressure
 - Practical ideas tailored to your specific situation
 
-If you have any questions in the meantime, reply to this email or reach us at hello@thedigitalmove.com.
+If you have any questions in the meantime, reply to this email or reach us at scbaala@gmail.com.
 
 Looking forward to speaking with you!
 
@@ -171,8 +174,7 @@ export async function POST(request: NextRequest) {
           time: data.time ?? "",
           notes: data.notes ?? "",
           businessType: data.businessType ?? "",
-          challenge: data.challenge ?? "",
-        });
+          challenge: data.challenge ?? "",          transcript: data.transcript ?? "",        });
       } catch (emailError) {
         console.error("Calendar email failed (non-fatal):", emailError);
       }

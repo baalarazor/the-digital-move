@@ -1,341 +1,240 @@
 "use client";
 
-import { ArrowRight, MessageCircle, Send, X } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
-
-const businessOptions = [
-  "Doctor / Clinic",
-  "Restaurant / Cafe",
-  "Salon / Beauty",
-  "Retail Store",
-  "Fitness Studio",
-  "Consultant",
-  "Real Estate",
-  "Construction",
-  "Accountant",
-  "Lawyer",
-  "Other",
-] as const;
-
-const challengeOptions = [
-  "Getting more customers",
-  "Too many phone calls",
-  "Managing appointments",
-  "Too much paperwork",
-  "Need a better website",
-  "Need better Google visibility",
-  "Need social media help",
-  "Need marketing",
-  "Need online booking",
-  "Need customer management",
-  "Other",
-] as const;
-
-const faqQuickReplies = [
-  "What services do you offer?",
-  "How much does a website cost?",
-  "How long does a project take?",
-  "Can you redesign my existing website?",
-  "Do you work with small businesses?",
-  "Do you provide ongoing support?",
-  "Can you manage our social media?",
-  "Can you help us appear on Google?",
-  "Can you create online booking systems?",
-  "Can you automate appointment reminders?",
-  "Can you improve our Google reviews?",
-  "Do you provide custom software?",
-];
+import { Calendar, MessageCircle, Send, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 type ChatMessage = {
   sender: "bot" | "user";
   text: string;
 };
 
-type LeadData = {
+type BookingData = {
   fullName: string;
-  businessName: string;
   email: string;
   phone: string;
-  city: string;
   date: string;
   time: string;
-  notes: string;
 };
 
-const recommendations: Record<string, string[]> = {
-  "Doctor / Clinic": [
-    "Professional website",
-    "Online appointment booking",
-    "Google visibility",
-    "Patient reminders",
-    "Online enquiry forms",
-  ],
-  "Restaurant / Cafe": [
-    "Online menu",
-    "Table reservations",
-    "Google visibility",
-    "Social media",
-    "Online ordering",
-  ],
-  "Salon / Beauty": [
-    "Online bookings",
-    "Appointment reminders",
-    "Instagram management",
-    "Google Reviews",
-    "Professional website",
-  ],
-  "Retail Store": [
-    "Product pages",
-    "Local search visibility",
-    "Online customer inquiries",
-    "Store hours and events",
-    "Customer contact forms",
-  ],
-  "Fitness Studio": [
-    "Class booking",
-    "Member intake forms",
-    "Google visibility",
-    "Email reminders",
-    "Promotional landing pages",
-  ],
-  Consultant: [
-    "Professional website",
-    "Lead capture forms",
-    "Google visibility",
-    "Client booking forms",
-    "Trust-building case studies",
-  ],
-  "Real Estate": [
-    "Listing pages",
-    "Lead capture",
-    "Google visibility",
-    "Property inquiry forms",
-    "Local search support",
-  ],
-  Construction: [
-    "Project showcase pages",
-    "Lead capture forms",
-    "Service descriptions",
-    "Google visibility",
-    "Customer contact forms",
-  ],
-  Accountant: [
-    "Clear service pages",
-    "Client intake forms",
-    "Google visibility",
-    "Appointment booking",
-    "Client communication support",
-  ],
-  Lawyer: [
-    "Professional website",
-    "Contact and enquiry forms",
-    "Google visibility",
-    "Service pages",
-    "Client intake information",
-  ],
-  Other: [
-    "Professional website",
-    "Lead capture forms",
-    "Google visibility",
-    "Customer contact tools",
-    "A clear growth plan",
-  ],
-};
-
-const fallbackRecommendation = [
-  "Professional website",
-  "Customer enquiry forms",
-  "Google visibility",
-  "Better customer communication",
-  "A clearer way to get more leads",
-];
-
-function getRecommendationForBusiness(businessType: string) {
-  return recommendations[businessType] ?? fallbackRecommendation;
-}
-
-function normalizeBusinessLabel(businessType: string) {
-  return businessType === "Other" ? "your business" : businessType;
-}
+// Intelligent contact collection stages
+type CollectStage = "idle" | "ask-name" | "ask-contact" | "ask-time" | "done";
 
 export function Chatbot() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [stage, setStage] = useState<"welcome" | "business" | "challenge" | "recommendation" | "book" | "form" | "done">("welcome");
-  const [businessType, setBusinessType] = useState<string>("");
-  const [challenge, setChallenge] = useState<string>("");
+  const [stage, setStage] = useState<"chat" | "form" | "done">("chat");
   const [inputValue, setInputValue] = useState("");
   const [typing, setTyping] = useState(false);
-  const [leadData, setLeadData] = useState<LeadData>({
+  const [booking, setBooking] = useState<BookingData>({
     fullName: "",
-    businessName: "",
     email: "",
     phone: "",
-    city: "",
     date: "",
     time: "",
-    notes: "",
   });
   const [submitStatus, setSubmitStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [submitErrorMessage, setSubmitErrorMessage] = useState<string>("");
+  const [submitError, setSubmitError] = useState("");
+  // Intelligent contact collection
+  const [collectStage, setCollectStage] = useState<CollectStage>("idle");
+  const [collectedName, setCollectedName] = useState("");
+  const [collectedContact, setCollectedContact] = useState("");
+  const [collectedTime, setCollectedTime] = useState("");
+  const [botTurnCount, setBotTurnCount] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
-  const saveKey = "tdm-business-chatbot";
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const saveKey = "tdm-chatbot-v2";
 
   useEffect(() => {
     const stored = typeof window !== "undefined" ? window.sessionStorage.getItem(saveKey) : null;
     if (stored) {
       try {
-        const state = JSON.parse(stored);
-        setMessages(state.messages || []);
-        setStage(state.stage || "welcome");
-        setBusinessType(state.businessType || "");
-        setChallenge(state.challenge || "");
-        setLeadData(state.leadData || leadData);
+        const s = JSON.parse(stored);
+        setMessages(s.messages ?? []);
+        setStage(s.stage ?? "chat");
+        setBooking(s.booking ?? booking);
+        setCollectStage(s.collectStage ?? "idle");
+        setCollectedName(s.collectedName ?? "");
+        setCollectedContact(s.collectedContact ?? "");
+        setCollectedTime(s.collectedTime ?? "");
+        setBotTurnCount(s.botTurnCount ?? 0);
       } catch {
-        setMessages([]);
+        initChat();
       }
     } else {
-      setMessages([
-        {
-          sender: "bot",
-          text: "👋 Hey there! I'm Alex from The Digital Move. We help businesses save time, get more customers, and grow — using smart digital tools. What kind of business are you running?",
-        },
-      ]);
+      initChat();
     }
   }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      window.sessionStorage.setItem(
-        saveKey,
-        JSON.stringify({ messages, stage, businessType, challenge, leadData })
-      );
+      window.sessionStorage.setItem(saveKey, JSON.stringify({ messages, stage, booking, collectStage, collectedName, collectedContact, collectedTime, botTurnCount }));
     }
-  }, [messages, stage, businessType, challenge, leadData]);
+  }, [messages, stage, booking, collectStage, collectedName, collectedContact, collectedTime, botTurnCount]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, typing, stage]);
+  }, [messages, typing]);
 
-  const addBotMessage = (text: string) => {
+  useEffect(() => {
+    if (open && stage === "chat") inputRef.current?.focus();
+  }, [open, stage]);
+
+  function initChat() {
+    setMessages([
+      {
+        sender: "bot",
+        text: "👋 Hey! I'm Alex from The Digital Move. We help businesses grow with AI, automation, and modern websites. How can I help you today?",
+      },
+    ]);
+  }
+
+  const addBot = (text: string) => {
     setMessages((prev) => [...prev, { sender: "bot", text }]);
+    setBotTurnCount((c) => c + 1);
   };
 
-  const addUserMessage = (text: string) => {
+  const addUser = (text: string) =>
     setMessages((prev) => [...prev, { sender: "user", text }]);
-  };
 
-  const startChallengeStep = (business: string) => {
-    addUserMessage(business);
-    setBusinessType(business);
-    setStage("challenge");
-    addBotMessage(`Got it — a ${business === "Other" ? "business" : business.toLowerCase()}! What's the biggest challenge you're dealing with right now?`);
-  };
-
-  const startRecommendations = (selectedChallenge: string) => {
-    addUserMessage(selectedChallenge);
-    setChallenge(selectedChallenge);
-    const recs = getRecommendationForBusiness(businessType);
-    addBotMessage(`Okay, that makes sense. For a ${normalizeBusinessLabel(businessType)}, here's what I'd look at first:\n\n• ${recs.join("\n• ")}\n\nWant me to show you how this could work for your specific business? I can arrange a quick free walkthrough — no strings attached.`);
-    setStage("book");
-  };
-
-  const handleBookingResponse = (response: string) => {
-    addUserMessage(response);
-    if (response === "Yes") {
-      addBotMessage("Brilliant! Just fill in your details below and we'll get a calendar invite sent straight to your inbox.");
-      setStage("form");
-      return;
-    }
-
-    if (response === "Maybe Later") {
-      addBotMessage(
-        "No worries at all — take your time. When you're ready, just click 'Book a demo' and we'll set something up. Happy to answer any questions in the meantime!"
-      );
-      return;
-    }
-
-    if (response === "Need More Information") {
-      addBotMessage(
-        "Of course! We focus on practical solutions that actually make a difference — more customers, less manual work, and clearer systems. What would you like to know more about?"
-      );
-      setStage("book");
-    }
-  };
-
-  const sendLead = async () => {
-    setSubmitErrorMessage("");
-    setSubmitStatus("loading");
+  // Send transcript silently (non-blocking, non-fatal)
+  const sendTranscript = async (msgs: ChatMessage[], extra: Record<string, string> = {}) => {
     try {
-      const response = await fetch("/api/lead", {
+      await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          ...leadData,
-          businessType,
-          challenge,
+          fullName: extra.name ?? collectedName,
+          email: extra.email ?? collectedContact,
+          phone: extra.phone ?? "",
+          date: extra.date ?? "",
+          time: extra.time ?? collectedTime,
+          businessType: "Chat conversation",
+          challenge: "Collected via chat",
+          transcript: msgs.map((m) => `${m.sender === "bot" ? "Alex" : "Client"}: ${m.text}`).join("\n"),
+          ...extra,
         }),
       });
+    } catch { /* silent */ }
+  };
 
-      if (!response.ok) {
-        let errorMessage = `Submission failed with status ${response.status}`;
-        try {
-          const body = await response.json();
-          if (body?.error) errorMessage = body.error;
-        } catch {
-          const text = await response.text().catch(() => "");
-          if (text) errorMessage = text;
-        }
-        throw new Error(errorMessage);
-      }
+  const getLocalResponse = (t: string): string | null => {
+    const n = t.trim().toLowerCase();
 
-      setSubmitStatus("success");
-      addBotMessage(`Thank you${leadData.fullName ? `, ${leadData.fullName.split(" ")[0]}` : ""}! We've got your details. You'll receive a calendar invite in your inbox shortly — looking forward to our chat! 🎉`);
-      setStage("done");
-    } catch (error) {
-      setSubmitStatus("error");
-      setSubmitErrorMessage(error instanceof Error ? error.message : "Unable to submit your request. Please try again.");
-      addBotMessage(
-        "Something went wrong while saving your request. Please try again, or email us directly if you'd like."
-      );
+    if (/^(hi|hey|hello|good (morning|afternoon|evening)|howdy)/.test(n))
+      return "Hey! Great to hear from you. What can I help you with today?";
+
+    if (/how are you|how('s| is) it going/.test(n))
+      return "Doing great, thanks for asking! \uD83D\uDE0A What brings you here today?";
+
+    if (/where are you|where.*based|your (office|location)|berlin/.test(n))
+      return "We're based in Berlin, Germany, and work with businesses across Europe and beyond. Is your business local to Berlin?";
+
+    if (/who are you|what is (this|the digital move)|tell me about/.test(n))
+      return "I'm Alex — a consultant at The Digital Move. We're a Berlin-based digital agency specialising in AI automation, workflow automation, website development, and custom software. What are you looking to solve?";
+
+    if (/what (services|do you offer|can you do)|your services/.test(n))
+      return "Great question! Here's what we do:\n\n\uD83C\uDF10 Website Development — modern, fast, lead-generating sites\n\uD83E\uDD16 AI Automation — reduce manual work with smart workflows\n\u2699\uFE0F Workflow Automation — connect your tools, cut handoffs\n\uD83D\uDCBB Custom Software — dashboards, booking systems, internal tools\n\uD83D\uDD17 System Integration — get your CRM and apps talking\n\nWhich of these sounds most relevant to you?";
+
+    if (/\b(website|web site|landing page|online presence|build.*site|setup.*website|new site|need a site)\b/.test(n))
+      return "A great website can seriously increase your leads. Quick question — what type of business do you have, and do you already have a site or are you starting from scratch?";
+
+    if (/\b(automat|save time|manual work|workflow|streamline|ai (for|to help))\b/.test(n))
+      return "Automation can save businesses 5–20 hours a week. What tasks are eating up most of your team's time right now?";
+
+    if (/\b(crm|software|manage customer|booking system|database|internal tool)\b/.test(n))
+      return "Custom tools are great for businesses that have outgrown generic software. What are you currently using, and where is it falling short?";
+
+    // Business introductions — "I am doing X", "I run a X", "I have a X business", "I work in X"
+    const bizMatch = n.match(/\b(i('m| am)|i run|i have|i own|my (business|company|agency|firm) is|i work (in|as))\b.{0,40}\b(marketing|agency|consult|freelanc|design|photo|coach|train|educat|health|fitness|restaurant|cafe|food|retail|shop|store|salon|beauty|real estate|property|construc|law|legal|account|financ|insur|travel|event|clinic|doctor|dentist|physio|recruit|hr|logistics|transport|tech|software|startup)\b/);
+    if (bizMatch) {
+      const industry = bizMatch[6] ?? bizMatch[0];
+      if (/marketing|agency|design|freelanc/.test(industry))
+        return "Nice — a marketing or creative business! A lot of agencies we work with use automation to handle lead follow-ups, client onboarding, and reporting automatically. Are you looking to win more clients, save time on repetitive tasks, or both?";
+      if (/consult|coach|train/.test(industry))
+        return "Consulting and coaching businesses often see great results from better lead capture, automated follow-ups, and a strong website that positions them as the go-to expert. What's your biggest challenge right now — getting more clients or managing the ones you have?";
+      if (/health|fitness|clinic|doctor|dentist|physio/.test(industry))
+        return "Health and wellness businesses can save huge amounts of time with online booking, automated reminders, and patient intake forms. Do you currently have a booking system, or are you still taking appointments manually?";
+      if (/restaurant|cafe|food/.test(industry))
+        return "Food and hospitality businesses benefit massively from online presence and table/order systems. Are you looking to get more walk-ins, set up online ordering, or both?";
+      if (/retail|shop|store/.test(industry))
+        return "Retail businesses can do a lot with local SEO, online product pages, and automated customer follow-ups. Are you online yet, or mainly a physical store?";
+      if (/law|legal|account|financ/.test(industry))
+        return "Professional services firms often use us for client intake automation, appointment booking, and a credible website that builds trust. What's the most time-consuming part of your client process right now?";
+      if (/real estate|property/.test(industry))
+        return "Real estate businesses get great results from lead capture pages, automated follow-ups to enquiries, and CRM integration. Are you generating enough leads, or is the challenge more around managing them once they come in?";
+      // Generic business intro fallback
+      return `Interesting — sounds like a ${industry} business! What's the biggest challenge you're dealing with right now? Whether it's getting more customers, saving time, or better tools, I'd love to help point you in the right direction.`;
     }
+
+    // Standalone industry/role mentions without full sentence
+    if (/\b(marketing|digital marketing|social media|seo|advertising|pr agency)\b/.test(n))
+      return "Marketing businesses are a great fit for what we do — a lot of agencies automate their client reporting, lead nurturing, and onboarding workflows. Are you looking to streamline your own operations, or build something for your clients?";
+
+    if (/\b(consultant|consulting|freelancer|coach|trainer)\b/.test(n))
+      return "Consultants and coaches often get great ROI from a strong website, automated lead follow-ups, and online booking. What's taking up most of your time right now that you wish could run itself?";
+
+    if (/\b(restaurant|cafe|food|hospitality|catering)\b/.test(n))
+      return "Restaurants and cafes can really benefit from online bookings, automated reminders, and Google visibility. Do you already have a website, or is that something you're looking to set up?";
+
+    if (/\b(clinic|doctor|dental|physio|therapist|health|wellness|gym|fitness)\b/.test(n))
+      return "Health and wellness businesses save a lot of time with automated appointment reminders and online booking. Are you currently managing bookings manually or through a system?";
+
+    if (/\b(lawyer|solicitor|accountant|financial advisor|insurance)\b/.test(n))
+      return "Professional services clients come to us mainly for credible websites, client intake automation, and appointment booking. What does your current client onboarding process look like?";
+
+    if (/how much|what.*cost|pricing|price|fee|charge/.test(n))
+      return "Pricing really depends on scope — we don't have a fixed price list. The best way to get an accurate number is a quick free call where we look at your specific needs. Want to book one?";
+
+    if (/contact|email|phone|reach you|get in touch|call you|i want to call|give me.*number|your number|phone number/.test(n))
+      return "You can call or WhatsApp us at +49 175 5017453, or email scbaala@gmail.com. You're also welcome to book a time directly below and we'll call you! 📞";
+
+    if (/^(yes|yeah|yep|sure|absolutely|let'?s do it|book|book a call|book.*consultation)$/.test(n)) {
+      addUser(t);
+      addBot("Perfect! Fill in your details below and we'll send a calendar invite straight to your inbox.");
+      setStage("form");
+      return "";
+    }
+
+    if (/^(no|nope|not now|maybe later|later)$/.test(n))
+      return "No worries! I'm here whenever you're ready. Feel free to ask me anything.";
+
+    if (/^(thanks|thank you|cheers|appreciate|perfect|great|awesome|sounds good)/.test(n))
+      return "You're welcome! \uD83D\uDE0A Anything else I can help with?";
+
+    if (/^(bye|goodbye|see you|take care|ttyl)/.test(n))
+      return "It was great chatting! Feel free to come back anytime. Have a great day! \uD83D\uDC4B";
+
+    return null;
   };
 
   const askAssistant = async (question: string) => {
-    addUserMessage(question);
+    addUser(question);
     setTyping(true);
-    const placeholderMessage: ChatMessage = { sender: "bot", text: "" };
-    setMessages((prev) => [...prev, placeholderMessage]);
+    setMessages((prev) => [...prev, { sender: "bot", text: "" }]);
 
-    // Build conversation history for OpenAI (exclude the empty placeholder we just added)
-    const conversationHistory = [...messages].map((m) => ({
+    const history = [...messages].map((m) => ({
       role: m.sender === "bot" ? "assistant" : "user",
       content: m.text,
     })).filter((m) => m.content.trim() !== "");
 
     try {
-      const response = await fetch("/api/assistant", {
+      const res = await fetch("/api/assistant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question, conversationHistory }),
+        body: JSON.stringify({ question, conversationHistory: history }),
       });
 
-      if (!response.ok || !response.body) {
-        throw new Error("Assistant response failed.");
-      }
+      if (!res.ok || !res.body) throw new Error("Failed");
 
-      const reader = response.body.getReader();
+      const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let content = "";
-      let done = false;
 
-      while (!done) {
-        const result = await reader.read();
-        done = result.done ?? true;
-        const chunk = decoder.decode(result.value, { stream: true });
-        content += chunk;
-        const text = parseOpenAIStream(content);
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        content += decoder.decode(value, { stream: true });
+        const text = parseStream(content);
         if (text) {
           setMessages((prev) => {
             const next = [...prev];
@@ -344,12 +243,12 @@ export function Chatbot() {
           });
         }
       }
-    } catch (error) {
+    } catch {
       setMessages((prev) => {
         const next = [...prev];
         next[next.length - 1] = {
           sender: "bot",
-          text: "Hmm, I didn't quite catch that — could you rephrase? Or if you'd like to speak directly, just book a free call and we'll sort it out properly.",
+          text: "Hmm, something went wrong on my end. Could you rephrase? Or book a free call and we'll chat directly.",
         };
         return next;
       });
@@ -358,336 +257,269 @@ export function Chatbot() {
     }
   };
 
-  const parseOpenAIStream = (raw: string) => {
-    const lines = raw.split(/\n/).filter(Boolean);
+  const parseStream = (raw: string) => {
     let text = "";
-
-    for (const line of lines) {
+    for (const line of raw.split("\n")) {
       const trimmed = line.trim();
-      if (trimmed.startsWith("data: ")) {
-        const body = trimmed.replace("data: ", "");
-        if (body === "[DONE]") continue;
-        try {
-          const json = JSON.parse(body);
-          // Standard chat completions streaming format
-          const delta = json?.choices?.[0]?.delta?.content;
-          if (typeof delta === "string") {
-            text += delta;
-          }
-        } catch {
-          // ignore parse errors
-        }
-      }
+      if (!trimmed.startsWith("data: ")) continue;
+      const body = trimmed.slice(6);
+      if (body === "[DONE]") continue;
+      try {
+        const delta = JSON.parse(body)?.choices?.[0]?.delta?.content;
+        if (typeof delta === "string") text += delta;
+      } catch { /* skip */ }
     }
-
     return text;
   };
 
-  const isGreeting = (text: string) => {
-    const normalized = text.trim().toLowerCase();
-    return ["hi", "hey", "hello", "hi there", "hey there", "hello there"].includes(normalized);
-  };
-
-  const isBookingIntent = (text: string) => {
-    const normalized = text.trim().toLowerCase();
-    return [
-      "book a demo",
-      "book demo",
-      "demo",
-      "book a consultation",
-      "book consultation",
-      "free consultation",
-      "schedule a demo",
-      "schedule demo",
-      "i want a demo",
-      "i want to book a demo",
-      "i want a consultation",
-      "i want to book a consultation",
-    ].some((phrase) => normalized.includes(phrase));
-  };
-
-  const isEnquiryIntent = (text: string) => {
-    const normalized = text.trim().toLowerCase();
-    return [
-      "enquiry",
-      "inquiry",
-      "i have an enquiry",
-      "i have an inquiry",
-      "i want to enquire",
-      "i want to inquire",
-      "enquire",
-      "inquire",
-      "send a message",
-      "contact you",
-      "reach out",
-    ].some((phrase) => normalized.includes(phrase));
-  };
-
-  const isPricingQuestion = (text: string) => {
-    const normalized = text.trim().toLowerCase();
-    return [
-      "how much does",
-      "what is the cost",
-      "what's the cost",
-      "pricing",
-      "how much does it cost",
-      "how much will it cost",
-      "what is the price",
-      "what's the price",
-      "how much for",
-      "cost of",
-      "fee",
-      "pricing details",
-      "website cost",
-      "project cost",
-    ].some((phrase) => normalized.includes(phrase));
-  };
-
-  const getLocalResponse = (text: string): string | null => {
-    const t = text.trim().toLowerCase();
-
-    // How are you / wellbeing
-    if (/how are you|how('s| is) it going|how do you do|you ok|all good/.test(t)) {
-      return "I'm doing great, thanks for asking! 😊 Ready to help you grow your business. What kind of business are you running?";
-    }
-
-    // Where are you / location
-    if (/where are you|where('re| are) you (based|located|from)|your (office|location|address)|berlin/.test(t)) {
-      return "We're based in Berlin, Germany — and we work with businesses across Europe and worldwide remotely. Is your business based in Berlin too?";
-    }
-
-    // Who are you / what is this / what do you do
-    if (/who are you|what are you|what is (this|the digital move|your company|your business)|tell me about (yourself|you|your company)/.test(t)) {
-      return "I'm Alex — a consultant at The Digital Move, a Berlin-based digital agency. We help businesses save time, get more customers, and grow using AI automation, workflow tools, and modern websites. What can I help you with today?";
-    }
-
-    // What services do you offer
-    if (/what (do you (offer|do|provide)|services|can you do)|your services|services you offer/.test(t)) {
-      return "We offer: AI Automation, Workflow Automation, Website Development, Custom Software, and System Integration. Which of these sounds most relevant to you?";
-    }
-
-    // Contact / email / phone
-    if (/contact|email|phone|reach you|get in touch|call you/.test(t)) {
-      return "Best way to reach us is through this chat or by emailing hello@thedigitalmove.com. Want to book a free consultation so we can chat properly?";
-    }
-
-    // Thank you
-    if (/^(thank(s| you)|cheers|appreciate it|great|awesome|perfect|sounds good|nice)/.test(t)) {
-      return "You're welcome! 😊 Is there anything else I can help you with?";
-    }
-
-    // Bye / goodbye
-    if (/^(bye|goodbye|see you|talk later|cya|ttyl|gtg|good night|good evening)/.test(t)) {
-      return "It was great chatting! Feel free to come back anytime. Have a wonderful day! 👋";
-    }
-
-    // Yes / No standalone
-    if (/^(yes|yeah|yep|yup|sure|absolutely|definitely)$/.test(t)) {
-      return "Great! Fill in your details in the form below and we'll send a calendar invite straight to your inbox.";
-    }
-    if (/^(no|nope|not (now|yet)|maybe later)$/.test(t)) {
-      return "No worries! Take your time. I'm here if you have any questions or want to book when you're ready.";
-    }
-
-    return null; // no local match — send to OpenAI
-  };
-
   const handleSend = async () => {
-    if (!inputValue.trim()) return;
-    if (stage === "form" || stage === "done") return;
-
     const text = inputValue.trim();
+    if (!text || stage !== "chat") return;
     setInputValue("");
 
-    if (isGreeting(text)) {
-      addUserMessage(text);
-      addBotMessage("Hey! Great to have you here. I'm Alex — what kind of business are you in? I'd love to hear what you're working on.");
-      setStage("welcome");
+    // ── Intelligent contact collection flow ──────────────────
+    if (collectStage === "ask-name") {
+      addUser(text);
+      setCollectedName(text);
+      setCollectStage("ask-contact");
+      addBot(`Nice to meet you, ${text.split(" ")[0]}! What's the best way to reach you — your email or phone number?`);
+      return;
+    }
+    if (collectStage === "ask-contact") {
+      addUser(text);
+      setCollectedContact(text);
+      setCollectStage("ask-time");
+      addBot("Perfect. And what time of day is usually best for a call? Morning, afternoon, or evening?");
+      return;
+    }
+    if (collectStage === "ask-time") {
+      addUser(text);
+      setCollectedTime(text);
+      setCollectStage("done");
+      addBot(`Got it — ${text} works great. I've noted your details and we'll be in touch soon! 📋 If you'd also like to lock in a specific date and time, tap "Book a free consultation" below.`);
+      // Auto-send transcript + contact details to owner
+      const updatedMsgs = [...messages, { sender: "user" as const, text }];
+      await sendTranscript(updatedMsgs, { name: collectedName, email: collectedContact, time: text });
       return;
     }
 
-    if (isBookingIntent(text) || isEnquiryIntent(text)) {
-      addUserMessage(text);
-      addBotMessage("Absolutely! Pop your details in the form below and we'll send over a calendar invite with the meeting confirmed.");
-      setStage("form");
-      return;
-    }
-
-    if (isPricingQuestion(text)) {
-      addUserMessage(text);
-      addBotMessage("Great question! Honestly, it depends a lot on the scope and what you need. We don't have a fixed price list — the best way is a quick free call where we look at your specific situation and give you a realistic number. Want to book one?");
-      return;
-    }
-
-    // Handle common conversational questions locally without needing OpenAI
-    const localReply = getLocalResponse(text);
-    if (localReply) {
-      addUserMessage(text);
-      addBotMessage(localReply);
+    // ── Normal chat flow ──────────────────────────────────────
+    const local = getLocalResponse(text);
+    if (local === "") return;
+    if (local !== null) {
+      addUser(text);
+      addBot(local);
+      // After 3 bot turns, start collecting contact info naturally
+      if (botTurnCount >= 2 && collectStage === "idle") {
+        setTimeout(() => {
+          setCollectStage("ask-name");
+          addBot("By the way, I'd love to make sure we can follow up with you properly — what's your name?");
+        }, 800);
+      }
       return;
     }
 
     await askAssistant(text);
   };
 
-  const quickReplyButtons = useMemo(() => {
-    if (stage === "welcome") {
-      return [
-        ...businessOptions.map((option) => ({ label: option, action: () => startChallengeStep(option) })),
-        { label: "Book a demo", action: () => {
-          addUserMessage("Book a demo");
-          addBotMessage("Brilliant! Fill in your details below and we'll send a calendar invite straight to your inbox.");
-          setStage("form");
-        } },
-        { label: "I have an enquiry", action: () => {
-          addUserMessage("I have an enquiry");
-          addBotMessage("Of course! Pop your details in below and we'll get back to you personally.");
-          setStage("form");
-        } },
-      ];
+  // Trigger contact collection after OpenAI responses too
+  const prevBotCount = useRef(botTurnCount);
+  useEffect(() => {
+    if (botTurnCount >= 3 && botTurnCount !== prevBotCount.current && collectStage === "idle" && stage === "chat") {
+      prevBotCount.current = botTurnCount;
+      setTimeout(() => {
+        setCollectStage("ask-name");
+        addBot("By the way, I'd love to make sure we follow up with you — what's your name?");
+      }, 600);
     }
+    prevBotCount.current = botTurnCount;
+  }, [botTurnCount]);
 
-    if (stage === "challenge") {
-      return challengeOptions.map((option) => ({ label: option, action: () => startRecommendations(option) }));
+  const submitBooking = async () => {
+    setSubmitError("");
+    setSubmitStatus("loading");
+    try {
+      const transcript = messages
+        .map((m) => `${m.sender === "bot" ? "Alex" : "Client"}: ${m.text}`)
+        .join("\n");
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          ...booking,
+          fullName: booking.fullName || collectedName,
+          email: booking.email || collectedContact,
+          businessType: "Chat booking",
+          challenge: "Direct booking",
+          transcript,
+        }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body?.error ?? `Error ${res.status}`);
+      }
+      setSubmitStatus("success");
+      addBot(`You're all set${booking.fullName ? `, ${booking.fullName.split(" ")[0]}` : ""}! \uD83C\uDF89 A calendar invite is on its way to your inbox. Looking forward to our chat!`);
+      setStage("done");
+    } catch (err) {
+      setSubmitStatus("error");
+      setSubmitError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     }
+  };
 
-    if (stage === "book") {
-      return [
-        { label: "Yes", action: () => handleBookingResponse("Yes") },
-        { label: "Maybe Later", action: () => handleBookingResponse("Maybe Later") },
-        { label: "Need More Information", action: () => handleBookingResponse("Need More Information") },
-      ];
-    }
-
-    return faqQuickReplies.slice(0, 6).map((question) => ({ label: question, action: () => askAssistant(question) }));
-  }, [stage, businessType, challenge, messages]);
-
-  const formReady = leadData.fullName && leadData.email && leadData.businessName;
+  const bookingReady = booking.fullName.trim() && booking.email.trim();
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 sm:bottom-8 sm:right-8">
-      {open ? (
-        <div className="w-[min(380px,calc(100vw-2rem))] max-h-[calc(100vh-3rem)] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl ring-1 ring-slate-200 flex flex-col">
-          <div className="flex items-center justify-between rounded-t-3xl bg-blue-600 px-5 py-4 text-white">
-            <div>
-              <p className="text-sm font-semibold">Business Growth Assistant</p>
-              <p className="text-xs text-blue-100">Friendly consultant-style support</p>
+      {open && (
+        <div className="flex flex-col w-[min(380px,calc(100vw-2rem))] max-h-[calc(100vh-5rem)] rounded-3xl border border-slate-200 bg-white shadow-2xl overflow-hidden">
+
+          {/* Header */}
+          <div className="flex items-center justify-between bg-blue-600 px-5 py-4 text-white shrink-0">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-sm font-bold">A</div>
+              <div>
+                <p className="text-sm font-semibold leading-none">Alex</p>
+                <p className="text-xs text-blue-100 mt-0.5">The Digital Move · Berlin</p>
+              </div>
             </div>
-            <button onClick={() => setOpen(false)} className="rounded-full bg-white/15 p-2 text-white transition hover:bg-white/25">
+            <button onClick={() => setOpen(false)} className="rounded-full bg-white/15 p-2 transition hover:bg-white/25">
               <X className="h-4 w-4" />
             </button>
           </div>
 
-          <div className="flex-1 min-h-0 overflow-hidden">
-            <div className="flex h-full min-h-0 flex-col overflow-hidden">
-              <div className="flex-1 min-h-0 overflow-y-auto border-b border-slate-200 px-4 py-4 space-y-4">
-                {messages.map((message, index) => (
-                  <div key={index} className={message.sender === "bot" ? "rounded-3xl bg-slate-100 px-4 py-3 text-sm text-slate-900" : "ml-auto rounded-3xl bg-blue-600 px-4 py-3 text-sm text-white"}>
-                    <p>{message.text}</p>
-                  </div>
-                ))}
-                {typing ? (
-                  <div className="rounded-3xl bg-slate-100 px-4 py-3 text-sm text-slate-900">
-                    <div className="flex items-center gap-2">
-                      <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-slate-500" />
-                      <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-slate-500" style={{ animationDelay: "0.15s" }} />
-                      <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-slate-500" style={{ animationDelay: "0.3s" }} />
-                    </div>
-                  </div>
-                ) : null}
-                <div ref={messagesEndRef} />
+          {/* Messages */}
+          <div className="flex-1 min-h-0 overflow-y-auto px-4 py-4 space-y-3">
+            {messages.map((msg, i) => (
+              <div key={i} className={msg.sender === "bot"
+                ? "max-w-[88%] rounded-2xl rounded-tl-sm bg-slate-100 px-4 py-3 text-sm text-slate-900 whitespace-pre-line"
+                : "ml-auto max-w-[88%] rounded-2xl rounded-tr-sm bg-blue-600 px-4 py-3 text-sm text-white"
+              }>
+                {msg.text}
               </div>
-
-              <div className="min-h-0 overflow-y-auto border-t border-slate-200 px-4 py-4" style={{ maxHeight: 340 }}>
-                <div className="grid gap-2">
-                  {quickReplyButtons.slice(0, 4).map((button) => (
-                    <button key={button.label} onClick={button.action} className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-left text-sm text-slate-700 transition hover:bg-slate-100">
-                      {button.label}
-                    </button>
+            ))}
+            {typing && (
+              <div className="max-w-[88%] rounded-2xl rounded-tl-sm bg-slate-100 px-4 py-3">
+                <div className="flex items-center gap-1.5">
+                  {[0, 0.15, 0.3].map((delay, i) => (
+                    <span key={i} className="h-2 w-2 animate-bounce rounded-full bg-slate-400" style={{ animationDelay: `${delay}s` }} />
                   ))}
                 </div>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOpen(false);
-                    setStage("welcome");
-                  }}
-                  className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-slate-200 bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-200"
-                >
-                  Close chat
-                </button>
-
-                {stage === "form" ? (
-                  <div className="space-y-3 mt-3">
-                    <label className="block text-sm font-medium text-slate-700">Full Name</label>
-                    <input value={leadData.fullName} onChange={(event) => setLeadData((prev) => ({ ...prev, fullName: event.target.value }))} className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900" placeholder="Full Name" />
-                    <label className="block text-sm font-medium text-slate-700">Business Name</label>
-                    <input value={leadData.businessName} onChange={(event) => setLeadData((prev) => ({ ...prev, businessName: event.target.value }))} className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900" placeholder="Business Name" />
-                    <label className="block text-sm font-medium text-slate-700">Email Address</label>
-                    <input type="email" value={leadData.email} onChange={(event) => setLeadData((prev) => ({ ...prev, email: event.target.value }))} className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900" placeholder="Email Address" />
-                    <label className="block text-sm font-medium text-slate-700">Phone Number</label>
-                    <input value={leadData.phone} onChange={(event) => setLeadData((prev) => ({ ...prev, phone: event.target.value }))} className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900" placeholder="Phone Number" />
-                    <label className="block text-sm font-medium text-slate-700">City</label>
-                    <input value={leadData.city} onChange={(event) => setLeadData((prev) => ({ ...prev, city: event.target.value }))} className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900" placeholder="City" />
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <div>
-                        <label className="block text-sm font-medium text-slate-700">Preferred Meeting Date</label>
-                        <input type="date" value={leadData.date} onChange={(event) => setLeadData((prev) => ({ ...prev, date: event.target.value }))} className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900" />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-slate-700">Preferred Meeting Time</label>
-                        <input type="time" value={leadData.time} onChange={(event) => setLeadData((prev) => ({ ...prev, time: event.target.value }))} className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900" />
-                      </div>
-                    </div>
-                    <label className="block text-sm font-medium text-slate-700">Additional Notes</label>
-                    <textarea value={leadData.notes} onChange={(event) => setLeadData((prev) => ({ ...prev, notes: event.target.value }))} rows={3} className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-900" placeholder="Tell us a bit more about your business or goals." />
-                    <div className="flex flex-col gap-3 sm:flex-row">
-                      <button disabled={!formReady || submitStatus === "loading"} onClick={sendLead} className="inline-flex w-full items-center justify-center rounded-full bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60">
-                        {submitStatus === "loading" ? "Sending..." : "Send request"}
-                        <Send className="ml-2 h-4 w-4" />
-                      </button>
-                      <button type="button" onClick={() => {
-                        setOpen(false);
-                        setStage("welcome");
-                      }} className="inline-flex w-full items-center justify-center rounded-full border border-slate-200 bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-200">
-                        Cancel
-                      </button>
-                    </div>
-                    {submitStatus === "success" ? <p className="text-sm text-emerald-600">Your request was sent successfully.</p> : null}
-                    {submitStatus === "error" ? <p className="text-sm text-rose-600">{submitErrorMessage || "Unable to submit your request. Please try again."}</p> : null}
-                  </div>
-                ) : (
-                  <div className="flex gap-2 mt-3">
-                    <input
-                      value={inputValue}
-                      onChange={(event) => setInputValue(event.target.value)}
-                      onKeyDown={(event) => {
-                        if (event.key === "Enter") {
-                          event.preventDefault();
-                          void handleSend();
-                        }
-                      }}
-                      className="flex-1 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none"
-                      placeholder="Ask a question or share more about your business"
-                    />
-                    <button onClick={handleSend} className="inline-flex h-12 min-w-[3rem] items-center justify-center rounded-2xl bg-blue-600 px-4 text-white transition hover:bg-blue-700">
-                      <ArrowRight className="h-4 w-4" />
-                    </button>
-                  </div>
-                )}
               </div>
-            </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Bottom area */}
+          <div className="border-t border-slate-100 px-4 py-4 shrink-0 space-y-3">
+
+            {stage === "form" && (
+              <div className="space-y-2.5">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Book your free consultation</p>
+                <input
+                  value={booking.fullName}
+                  onChange={(e) => setBooking((p) => ({ ...p, fullName: e.target.value }))}
+                  className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
+                  placeholder="Your name *"
+                />
+                <input
+                  type="email"
+                  value={booking.email}
+                  onChange={(e) => setBooking((p) => ({ ...p, email: e.target.value }))}
+                  className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
+                  placeholder="Email address *"
+                />
+                <input
+                  value={booking.phone}
+                  onChange={(e) => setBooking((p) => ({ ...p, phone: e.target.value }))}
+                  className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
+                  placeholder="Phone number (optional)"
+                />
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="date"
+                    value={booking.date}
+                    min={new Date().toISOString().split("T")[0]}
+                    onChange={(e) => setBooking((p) => ({ ...p, date: e.target.value }))}
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
+                  />
+                  <input
+                    type="time"
+                    value={booking.time}
+                    onChange={(e) => setBooking((p) => ({ ...p, time: e.target.value }))}
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200"
+                  />
+                </div>
+                <button
+                  disabled={!bookingReady || submitStatus === "loading"}
+                  onClick={submitBooking}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <Calendar className="h-4 w-4" />
+                  {submitStatus === "loading" ? "Booking..." : "Confirm booking"}
+                </button>
+                {submitStatus === "error" && (
+                  <p className="text-xs text-rose-500">{submitError}</p>
+                )}
+                <button
+                  onClick={() => setStage("chat")}
+                  className="w-full text-center text-xs text-slate-400 hover:text-slate-600 transition"
+                >
+                  ← Back to chat
+                </button>
+              </div>
+            )}
+
+            {stage === "chat" && (
+              <>
+                <div className="flex gap-2">
+                  <input
+                    ref={inputRef}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); void handleSend(); } }}
+                    className="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-blue-300 focus:ring-1 focus:ring-blue-100"
+                    placeholder="Type a message..."
+                  />
+                  <button
+                    onClick={() => void handleSend()}
+                    className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-600 text-white transition hover:bg-blue-700"
+                  >
+                    <Send className="h-4 w-4" />
+                  </button>
+                </div>
+                <button
+                  onClick={() => {
+                    addBot("Of course! Fill in your details below and I'll get a calendar invite sent to your inbox.");
+                    setStage("form");
+                  }}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-medium text-blue-700 transition hover:bg-blue-100"
+                >
+                  <Calendar className="h-4 w-4" />
+                  Book a free consultation
+                </button>
+              </>
+            )}
+
+            {stage === "done" && (
+              <button
+                onClick={() => { setStage("chat"); setSubmitStatus("idle"); }}
+                className="w-full text-center text-sm text-slate-500 hover:text-slate-700 transition"
+              >
+                Start a new conversation
+              </button>
+            )}
           </div>
         </div>
-      ) : null}
+      )}
 
-      {!open ? (
-        <button onClick={() => setOpen(true)} className="inline-flex items-center gap-3 rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-xl shadow-blue-500/20 transition hover:bg-blue-700">
-          <MessageCircle className="h-5 w-5" />
-          Business Growth Assistant
-        </button>
-      ) : null}
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="inline-flex items-center gap-3 rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-xl shadow-blue-500/20 transition hover:bg-blue-700"
+      >
+        {open ? <X className="h-5 w-5" /> : <MessageCircle className="h-5 w-5" />}
+        {open ? "Close chat" : "Chat with us"}
+      </button>
     </div>
   );
 }
