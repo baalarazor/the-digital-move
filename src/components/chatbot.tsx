@@ -199,7 +199,7 @@ export function Chatbot() {
       setMessages([
         {
           sender: "bot",
-          text: "👋 Welcome to The Digital Move! We're here to help businesses attract more customers, save time, and grow with practical digital solutions. Tell me a little about your business, and I'll suggest ideas that could help.",
+          text: "👋 Hey there! I'm Alex from The Digital Move. We help businesses save time, get more customers, and grow — using smart digital tools. What kind of business are you running?",
         },
       ]);
     }
@@ -230,39 +230,35 @@ export function Chatbot() {
     addUserMessage(business);
     setBusinessType(business);
     setStage("challenge");
-    addBotMessage("Great. What is your biggest challenge today?");
+    addBotMessage(`Got it — a ${business === "Other" ? "business" : business.toLowerCase()}! What's the biggest challenge you're dealing with right now?`);
   };
 
   const startRecommendations = (selectedChallenge: string) => {
     addUserMessage(selectedChallenge);
     setChallenge(selectedChallenge);
     const recs = getRecommendationForBusiness(businessType);
-    addBotMessage(`Thanks. For ${normalizeBusinessLabel(businessType)}, I recommend:
-
-• ${recs.join("\n• ")}
-
-Would you like a free personalised demo showing how this could work for your business?`);
+    addBotMessage(`Okay, that makes sense. For a ${normalizeBusinessLabel(businessType)}, here's what I'd look at first:\n\n• ${recs.join("\n• ")}\n\nWant me to show you how this could work for your specific business? I can arrange a quick free walkthrough — no strings attached.`);
     setStage("book");
   };
 
   const handleBookingResponse = (response: string) => {
     addUserMessage(response);
     if (response === "Yes") {
-      addBotMessage("Great! I just need a few details so we can arrange your free consultation.");
+      addBotMessage("Brilliant! Just fill in your details below and we'll get a calendar invite sent straight to your inbox.");
       setStage("form");
       return;
     }
 
     if (response === "Maybe Later") {
       addBotMessage(
-        "That's okay. If you want, I can still share a quick summary of what we can do, and you can book a consultation whenever you're ready."
+        "No worries at all — take your time. When you're ready, just click 'Book a demo' and we'll set something up. Happy to answer any questions in the meantime!"
       );
       return;
     }
 
     if (response === "Need More Information") {
       addBotMessage(
-        "I can help with that. We focus on simple, practical ways to help your business get noticed, save time, and capture more customers. If you'd like, we can schedule a free consultation to explore the best fit."
+        "Of course! We focus on practical solutions that actually make a difference — more customers, less manual work, and clearer systems. What would you like to know more about?"
       );
       setStage("book");
     }
@@ -295,7 +291,7 @@ Would you like a free personalised demo showing how this could work for your bus
       }
 
       setSubmitStatus("success");
-      addBotMessage("Thank you! We've received your request. One of our specialists will contact you shortly to arrange your free consultation.");
+      addBotMessage(`Thank you${leadData.fullName ? `, ${leadData.fullName.split(" ")[0]}` : ""}! We've got your details. You'll receive a calendar invite in your inbox shortly — looking forward to our chat! 🎉`);
       setStage("done");
     } catch (error) {
       setSubmitStatus("error");
@@ -312,11 +308,17 @@ Would you like a free personalised demo showing how this could work for your bus
     const placeholderMessage: ChatMessage = { sender: "bot", text: "" };
     setMessages((prev) => [...prev, placeholderMessage]);
 
+    // Build conversation history for OpenAI (exclude the empty placeholder we just added)
+    const conversationHistory = [...messages].map((m) => ({
+      role: m.sender === "bot" ? "assistant" : "user",
+      content: m.text,
+    })).filter((m) => m.content.trim() !== "");
+
     try {
       const response = await fetch("/api/assistant", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...messages, placeholderMessage], question }),
+        body: JSON.stringify({ question, conversationHistory }),
       });
 
       if (!response.ok || !response.body) {
@@ -334,18 +336,20 @@ Would you like a free personalised demo showing how this could work for your bus
         const chunk = decoder.decode(result.value, { stream: true });
         content += chunk;
         const text = parseOpenAIStream(content);
-        setMessages((prev) => {
-          const next = [...prev];
-          next[next.length - 1] = { sender: "bot", text };
-          return next;
-        });
+        if (text) {
+          setMessages((prev) => {
+            const next = [...prev];
+            next[next.length - 1] = { sender: "bot", text };
+            return next;
+          });
+        }
       }
     } catch (error) {
       setMessages((prev) => {
         const next = [...prev];
         next[next.length - 1] = {
           sender: "bot",
-          text: "That's a great question. I'd recommend discussing that during a free consultation so we can understand your business properly.",
+          text: "That's a great one — best to chat about that on a quick call so we can look at your setup properly.",
         };
         return next;
       });
@@ -365,14 +369,13 @@ Would you like a free personalised demo showing how this could work for your bus
         if (body === "[DONE]") continue;
         try {
           const json = JSON.parse(body);
-          const delta = json?.output_text || json?.choices?.[0]?.delta?.content;
+          // Standard chat completions streaming format
+          const delta = json?.choices?.[0]?.delta?.content;
           if (typeof delta === "string") {
             text += delta;
           }
         } catch {
-          if (!body.startsWith("{") && body !== "[DONE]") {
-            text += body;
-          }
+          // ignore parse errors
         }
       }
     }
@@ -449,20 +452,20 @@ Would you like a free personalised demo showing how this could work for your bus
 
     if (isGreeting(text)) {
       addUserMessage(text);
-      addBotMessage("Hi there! Welcome to The Digital Move. What may I help you with today?");
+      addBotMessage("Hey! Great to have you here. I'm Alex — what kind of business are you in? I'd love to hear what you're working on.");
       setStage("welcome");
       return;
     }
 
     if (isBookingIntent(text) || isEnquiryIntent(text)) {
       addUserMessage(text);
-      addBotMessage("Great! Please share your details below and we’ll follow up with a free demo or enquiry response right away.");
+      addBotMessage("Absolutely! Pop your details in the form below and we'll send over a calendar invite with the meeting confirmed.");
       setStage("form");
       return;
     }
     if (isPricingQuestion(text)) {
       addUserMessage(text);
-      addBotMessage("It depends on the project scope and business requirements. We don't have a set fee—we'd love to discuss with you on a call or meet in person to arrive at an estimate that suits your budget.");
+      addBotMessage("Great question! Honestly, it depends a lot on the scope and what you need. We don't have a fixed price list — the best way is a quick free call where we look at your specific situation and give you a realistic number. Want to book one?");
       return;
     }
     await askAssistant(text);
@@ -474,12 +477,12 @@ Would you like a free personalised demo showing how this could work for your bus
         ...businessOptions.map((option) => ({ label: option, action: () => startChallengeStep(option) })),
         { label: "Book a demo", action: () => {
           addUserMessage("Book a demo");
-          addBotMessage("Great! Please share your details below and we’ll follow up with a free demo or enquiry response right away.");
+          addBotMessage("Brilliant! Fill in your details below and we'll send a calendar invite straight to your inbox.");
           setStage("form");
         } },
         { label: "I have an enquiry", action: () => {
           addUserMessage("I have an enquiry");
-          addBotMessage("Sure, please enter your details below and we’ll follow up with a personalized response.");
+          addBotMessage("Of course! Pop your details in below and we'll get back to you personally.");
           setStage("form");
         } },
       ];
