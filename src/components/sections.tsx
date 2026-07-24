@@ -94,6 +94,7 @@ export function HeroSection({ locale }: LocaleProps) {
         subheadline: "We deliver AI automation, workflow automation, website development, CRM integration, and custom software that reduces manual work and accelerates growth.",
         primary: "Book a Free Consultation",
         secondary: "Explore Services",
+        healthCheck: "Free Business Health Check",
         pill1: "AI Automation",
         pill2: "Workflow Automation",
         pill3: "Digital Transformation",
@@ -126,6 +127,9 @@ export function HeroSection({ locale }: LocaleProps) {
             </Link>
             <Link href="/services" className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:text-blue-700">
               {copy.secondary}
+            </Link>
+            <Link href="/business-health-check" className="inline-flex items-center justify-center rounded-full border border-blue-200 bg-blue-50 px-6 py-3 text-sm font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100">
+              {locale === "de" ? "Kostenloser Business Health Check" : copy.healthCheck}
             </Link>
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
