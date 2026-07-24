@@ -95,6 +95,7 @@ export function HeroSection({ locale }: LocaleProps) {
         primary: "Book a Free Consultation",
         secondary: "Explore Services",
         healthCheck: "Free Business Health Check",
+        healthCheckHint: "2-minute score and instant recommendations",
         pill1: "AI Automation",
         pill2: "Workflow Automation",
         pill3: "Digital Transformation",
@@ -128,10 +129,38 @@ export function HeroSection({ locale }: LocaleProps) {
             <Link href="/services" className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:text-blue-700">
               {copy.secondary}
             </Link>
-            <Link href="/business-health-check" className="inline-flex items-center justify-center rounded-full border border-blue-200 bg-blue-50 px-6 py-3 text-sm font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100">
-              {locale === "de" ? "Kostenloser Business Health Check" : copy.healthCheck}
-            </Link>
           </div>
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.15 }}
+            className="mt-5"
+          >
+            <Link
+              href="/business-health-check"
+              className="group relative inline-flex w-full max-w-xl items-center justify-between overflow-hidden rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 px-5 py-4 text-white shadow-[0_18px_35px_-18px_rgba(37,99,235,0.75)] transition hover:scale-[1.01] hover:shadow-[0_24px_40px_-16px_rgba(37,99,235,0.85)]"
+            >
+              <span className="absolute -right-5 -top-7 h-20 w-20 rounded-full bg-white/20 blur-xl transition group-hover:bg-white/30" />
+              <span className="relative flex items-center gap-3">
+                <span className="relative inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/20">
+                  <span className="absolute inline-flex h-10 w-10 animate-ping rounded-xl bg-white/35" />
+                  <Sparkles className="relative h-5 w-5" />
+                </span>
+                <span>
+                  <span className="block text-sm font-semibold sm:text-base">
+                    {locale === "de" ? "Kostenloser Business Health Check" : copy.healthCheck}
+                  </span>
+                  <span className="block text-xs text-blue-100 sm:text-sm">
+                    {locale === "de" ? "2-Minuten-Score mit sofortigen Empfehlungen" : copy.healthCheckHint}
+                  </span>
+                </span>
+              </span>
+              <span className="relative inline-flex items-center rounded-full border border-white/35 bg-white/15 px-3 py-1 text-xs font-semibold sm:text-sm">
+                {locale === "de" ? "Jetzt starten" : "Start Now"}
+                <ArrowRight className="ml-2 h-4 w-4 transition group-hover:translate-x-0.5" />
+              </span>
+            </Link>
+          </motion.div>
           <div className="mt-8 flex flex-wrap gap-3">
             <Pill>{copy.pill1}</Pill>
             <Pill>{copy.pill2}</Pill>
