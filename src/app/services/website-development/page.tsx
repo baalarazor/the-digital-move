@@ -1,13 +1,47 @@
+import type { Metadata } from "next";
+import { JsonLd } from "@/components/json-ld";
 import Link from "next/link";
+import { buildBreadcrumbSchema, buildServiceSchema } from "@/lib/seo";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Website Development in Berlin | SEO-Friendly Websites | The Digital Move",
   description: "Professional website development in Berlin. Modern, high-converting, SEO-friendly business websites and landing pages that drive results.",
   keywords: ["website development Berlin", "web design Berlin", "SEO website development", "business website Berlin", "landing page development"],
+  alternates: {
+    canonical: "https://thedigitalmove.com/services/website-development",
+  },
+  openGraph: {
+    title: "Website Development in Berlin | The Digital Move",
+    description: "SEO-friendly websites and landing pages in Berlin built for lead generation and growth.",
+    url: "https://thedigitalmove.com/services/website-development",
+    siteName: "The Digital Move",
+    type: "website",
+    images: ["/og-image.svg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Website Development in Berlin | The Digital Move",
+    description: "Modern websites and landing pages for Berlin businesses that need speed, SEO, and conversions.",
+    images: ["/og-image.svg"],
+  },
 };
+
+const serviceSchema = buildServiceSchema({
+  name: "Website Development Services in Berlin",
+  description: "Modern, high-converting, SEO-friendly business websites and landing pages in Berlin.",
+  url: "https://thedigitalmove.com/services/website-development",
+  serviceType: "Website Development",
+});
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: "Home", url: "https://thedigitalmove.com/" },
+  { name: "Services", url: "https://thedigitalmove.com/services" },
+  { name: "Website Development", url: "https://thedigitalmove.com/services/website-development" },
+]);
 
 export default function WebsiteDevelopmentPage() {
   return (
+    <>
     <main className="mx-auto min-h-screen max-w-5xl px-6 py-20 sm:px-8 lg:px-10">
       <Link href="/services" className="text-sm font-medium text-blue-600">← Back to services</Link>
       <div className="mt-6 space-y-6">
@@ -46,5 +80,8 @@ export default function WebsiteDevelopmentPage() {
         </section>
       </div>
     </main>
+    <JsonLd data={serviceSchema} />
+    <JsonLd data={breadcrumbSchema} />
+    </>
   );
 }

@@ -1,8 +1,34 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata = {
-  title: "Services | The Digital Move",
-  description: "Explore The Digital Move's services for AI automation, workflow automation, website development, custom software, and system integration.",
+export const metadata: Metadata = {
+  title: "Services in Berlin | AI Automation, Websites & System Integration | The Digital Move",
+  description: "Explore The Digital Move services in Berlin: AI automation, workflow automation, website development, custom software, and system integration.",
+  keywords: [
+    "AI automation services Berlin",
+    "workflow automation services Berlin",
+    "website development services Berlin",
+    "custom software Berlin",
+    "system integration Berlin",
+    "digital transformation services Berlin",
+  ],
+  alternates: {
+    canonical: "https://thedigitalmove.com/services",
+  },
+  openGraph: {
+    title: "Services in Berlin | The Digital Move",
+    description: "AI automation, workflow automation, websites, custom software, and integration services for Berlin businesses.",
+    url: "https://thedigitalmove.com/services",
+    siteName: "The Digital Move",
+    type: "website",
+    images: ["/og-image.svg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Services in Berlin | The Digital Move",
+    description: "Explore AI automation, websites, custom software, and system integration services in Berlin.",
+    images: ["/og-image.svg"],
+  },
 };
 
 const serviceItems = [

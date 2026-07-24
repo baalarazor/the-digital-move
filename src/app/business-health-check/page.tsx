@@ -5,6 +5,13 @@ export const metadata: Metadata = {
   title: "FREE Business Health Check | The Digital Move",
   description:
     "Answer 10 quick questions in 2 minutes and discover your Business Health Score. Get practical recommendations from The Digital Move.",
+  keywords: [
+    "business health check",
+    "digital business assessment Berlin",
+    "online presence check Berlin",
+    "local business marketing Berlin",
+    "The Digital Move assessment",
+  ],
   alternates: {
     canonical: "https://thedigitalmove.com/business-health-check",
   },
@@ -22,6 +29,10 @@ export const metadata: Metadata = {
     title: "FREE Business Health Check | The Digital Move",
     description: "Take the 2-minute assessment and get your Business Health Score.",
     images: ["/og-image.svg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

@@ -27,7 +27,6 @@ export function StructuredData() {
       }
     ],
     "sameAs": ["https://www.linkedin.com/company/the-digital-move", "https://github.com"],
-    "foundingDate": new Date().getFullYear().toString(),
   };
 
   const localBusinessSchema = {
@@ -43,7 +42,7 @@ export function StructuredData() {
       "streetAddress": "Berlin, Germany"
     },
     "url": "https://thedigitalmove.com",
-    "telephone": "+49-123-456789",
+    "telephone": "+49 175 5017453",
     "email": "scbaala@gmail.com",
     "priceRange": "€€",
     "areaServed": ["Berlin", "Germany", "Europe"],

@@ -1,13 +1,47 @@
+import type { Metadata } from "next";
+import { JsonLd } from "@/components/json-ld";
 import Link from "next/link";
+import { buildBreadcrumbSchema, buildServiceSchema } from "@/lib/seo";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "System Integration Services in Berlin | CRM & API Integration | The Digital Move",
   description: "Professional system integration services in Berlin for CRM, collaboration tools, and API workflows. Keep your business connected and efficient.",
   keywords: ["system integration Berlin", "CRM integration Berlin", "API integration services", "business system integration", "data integration Berlin"],
+  alternates: {
+    canonical: "https://thedigitalmove.com/services/system-integration",
+  },
+  openGraph: {
+    title: "System Integration Services in Berlin | The Digital Move",
+    description: "CRM, API, and business system integration services for connected operations in Berlin.",
+    url: "https://thedigitalmove.com/services/system-integration",
+    siteName: "The Digital Move",
+    type: "website",
+    images: ["/og-image.svg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "System Integration Services in Berlin | The Digital Move",
+    description: "API, CRM, and collaboration tool integrations for Berlin businesses.",
+    images: ["/og-image.svg"],
+  },
 };
+
+const serviceSchema = buildServiceSchema({
+  name: "System Integration Services in Berlin",
+  description: "CRM, collaboration, and API integration services in Berlin that keep your business systems connected.",
+  url: "https://thedigitalmove.com/services/system-integration",
+  serviceType: "System Integration",
+});
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: "Home", url: "https://thedigitalmove.com/" },
+  { name: "Services", url: "https://thedigitalmove.com/services" },
+  { name: "System Integration", url: "https://thedigitalmove.com/services/system-integration" },
+]);
 
 export default function SystemIntegrationPage() {
   return (
+    <>
     <main className="mx-auto min-h-screen max-w-5xl px-6 py-20 sm:px-8 lg:px-10">
       <Link href="/services" className="text-sm font-medium text-blue-600">← Back to services</Link>
       <div className="mt-6 space-y-6">
@@ -46,5 +80,8 @@ export default function SystemIntegrationPage() {
         </section>
       </div>
     </main>
+    <JsonLd data={serviceSchema} />
+    <JsonLd data={breadcrumbSchema} />
+    </>
   );
 }

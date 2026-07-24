@@ -1,13 +1,47 @@
+import type { Metadata } from "next";
+import { JsonLd } from "@/components/json-ld";
 import Link from "next/link";
+import { buildBreadcrumbSchema, buildServiceSchema } from "@/lib/seo";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Workflow Automation Services in Berlin | The Digital Move",
   description: "Professional workflow automation for CRM updates, email routing, approvals, and business process automation. Based in Berlin, serving companies across Germany and Europe.",
   keywords: ["workflow automation", "business process automation", "automation services Berlin", "CRM workflow automation", "approval workflows"],
+  alternates: {
+    canonical: "https://thedigitalmove.com/services/workflow-automation",
+  },
+  openGraph: {
+    title: "Workflow Automation Services in Berlin | The Digital Move",
+    description: "Workflow automation for approvals, CRM updates, email routing, and business operations in Berlin.",
+    url: "https://thedigitalmove.com/services/workflow-automation",
+    siteName: "The Digital Move",
+    type: "website",
+    images: ["/og-image.svg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Workflow Automation Services in Berlin | The Digital Move",
+    description: "Business process automation and workflow design for Berlin companies.",
+    images: ["/og-image.svg"],
+  },
 };
+
+const serviceSchema = buildServiceSchema({
+  name: "Workflow Automation Services in Berlin",
+  description: "Professional workflow automation for CRM updates, email routing, approvals, and business process automation in Berlin.",
+  url: "https://thedigitalmove.com/services/workflow-automation",
+  serviceType: "Workflow Automation",
+});
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: "Home", url: "https://thedigitalmove.com/" },
+  { name: "Services", url: "https://thedigitalmove.com/services" },
+  { name: "Workflow Automation", url: "https://thedigitalmove.com/services/workflow-automation" },
+]);
 
 export default function WorkflowAutomationPage() {
   return (
+    <>
     <main className="mx-auto min-h-screen max-w-5xl px-6 py-20 sm:px-8 lg:px-10">
       <Link href="/services" className="text-sm font-medium text-blue-600">← Back to services</Link>
       <div className="mt-6 space-y-6">
@@ -100,5 +134,8 @@ export default function WorkflowAutomationPage() {
         </section>
       </div>
     </main>
+    <JsonLd data={serviceSchema} />
+    <JsonLd data={breadcrumbSchema} />
+    </>
   );
 }
