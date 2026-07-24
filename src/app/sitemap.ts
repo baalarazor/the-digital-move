@@ -45,6 +45,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: 'https://thedigitalmove.com/business-health-check',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: 'https://thedigitalmove.com/#contact',
       lastModified: new Date(),
       changeFrequency: 'monthly',
