@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/json-ld";
+import { PageWithHeader } from "@/components/page-with-header";
 import Link from "next/link";
-import { buildBreadcrumbSchema, buildServiceSchema } from "@/lib/seo";
+import { buildBreadcrumbSchema, buildFaqSchema, buildServiceSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "System Integration Services in Berlin | CRM & API Integration | The Digital Move",
@@ -39,49 +40,63 @@ const breadcrumbSchema = buildBreadcrumbSchema([
   { name: "System Integration", url: "https://thedigitalmove.com/services/system-integration" },
 ]);
 
+const faqSchema = buildFaqSchema([
+  {
+    question: "What kinds of systems can you integrate?",
+    answer: "We connect CRMs, email platforms, collaboration tools, booking systems, and custom APIs to help your tools work together reliably.",
+  },
+]);
+
 export default function SystemIntegrationPage() {
   return (
-    <>
-    <main className="mx-auto min-h-screen max-w-5xl px-6 py-20 sm:px-8 lg:px-10">
-      <Link href="/services" className="text-sm font-medium text-blue-600">← Back to services</Link>
-      <div className="mt-6 space-y-6">
-        <h1 className="text-4xl font-semibold tracking-tight text-slate-950">System Integration</h1>
-        <p className="max-w-3xl text-lg leading-8 text-slate-600">
-          We connect your CRM, email, collaboration tools, and APIs so data flows automatically across your business.
-        </p>
-      </div>
-
-      <div className="mt-12 space-y-10">
-        <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h2 className="text-2xl font-semibold text-slate-950">What we provide</h2>
-          <ul className="mt-6 space-y-4 text-sm leading-7 text-slate-700">
-            <li>• CRM and customer data synchronization</li>
-            <li>• Microsoft 365, Google Workspace, Slack, and Jira integrations</li>
-            <li>• API-based automation and cross-system workflows</li>
-            <li>• Data quality, monitoring, and error recovery support</li>
-          </ul>
-        </section>
-
-        <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h2 className="text-2xl font-semibold text-slate-950">Who benefits</h2>
-          <p className="mt-4 text-sm leading-7 text-slate-700">
-            This service helps companies that need reliable data flow across tools, want to eliminate manual handoffs, and need connected customer or operations systems.
+    <PageWithHeader>
+      <main className="mx-auto min-h-screen max-w-5xl px-6 py-20 sm:px-8 lg:px-10">
+        <nav aria-label="Breadcrumb" className="text-sm text-slate-500">
+          <Link href="/" className="font-medium text-blue-600">Home</Link>
+          <span className="mx-2">/</span>
+          <Link href="/services" className="font-medium text-blue-600">Services</Link>
+          <span className="mx-2">/</span>
+          <span className="text-slate-700">System Integration</span>
+        </nav>
+        <div className="mt-6 space-y-6">
+          <h1 className="text-4xl font-semibold tracking-tight text-slate-950">System Integration for Business Operations That Need to Work Together</h1>
+          <p className="max-w-3xl text-lg leading-8 text-slate-600">
+            We connect the tools your team already uses so information moves automatically between CRM, communication, booking, and internal systems, with less manual work and fewer errors.
           </p>
-        </section>
+        </div>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h2 className="text-2xl font-semibold text-slate-950">How we work</h2>
-          <ol className="mt-6 space-y-4 text-sm leading-7 text-slate-700">
-            <li>1. We audit your current systems and define integration points.</li>
-            <li>2. We map the data flows and design the integration architecture.</li>
-            <li>3. We build and test the integration to ensure data moves reliably.</li>
-            <li>4. We monitor connected workflows and refine them over time.</li>
-          </ol>
-        </section>
-      </div>
-    </main>
-    <JsonLd data={serviceSchema} />
-    <JsonLd data={breadcrumbSchema} />
-    </>
+        <div className="mt-12 space-y-10">
+          <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+            <h2 className="text-2xl font-semibold text-slate-950">What we provide</h2>
+            <ul className="mt-6 space-y-4 text-sm leading-7 text-slate-700">
+              <li>• CRM and customer data synchronization</li>
+              <li>• Microsoft 365, Google Workspace, Slack, and Jira integrations</li>
+              <li>• API-based automation and cross-system workflows</li>
+              <li>• Data quality, monitoring, and error recovery support</li>
+            </ul>
+          </section>
+
+          <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+            <h2 className="text-2xl font-semibold text-slate-950">Who benefits</h2>
+            <p className="mt-4 text-sm leading-7 text-slate-700">
+              This service helps companies that need reliable data flow across tools, want to eliminate manual handoffs, and need connected customer or operations systems. It is especially valuable for growing teams that are outgrowing spreadsheets and disconnected applications.
+            </p>
+          </section>
+
+          <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+            <h2 className="text-2xl font-semibold text-slate-950">How we work</h2>
+            <ol className="mt-6 space-y-4 text-sm leading-7 text-slate-700">
+              <li>1. We audit your current systems and define integration points.</li>
+              <li>2. We map the data flows and design the integration architecture.</li>
+              <li>3. We build and test the integration to ensure data moves reliably.</li>
+              <li>4. We monitor connected workflows and refine them over time.</li>
+            </ol>
+          </section>
+        </div>
+      </main>
+      <JsonLd data={serviceSchema} />
+      <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={faqSchema} />
+    </PageWithHeader>
   );
 }

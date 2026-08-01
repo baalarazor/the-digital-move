@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageWithHeader } from "@/components/page-with-header";
 import { BusinessHealthCheckClient } from "./business-health-check-client";
 
 export const metadata: Metadata = {
@@ -37,5 +38,9 @@ export const metadata: Metadata = {
 };
 
 export default function BusinessHealthCheckPage() {
-  return <BusinessHealthCheckClient />;
+  return (
+    <PageWithHeader>
+      <BusinessHealthCheckClient />
+    </PageWithHeader>
+  );
 }

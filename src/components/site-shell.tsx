@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUp, Menu, MessageCircle, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -22,24 +22,20 @@ import {
 import { Chatbot } from "@/components/chatbot";
 
 export function SiteShell() {
-  const [locale, setLocale] = useState<"en" | "de">(() => {
-    if (typeof window === "undefined") {
-      return "en";
-    }
-
-    return (window.localStorage.getItem("tdm-locale") as "en" | "de" | null) ?? "en";
-  });
+  const [locale, setLocale] = useState<"en" | "de">("en");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [cookieAccepted, setCookieAccepted] = useState(() => {
-    if (typeof window === "undefined") {
-      return false;
-    }
-
-    return window.localStorage.getItem("tdm-cookie-consent") === "accepted";
-  });
+  const [cookieAccepted, setCookieAccepted] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 20 });
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const savedLocale = (window.localStorage.getItem("tdm-locale") as "en" | "de" | null) ?? "en";
+    const savedCookieConsent = window.localStorage.getItem("tdm-cookie-consent") === "accepted";
+
+    setLocale(savedLocale);
+    setCookieAccepted(savedCookieConsent);
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -54,10 +50,12 @@ export function SiteShell() {
     window.localStorage.setItem("tdm-locale", locale);
   }, [locale]);
 
-  const navItems = locale === "de" ? ["Start", "Leistungen", "Branchen", "Über uns", "Blog", "Kontakt"] : ["Home", "Services", "Industries", "About", "Blog", "Contact"];
-  const navLinks = navItems.map((item) =>
-    item === "Leistungen" || item === "Services" ? "/services" : `#${item.toLowerCase()}`
-  );
+  const navItems = locale === "de" ? ["Start", "Leistungen", "Website-Pläne", "Branchen", "Über uns", "Blog", "Kontakt"] : ["Home", "Services", "Website Plans", "Industries", "About", "Blog", "Contact"];
+  const navLinks = navItems.map((item) => {
+    if (item === "Leistungen" || item === "Services") return "/services";
+    if (item === "Website-Pläne" || item === "Website Plans") return "/website-plans";
+    return `#${item.toLowerCase()}`;
+  });
 
   const acceptCookies = () => {
     window.localStorage.setItem("tdm-cookie-consent", "accepted");
@@ -66,7 +64,7 @@ export function SiteShell() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 transition-colors duration-300">
-      <motion.div className="fixed inset-x-0 top-0 z-50 h-1 origin-left bg-blue-600" style={{ scaleX }} />
+      {mounted ? <motion.div className="fixed inset-x-0 top-0 z-50 h-1 origin-left bg-blue-600" initial={false} animate={{ scaleX: 1 }} /> : null}
       <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/80">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:px-8 lg:px-10">
           <Link href="/" className="text-lg font-semibold tracking-tight text-slate-950 dark:text-white">

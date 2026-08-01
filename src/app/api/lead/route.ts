@@ -71,6 +71,92 @@ function generateICS(data: {
   ].join("\r\n");
 }
 
+async function insertWebsitePlanLead(data: Record<string, unknown>): Promise<void> {
+  const supabaseUrl = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.warn("Supabase not configured — skipping website plan lead storage");
+    return;
+  }
+
+  const response = await fetch(`${supabaseUrl}/rest/v1/website_plan_leads`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      apikey: supabaseKey,
+      Authorization: `Bearer ${supabaseKey}`,
+    },
+    body: JSON.stringify({
+      business_name: data.businessName ?? null,
+      contact_person: data.contactPerson ?? data.fullName ?? null,
+      email: data.email ?? null,
+      phone: data.phone ?? null,
+      business_type: data.businessType ?? null,
+      website: data.website ?? null,
+      current_website: data.currentWebsite ?? null,
+      business_address: data.businessAddress ?? null,
+      preferred_plan: data.preferredPlan ?? null,
+      domain_ownership: data.domainOwnership ?? null,
+      timeline: data.timeline ?? null,
+      budget: data.budget ?? null,
+      project_details: data.notes ?? data.details ?? null,
+      source: "website-plans",
+    }),
+  });
+
+  if (!response.ok) {
+    const details = await response.text().catch(() => "");
+    throw new Error(`Supabase insert failed: ${response.status} ${details}`);
+  }
+}
+
+async function sendWebsitePlanEmail(data: Record<string, unknown>): Promise<void> {
+  const smtpHost = process.env.SMTP_HOST;
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+  const ownerEmail = process.env.OWNER_EMAIL ?? "scbaala@gmail.com";
+
+  if (!smtpHost || !smtpUser || !smtpPass) {
+    console.warn("SMTP not configured — skipping website plan email");
+    return;
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: smtpHost,
+    port: parseInt(process.env.SMTP_PORT ?? "587", 10),
+    secure: process.env.SMTP_SECURE === "true",
+    auth: { user: smtpUser, pass: smtpPass },
+  });
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111827;">
+      <h2 style="color: #2563eb;">New Website Plan Enquiry</h2>
+      <p><strong>Business Name:</strong> ${data.businessName ?? "Not provided"}</p>
+      <p><strong>Contact Person:</strong> ${data.contactPerson ?? data.fullName ?? "Not provided"}</p>
+      <p><strong>Email:</strong> ${data.email ?? "Not provided"}</p>
+      <p><strong>Phone:</strong> ${data.phone ?? "Not provided"}</p>
+      <p><strong>Business Type:</strong> ${data.businessType ?? "Not provided"}</p>
+      <p><strong>Website:</strong> ${data.website ?? "Not provided"}</p>
+      <p><strong>Current Website:</strong> ${data.currentWebsite ?? "Not provided"}</p>
+      <p><strong>Business Address:</strong> ${data.businessAddress ?? "Not provided"}</p>
+      <p><strong>Preferred Plan:</strong> ${data.preferredPlan ?? "Not provided"}</p>
+      <p><strong>Domain Ownership:</strong> ${data.domainOwnership ?? "Not provided"}</p>
+      <p><strong>Timeline:</strong> ${data.timeline ?? "Not provided"}</p>
+      <p><strong>Budget:</strong> ${data.budget ?? "Not provided"}</p>
+      <p><strong>Project Details:</strong><br/>${data.notes ?? data.details ?? "No details provided"}</p>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: `The Digital Move <${smtpUser}>`,
+    to: ownerEmail,
+    replyTo: (data.email as string | undefined) || undefined,
+    subject: `New website plan enquiry from ${data.businessName ?? data.contactPerson ?? "a business"}`,
+    html,
+  });
+}
+
 async function sendCalendarEmail(data: {
   clientName: string;
   clientEmail: string;
@@ -186,6 +272,31 @@ export async function POST(request: NextRequest) {
     const data = await request.json();
     const n8nWebhook = process.env.N8N_WEBHOOK_URL?.trim();
     const fallbackFormspree = process.env.LEAD_FORM_ENDPOINT?.trim() || "https://formspree.io/f/xzdnvjgk";
+
+    const isWebsitePlanEnquiry = Boolean(data.preferredPlan || data.businessAddress || data.currentWebsite || data.website || data.domainOwnership || data.timeline || data.details || data.notes);
+
+    if (isWebsitePlanEnquiry) {
+      let websitePlanStored = false;
+      let websitePlanNotified = false;
+
+      try {
+        await insertWebsitePlanLead(data);
+        websitePlanStored = true;
+      } catch (websitePlanError) {
+        console.error("Website plan lead storage failed:", websitePlanError);
+      }
+
+      try {
+        await sendWebsitePlanEmail(data);
+        websitePlanNotified = true;
+      } catch (websitePlanError) {
+        console.error("Website plan email failed:", websitePlanError);
+      }
+
+      if (!websitePlanStored && !websitePlanNotified) {
+        console.warn("Website plan enquiry was not stored or emailed");
+      }
+    }
 
     // Always attempt to send calendar emails if SMTP is configured
     if (data.email && data.fullName) {

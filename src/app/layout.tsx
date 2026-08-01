@@ -4,13 +4,31 @@ import "./globals.css";
 import { StructuredData } from "./structured-data";
 
 export const metadata: Metadata = {
-  title: "The Digital Move | AI & Workflow Automation in Berlin | IT Company",
-  description: "Leading AI automation and workflow automation company in Berlin. We deliver custom software, website development, CRM integration, and digital transformation for businesses. Free consultation available.",
-  keywords: ["AI automation Berlin", "workflow automation Berlin", "IT company Berlin", "digital transformation Berlin", "custom software development", "business automation", "business process automation", "automation consulting Berlin", "The Digital Move"],
+  title: "The Digital Move | Website Development, AI Automation & SEO in Berlin",
+  description: "The Digital Move helps Berlin and German SMEs grow with modern websites, AI chatbots, workflow automation, SEO services, business automation, and digital transformation.",
+  keywords: [
+    "website development Berlin",
+    "AI automation Berlin",
+    "SEO agency Berlin",
+    "business automation Germany",
+    "AI chatbot Germany",
+    "digital transformation consultant Germany",
+    "custom website development",
+    "Google Business Profile optimization",
+    "small business website Germany",
+    "The Digital Move",
+  ],
   metadataBase: new URL("https://thedigitalmove.com"),
+  alternates: {
+    canonical: "https://thedigitalmove.com",
+    languages: {
+      en: "https://thedigitalmove.com",
+      de: "https://thedigitalmove.com/de",
+    },
+  },
   openGraph: {
-    title: "The Digital Move",
-    description: "Helping businesses move from manual operations to intelligent automation.",
+    title: "The Digital Move | AI Automation & Website Development in Berlin",
+    description: "Helping businesses modernize their website, automate workflows, and attract more leads from Google search.",
     url: "https://thedigitalmove.com",
     siteName: "The Digital Move",
     locale: "en_US",
@@ -19,12 +37,20 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "The Digital Move",
-    description: "AI automation and digital transformation for modern businesses.",
+    title: "The Digital Move | AI Automation & SEO in Berlin",
+    description: "Modern websites, AI chatbots, workflow automation, and SEO for ambitious small and medium businesses.",
     images: ["/og-image.svg"],
   },
-  alternates: {
-    canonical: "https://thedigitalmove.com",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 
@@ -38,13 +64,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <link rel="canonical" href={process.env.SITE_URL ?? "https://thedigitalmove.com"} />
 
         {/* Basic meta + OpenGraph (fallback to metadata export) */}
-        <meta name="description" content={"The Digital Move helps businesses move from manual operations to intelligent automation with AI, workflow automation, custom software, and modern websites."} />
-        <meta property="og:title" content={"The Digital Move | AI Automation & Digital Transformation"} />
-        <meta property="og:description" content={"Helping businesses move from manual operations to intelligent automation."} />
+        <meta name="description" content={"The Digital Move helps Berlin and German SMEs grow with modern websites, AI chatbots, workflow automation, SEO services, and digital transformation."} />
+        <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+        <meta name="theme-color" content="#2563eb" />
+        <meta property="og:title" content={"The Digital Move | Website Development, SEO & AI Automation in Berlin"} />
+        <meta property="og:description" content={"Helping businesses modernize their website, automate workflows, and attract more leads from Google search."} />
         <meta property="og:image" content={"/og-image.svg"} />
         <meta property="og:url" content={process.env.SITE_URL ?? "https://thedigitalmove.com"} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={"The Digital Move | AI Automation & SEO in Berlin"} />
+        <meta name="twitter:description" content={"Modern websites, AI chatbots, workflow automation, and SEO for ambitious small and medium businesses."} />
         <meta name="twitter:image" content={"/og-image.svg"} />
       </head>
 

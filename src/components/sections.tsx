@@ -82,7 +82,7 @@ export function HeroSection({ locale }: LocaleProps) {
         highlight: "digitalen Schritt",
         subheadline: "Wir liefern KI-Automatisierung, Workflow-Automatisierung, Website-Entwicklung, CRM-Integrationen und individuelle Software, damit manuelle Arbeit reduziert und Wachstum beschleunigt wird.",
         primary: "Kostenlose Beratung buchen",
-        secondary: "Leistungen entdecken",
+        secondary: "Website-Pläne entdecken",
         pill1: "KI-Automatisierung",
         pill2: "Workflow-Automatisierung",
         pill3: "Digitale Transformation",
@@ -93,7 +93,7 @@ export function HeroSection({ locale }: LocaleProps) {
         highlight: "Digital Move",
         subheadline: "We deliver AI automation, workflow automation, website development, CRM integration, and custom software that reduces manual work and accelerates growth.",
         primary: "Book a Free Consultation",
-        secondary: "Explore Services",
+        secondary: "Explore Website Plans",
         healthCheck: "Free Business Health Check",
         healthCheckHint: "2-minute score and instant recommendations",
         pill1: "AI Automation",
@@ -122,12 +122,12 @@ export function HeroSection({ locale }: LocaleProps) {
             {copy.subheadline}
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="#contact" className="inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700">
-              {copy.primary}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-            <Link href="/services" className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:text-blue-700">
-              {copy.secondary}
+            <Link href="/website-plans" className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-sky-500 px-7 py-3.5 text-sm font-semibold text-white shadow-[0_16px_45px_-12px_rgba(37,99,235,0.65)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_55px_-12px_rgba(14,165,233,0.7)]">
+              <span className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/0 to-white/20 opacity-0 transition duration-300 group-hover:opacity-100" />
+              <span className="relative flex items-center">
+                {copy.secondary}
+                <ArrowRight className="ml-2 h-4 w-4 transition group-hover:translate-x-0.5" />
+              </span>
             </Link>
           </div>
           <motion.div

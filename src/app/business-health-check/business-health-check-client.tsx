@@ -404,57 +404,6 @@ export function BusinessHealthCheckClient() {
     <main className="relative min-h-screen overflow-hidden bg-white text-slate-900">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_10%_10%,rgba(37,99,235,0.16),transparent_40%),radial-gradient(circle_at_90%_20%,rgba(15,23,42,0.08),transparent_38%)]" />
 
-      <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/85 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3 sm:px-8">
-          <Link href="/" className="inline-flex items-center gap-3">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-xs font-bold tracking-wide text-white shadow-sm">
-              TDM
-            </span>
-            <span>
-              <span className="block text-sm font-semibold leading-none text-slate-900">The Digital Move</span>
-              <span className="block text-xs text-slate-500">{copy.brandSubtitle}</span>
-            </span>
-          </Link>
-
-          <div className="flex items-center gap-2">
-            <div className="flex rounded-full border border-slate-200 bg-white p-1 shadow-sm">
-              <button
-                onClick={() => setLocale("en")}
-                className={cn(
-                  "rounded-full px-3 py-1.5 text-xs font-medium transition",
-                  locale === "en" ? "bg-blue-600 text-white" : "text-slate-700"
-                )}
-              >
-                EN
-              </button>
-              <button
-                onClick={() => setLocale("de")}
-                className={cn(
-                  "rounded-full px-3 py-1.5 text-xs font-medium transition",
-                  locale === "de" ? "bg-blue-600 text-white" : "text-slate-700"
-                )}
-              >
-                DE
-              </button>
-            </div>
-            <Link
-              href="https://wa.me/491755017453"
-              target="_blank"
-              rel="noreferrer"
-              className="hidden rounded-full border border-emerald-500 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-500/20 sm:inline-flex"
-            >
-              WhatsApp
-            </Link>
-            <Link
-              href="/#contact"
-              className="rounded-full bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-blue-700"
-            >
-              {copy.consultation}
-            </Link>
-          </div>
-        </div>
-      </header>
-
       <section className="mx-auto max-w-5xl px-5 pb-20 pt-16 sm:px-8 sm:pt-20">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
