@@ -76,7 +76,7 @@ const breadcrumbSchema = buildBreadcrumbSchema([
 
 const faqItems = [
   {
-    question: "Which services do you offer for small businesses in Berlin?",
+    question: "Which services do you provide for small businesses in Berlin?",
     answer: "We help companies with website development, SEO, AI chatbots, workflow automation, business automation, and system integration.",
   },
   {
@@ -124,7 +124,7 @@ export default function ServicesPage() {
               <li>• Improve website speed, trust, and mobile experience</li>
             </ul>
             <Link href="/website-plans#lead-form" className="mt-8 inline-flex rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700">
-              Book a free consultation
+              Start Our Conversation
             </Link>
           </div>
         </section>

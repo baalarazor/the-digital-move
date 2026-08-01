@@ -138,7 +138,7 @@ export function Chatbot() {
     if (/who are you|what is (this|the digital move)|tell me about/.test(n))
       return "I'm Baala — founder of The Digital Move, a Berlin-based digital agency. I personally work with businesses on AI automation, workflow automation, website development, and custom software. What are you looking to solve?";
 
-    if (/what (services|do you offer|can you do)|your services/.test(n))
+    if (/what (services|can you help with|do you help with)|your services/.test(n))
       return "Great question! Here's what we do:\n\n\uD83C\uDF10 Website Development — modern, fast, lead-generating sites\n\uD83E\uDD16 AI Automation — reduce manual work with smart workflows\n\u2699\uFE0F Workflow Automation — connect your tools, cut handoffs\n\uD83D\uDCBB Custom Software — dashboards, booking systems, internal tools\n\uD83D\uDD17 System Integration — get your CRM and apps talking\n\nWhich of these sounds most relevant to you?";
 
     if (/\b(website|web site|landing page|online presence|build.*site|setup.*website|new site|need a site)\b/.test(n))
@@ -189,7 +189,7 @@ export function Chatbot() {
       return "Professional services clients come to us mainly for credible websites, client intake automation, and appointment booking. What does your current client onboarding process look like?";
 
     if (/how much|what.*cost|pricing|price|fee|charge/.test(n))
-      return `Pricing really depends on scope${collectedName ? `, ${collectedName.split(" ")[0]}` : ""} — we don't have a fixed price list. The best way is a quick free call where I look at your specific needs. Want to book one?`;
+      return `Pricing really depends on scope${collectedName ? `, ${collectedName.split(" ")[0]}` : ""} — we don't have a fixed price list. The best way is a short conversation where I can understand your specific needs. Would you be open to that?`;
 
     if (/contact|email|phone|reach you|get in touch|call you|i want to call|give me.*number|your number|phone number/.test(n))
       return "You can call or WhatsApp us at +49 175 5017453, or email scbaala@gmail.com. You're also welcome to book a time directly below and we'll call you! 📞";
@@ -200,7 +200,7 @@ export function Chatbot() {
       return `Yes, that's exactly what we do${collectedName ? `, ${collectedName.split(" ")[0]}` : ""}! 😊 My team in Berlin handles everything — design, development, and ongoing support. Want to tell me a bit more about what you need so I can give you a clearer picture?`;
 
     if (/how (does|do|would|will) (it|this|that) work|how (long|fast|quickly|soon)|what('s| is) the process|what (happens|do we|would we) do next/.test(n))
-      return "The process is straightforward:\n\n1️⃣ Free 30-min call — we understand your business and goals\n2️⃣ Proposal — we outline exactly what we'd build and the cost\n3️⃣ Build — we deliver, you review, we refine\n4️⃣ Launch — we go live and support you\n\nMost projects take 2–6 weeks depending on scope. Want to kick things off with a free call?";
+      return "The process is straightforward:\n\n1️⃣ Conversation — we understand your business and goals\n2️⃣ Proposal — we outline what we might build together and the direction\n3️⃣ Build — we create, review, and refine\n4️⃣ Launch — we go live and support you\n\nMost projects take 2–6 weeks depending on scope. Would you like to start with a conversation?";
 
     if (/\b(how long|how (much )?time|timeline|turnaround|deadline|when (can|will|would))\b/.test(n))
       return "Timelines depend on the project — a simple website takes about 2 weeks, while a custom automation setup or full platform is usually 4–8 weeks. We'll give you a clear timeline in the proposal after our first call. Want to book that?";
@@ -209,11 +209,11 @@ export function Chatbot() {
       return "We've worked with businesses in marketing, healthcare, retail, professional services, and more. I'd love to share some relevant examples on a call — that way I can show you work that's actually relevant to your industry. Want to set that up?";
 
     if (/\b(why (you|your company|the digital move|should i|choose)|what makes you (different|better|special|unique))\b/.test(n))
-      return "Great question! A few things that set us apart:\n\n✅ We actually listen — no cookie-cutter solutions\n✅ Based in Berlin, we understand European markets\n✅ We combine strategy + tech, not just build what you ask\n✅ Transparent pricing — no hidden costs\n✅ We stay involved after launch\n\nWant to see if we're a good fit? A free call is the easiest way to find out.";
+      return "Great question! A few things that set us apart:\n\n✅ We actually listen — no cookie-cutter solutions\n✅ Based in Berlin, we understand European markets\n✅ We combine strategy + tech, not just build what you ask\n✅ Clear collaboration from the beginning\n✅ We stay involved after launch\n\nWould you like to share a bit about your business so I can tell you if it feels like a fit?";
 
     if (/\b(get start|start (with|the process)|next step|what (now|next|do i|should i)|how do (i|we) (begin|start|proceed))\b/.test(n)) {
       addUser(t);
-      addBot("The easiest next step is a free 30-minute call where we learn about your business and you can ask us anything. No obligation at all — want me to set that up now?");
+      addBot("The easiest next step is a short conversation where we learn about your business and you can ask me anything. Would you like to start there?");
       return "";
     }
 
@@ -225,13 +225,13 @@ export function Chatbot() {
     }
 
     if (/^(no|nope|not now|maybe later|later)$/.test(n))
-      return `No worries${collectedName ? `, ${collectedName.split(" ")[0]}` : ""}! I'm here whenever you're ready. Feel free to ask me anything.`;
+      return `No worries${collectedName ? `, ${collectedName.split(" ")[0]}` : ""}! I'm here whenever you're ready. Ask me anything.`;
 
     if (/^(thanks|thank you|cheers|appreciate|perfect|great|awesome|sounds good)/.test(n))
       return `You're welcome${collectedName ? `, ${collectedName.split(" ")[0]}` : ""}! 😊 Anything else I can help with?`;
 
     if (/^(bye|goodbye|see you|take care|ttyl)/.test(n))
-      return "It was great chatting! Feel free to come back anytime. Have a great day! \uD83D\uDC4B";
+      return "It was great chatting! Come back anytime if you want to continue the conversation. Have a great day! 👋";
 
     return null;
   };
@@ -291,7 +291,7 @@ export function Chatbot() {
         const next = [...prev];
         next[next.length - 1] = {
           sender: "bot",
-          text: `That's a great question${collectedName ? `, ${collectedName.split(" ")[0]}` : ""}! I'd love to give you a proper answer — it's easier to explain on a quick call where I can understand your specific situation. Want to book a free 30-minute chat?`,
+          text: `That's a great question${collectedName ? `, ${collectedName.split(" ")[0]}` : ""}! I'd love to give you a proper answer — it's easier to explain in a short conversation where I can understand your specific situation. Would you be open to that?`,
         };
         return next;
       });
@@ -496,7 +496,7 @@ export function Chatbot() {
 
             {stage === "form" && (
               <div className="space-y-2.5">
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Book your free consultation</p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Start our conversation</p>
                 <input
                   value={booking.fullName}
                   onChange={(e) => setBooking((p) => ({ ...p, fullName: e.target.value }))}
@@ -577,7 +577,7 @@ export function Chatbot() {
                   className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-medium text-blue-700 transition hover:bg-blue-100"
                 >
                   <Calendar className="h-4 w-4" />
-                  Book a free consultation
+                  Start Our Conversation
                 </button>
               </>
             )}

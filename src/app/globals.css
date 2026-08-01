@@ -1,14 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #111827;
+  --background: #f8f5ef;
+  --foreground: #1f2937;
+  --surface: #fffdf9;
+  --surface-strong: #f3ede4;
+  --accent: #2d5b4d;
+  --accent-strong: #1f3f33;
+  --accent-soft: #dce9de;
+  --text-muted: #54616d;
+  --border: #e6dfd3;
+  --font-inter: "Inter", "Segoe UI", Arial, Helvetica, sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-display);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -17,15 +27,21 @@ html {
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(180deg, #fbf7f0 0%, #f5efe7 100%);
   color: var(--foreground);
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), "Segoe UI", Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display), Georgia, serif;
+  letter-spacing: -0.02em;
 }
 
 ::selection {
-  background: rgba(37, 99, 235, 0.2);
-  color: #0f172a;
+  background: rgba(45, 91, 77, 0.18);
+  color: #14231d;
 }
 
 @media (prefers-reduced-motion: reduce) {

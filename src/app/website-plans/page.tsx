@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import { WebsitePlansPage } from "@/components/website-plans-page";
 
 export const metadata: Metadata = {
-  title: "Website Plans | Professional Websites with No Upfront Cost | The Digital Move",
-  description: "Launch a fast, modern website for your business with no upfront development cost. Simple monthly plans with hosting, support, SEO and maintenance included.",
+  title: "Website Plans | A Founder-Led Passion Project | The Digital Move",
+  description: "Explore the founder initiative, a founder-led collaboration for selected businesses who want a thoughtful, purpose-built website experience.",
   alternates: {
     canonical: "https://thedigitalmove.com/website-plans",
   },
   openGraph: {
-    title: "Professional Websites with No Upfront Cost | The Digital Move",
-    description: "Flexible monthly website plans for local businesses with hosting, SEO, support and maintenance included.",
+    title: "Founder-Led Website Experiences | The Digital Move",
+    description: "A thoughtful, purpose-built website experience for selected businesses who value craftsmanship and long-term partnership.",
     url: "https://thedigitalmove.com/website-plans",
     siteName: "The Digital Move",
     type: "website",
@@ -17,8 +17,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Professional Websites with No Upfront Cost | The Digital Move",
-    description: "Flexible monthly website plans for local businesses with hosting, SEO, support and maintenance included.",
+    title: "Founder-Led Website Experiences | The Digital Move",
+    description: "A thoughtful, purpose-built website experience for selected businesses who value craftsmanship and long-term partnership.",
     images: ["/og-image.svg"],
   },
 };

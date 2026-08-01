@@ -23,8 +23,8 @@ import {
   Zap,
   type LucideIcon,
 } from "lucide-react";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useEffect, useState, type FormEvent } from "react";
 import { FooterSection, Pill, SectionHeading } from "@/components/sections";
 import { SiteHeader } from "@/components/site-header";
 
@@ -79,7 +79,7 @@ export function WebsitePlansPage() {
     website: "",
     currentWebsite: "",
     businessAddress: "",
-    preferredPlan: "Growth",
+    preferredPlan: "Passion",
     domainOwnership: "Yes",
     timeline: "As soon as possible",
     budget: "",
@@ -96,7 +96,7 @@ export function WebsitePlansPage() {
     setLocale(savedLocale);
   }, []);
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
 
@@ -146,336 +146,154 @@ export function WebsitePlansPage() {
 
   const copy = isGerman
     ? {
-        heroBadge: "Premium-Websites • Keine Vorabkosten • Monatlicher Support",
-        heroTitle: "Professionelle Website. Keine Vorabkosten für die Entwicklung.",
-        heroDescription: "Starten Sie mit einer schnellen, modernen Website für Ihr Unternehmen in nur 7 Tagen. Alles ist inklusive – Hosting, Sicherheit, Wartung und Support – in einem einfachen monatlichen Abo.",
-        heroPrimary: "Kostenlose Beratung anfordern",
-        heroSecondary: "Preise ansehen",
-        heroPills: ["Mobil optimiert", "SEO bereit", "Schnell geladen", "Sichere Hosting", "DSGVO freundlich"],
-        whyEyebrow: "Warum dieses Modell?",
-        whyTitle: "Eine schlauere Art, eine Premium-Website zu bekommen",
-        whyDescription: "Traditionelle Agenturen verlangen große Vorabkosten, bevor sie überhaupt beginnen. Wir drehen dieses Modell um, damit Sie schneller starten, flexibel bleiben und nur zahlen, wenn Sie wachsen.",
-        pricingEyebrow: "Preise",
-        pricingTitle: "Einfache Pläne für echte Unternehmen",
-        pricingDescription: "Wählen Sie den passenden Unterstützungs- und Wachstumsumfang für Ihre aktuelle Situation und skalieren Sie bei Bedarf.",
-        processEyebrow: "Prozess",
-        processTitle: "Von der ersten Beratung bis zum Launch – wir halten es einfach",
-        processDescription: "Ein klarer Prozess gibt Ihnen Zuversicht in jedem Schritt und hält Ihr Projekt ohne unnötige Hürden am Laufen.",
-        includedEyebrow: "Inkludiert",
-        includedTitle: "Alles, was Sie brauchen, um professionell online aufzutreten",
-        includedDescription: "Von Hosting und Sicherheit bis hin zu SEO und Support – Ihr Abo ist darauf ausgelegt, Reibung zu reduzieren und Ihre Website für Ihr Unternehmen arbeiten zu lassen.",
-        whyChooseEyebrow: "Warum wir?",
-        whyChooseTitle: "Premium-Qualität, klarer Prozess und echter Geschäftswert",
-        whyChooseDescription: "Wir kombinieren durchdachtes Design, schnelle Lieferung, starke SEO und laufenden Support, damit Ihre Website zu einem echten geschäftlichen Asset wird.",
+        heroBadge: "Founder-led passion project • Premium-Websites • Mit Haltung gebaut",
+        heroTitle: "Eine Website sollte wie ein echter Anfang wirken.",
+        heroDescription: "Ich baue ein kleines Studio rund um das Gefühl, dass großartige Websites persönlich, ruhig und ehrlich sein sollten. Die Gründer-Initiative begleitet ausgewählte Unternehmen mit Klarheit, Sorgfalt und echtem Fokus.",
+        heroPrimary: "An meiner Gründer-Initiative teilnehmen",
+        heroSecondary: "Meine Geschichte lesen",
+        heroPills: ["Ausgewählte Unternehmen", "Founder-led", "Mit viel Sorgfalt", "Mit Absicht gebaut"],
+        founderEyebrow: "Warum das entsteht",
+        founderTitle: "Ich baue keine Maschine. Ich baue ein ruhiges Stück Vertrauen.",
+        founderDescription: [
+          "Bei The Digital Move geht es nicht nur um Websites. Es geht darum, Menschen mit einem starken digitalen Zuhause zu unterstützen.",
+          "Ich gestalte moderne, sorgfältig ausgearbeitete Websites mit Klarheit, Ruhe und langfristiger Qualität.",
+          "Statt nur zu versprechen, was ich kann, möchte ich lieber zeigen, dass ein guter Start ohne unnötigen Druck möglich ist.",
+        ],
+        planEyebrow: "Die Gründer-Initiative",
+        planTitle: "Eine Website-Erfahrung mit Haltung für die Unternehmen, die ich gerne begleite.",
+        planDescription: "Das ist kein Abo und kein klassischer Servicevertrag. Es ist eine bewusste Einladung, mit einer kleinen Zahl von Unternehmen zusammenzuarbeiten, deren Arbeit verdient, klar gesehen und mit Sorgfalt gebaut zu werden.",
+        planNote: "Nur ausgewählte Anfragen",
+        planNoteText: "Ich arbeite bewusst klein und nur mit Projekten, die zu meiner Art von Arbeit passen.",
+        journeyEyebrow: "Teil meiner Reise werden",
+        journeyTitle: "Ich suche Unternehmen, die Wert auf Handwerk, Klarheit und Mut legen.",
+        journeyDescription: "Die Unternehmen, mit denen ich gerne arbeite, sind oft klein, ehrlich und bereit, sich neu zu zeigen.",
+        missionEyebrow: "Die Mission",
+        missionTitle: "Mit Leidenschaft gebaut. Mit Absicht angeboten.",
+        missionDescription: "Statt Geld für Werbung auszugeben, investiere ich meine Zeit in die Erstellung außergewöhnlicher Websites für eine kleine Gruppe von Unternehmen, an die ich glaube. Ich glaube, dass jedes große Unternehmen eine digitale Präsenz verdient, die die Leidenschaft hinter ihm widerspiegelt. Statt Unternehmen zu bitten, meinen Worten zu vertrauen, würde ich lieber Vertrauen verdienen, indem ich Arbeit erschaffe, die für sich spricht. Jede Website, die ich baue, ist mehr als ein Projekt. Sie ist der Beginn einer Beziehung.",
+        letterEyebrow: "Ein Brief von mir",
+        letterText: "Wenn ich etwas baue, dann nicht nur für den Bildschirm. Ich baue es für das Gefühl, das ein Unternehmen in Menschen auslöst, wenn es endlich klar und elegant sichtbar wird. Ich möchte, dass diese erste Website nicht nur gut aussieht, sondern wirklich zu Ihrem Unternehmen passt – und zu dem, was Sie eines Tages werden wollen.",
         faqEyebrow: "FAQ",
-        faqTitle: "Fragen, die Geschäftsinhaber meist haben",
-        faqDescription: "Hier sind die häufigsten Fragen, bevor Sie starten.",
-        leadEyebrow: "Kostenlose Beratung",
-        leadTitle: "Erzählen Sie uns von Ihrem Unternehmen – wir empfehlen den passenden Website-Plan.",
-        leadDescription: "Ohne Druck, ohne Fachchinesisch und ohne Verpflichtung. Einfach ein klares Gespräch über Ihre Ziele und wie wir Ihnen helfen können.",
-        businessName: "Firmenname *",
-        contactPerson: "Ansprechpartner *",
+        faqTitle: "Die Fragen, die wir am häufigsten hören",
+        faqDescription: "Hier sind die wichtigsten Antworten, bevor Sie sich bewerben.",
+        leadEyebrow: "Bewerbung",
+        leadTitle: "Bewerben Sie sich für den Passion-Plan",
+        leadDescription: "Ich prüfe jede Anfrage sorgfältig und gehe nur mit Unternehmen weiter, die wirklich zur nächsten Phase passen.",
+        businessName: "Unternehmensname *",
+        contactPerson: "Kontaktperson *",
         email: "E-Mail *",
         phone: "Telefonnummer *",
         businessType: "Branche",
         website: "Website (optional)",
         currentWebsite: "Aktuelle Website",
-        businessAddress: "Geschäftsadresse",
-        preferredPlan: "Bevorzugter Plan",
-        domainOwnership: "Besitzen Sie die Domain?",
-        budget: "Budget",
-        details: "Projektdetails",
-        consent: "Ich stimme zu, dass man mich zu meinem Website-Projekt kontaktiert.",
-        submit: "Kostenlose Website-Beratung anfordern",
-        submitSuccess: "Danke! Wir melden uns in Kürze bei Ihnen.",
-        ctaHeading: "Bereit, Ihr Unternehmen online wachsen zu lassen?",
-        ctaDescription: "Lassen Sie uns eine Website bauen, die hochwertig wirkt, besser konvertiert und monatlich unterstützt wird.",
-        ctaButton: "Website bauen lassen",
-        stats: [
-          { value: "7 Tage", label: "Typische Launch-Zeit" },
-          { value: "24/7", label: "Support-Verfügbarkeit" },
-          { value: "100%", label: "Transparente Preise" },
-        ],
-        industries: ["Zahnärzte", "Anwälte", "Physiotherapeuten", "Kliniken", "Salons", "Restaurants", "Cafés", "Buchhalter"],
+        businessAddress: "Adresse",
+        consent: "Ich verstehe, dass diese Initiative nur für ausgewählte Unternehmen gilt.",
+        submit: "Meine Geschichte teilen",
+        submitSuccess: "Vielen Dank. Ich melde mich bald bei Ihnen.",
+        ctaHeading: "Lassen Sie uns etwas schaffen, das wirklich zählt.",
+        ctaDescription: "Ich möchte nicht die größte Agentur werden. Ich möchte hochwertige Websites schaffen, die lokale Unternehmen mit Klarheit, Stil und Haltung nach vorne bringen.",
+        ctaButton: "Gespräch vereinbaren",
       }
     : {
-        heroBadge: "Premium websites • No upfront cost • Monthly support",
-        heroTitle: "Professional Website. No Upfront Development Cost.",
-        heroDescription: "Launch a fast, modern website for your business in as little as 7 days. Everything is included—hosting, security, maintenance and support—from one simple monthly subscription.",
-        heroPrimary: "Get My Free Consultation",
-        heroSecondary: "See Pricing",
-        heroPills: ["Mobile Optimized", "SEO Ready", "Fast Loading", "Secure Hosting", "GDPR Friendly"],
-        whyEyebrow: "Why this model?",
-        whyTitle: "A smarter way to get a premium website",
-        whyDescription: "Traditional agencies ask for big upfront investment before they even begin. We flip that model so you can launch faster, stay flexible and pay as you grow.",
-        pricingEyebrow: "Pricing",
-        pricingTitle: "Simple plans designed for real businesses",
-        pricingDescription: "Choose the level of support and growth that fits your current needs, then scale when you are ready.",
-        processEyebrow: "Process",
-        processTitle: "From first conversation to launch, we keep it simple",
-        processDescription: "A clear process gives you confidence at every step and keeps your project moving without unnecessary friction.",
-        includedEyebrow: "What’s included",
-        includedTitle: "Everything you need to look professional online",
-        includedDescription: "From hosting and security to SEO and support, your subscription is designed to remove friction and keep your website working for you.",
-        whyChooseEyebrow: "Why choose us",
-        whyChooseTitle: "Premium quality, clear process and real business value",
-        whyChooseDescription: "We combine thoughtful design, fast delivery, strong SEO and ongoing support so your website becomes a working asset for the business.",
+        heroBadge: "Founder-led passion project • Premium websites • Built with purpose",
+        heroTitle: "A website should feel like a true beginning.",
+        heroDescription: "I’m building a small studio around the idea that great websites should feel personal, calm and honest. The founder initiative helps selected businesses begin with confidence, care and a clear sense of direction.",
+        heroPrimary: "Join My Founder Initiative",
+        heroSecondary: "Read my story",
+        heroPills: ["Selected businesses only", "Founder-led", "Crafted with care", "Built with intention"],
+        founderEyebrow: "Why this exists",
+        founderTitle: "I’m not building a machine. I’m building a quiet kind of trust.",
+        founderDescription: [
+          "At The Digital Move, this is about more than websites. It is about helping people show up with a strong digital home.",
+          "I create modern, carefully considered websites with clarity, calm and lasting quality.",
+          "Instead of selling the usual pitch, I would rather show what a thoughtful first step can look like.",
+        ],
+        planEyebrow: "The Passion Plan",
+        planTitle: "A founder-sponsored website experience for the businesses I want to help.",
+        planDescription: "This is not a subscription and not a typical service package. It is a deliberate invitation to work with a small number of companies whose work deserves to be seen clearly and built with care.",
+        planNote: "Selected requests only",
+        planNoteText: "I work intentionally small and only with projects that feel aligned with the kind of work I want to create.",
+        journeyEyebrow: "Become Part of My Journey",
+        journeyTitle: "I’m looking for businesses that value craft, clarity and courage.",
+        journeyDescription: "The businesses I choose to work with are often small, honest and ready to show up in a more meaningful way.",
+        missionEyebrow: "The Mission",
+        missionTitle: "Built with Passion. Offered with Purpose.",
+        missionDescription: "Rather than spending money on advertising, I’m investing my time in creating exceptional websites for a small group of businesses I believe in. I believe every great business deserves a digital presence that reflects the passion behind it. Instead of asking businesses to trust my words, I’d rather earn that trust by creating work that speaks for itself. Every website I build is more than a project. It is the beginning of a relationship.",
+        letterEyebrow: "A letter from me",
+        letterText: "When I build something, I am not only thinking about the screen. I am thinking about the feeling a business creates in people when it finally appears with clarity and elegance. I want this first website to feel like it belongs to your business, and to the future you are building.",
         faqEyebrow: "FAQ",
-        faqTitle: "Questions business owners usually ask",
-        faqDescription: "Here are the most common questions before getting started.",
-        leadEyebrow: "Free consultation",
-        leadTitle: "Tell us about your business and we’ll recommend the right website plan.",
-        leadDescription: "No pressure, no jargon, and no obligation. Just a clear conversation about your goals and how we can help.",
+        faqTitle: "The questions we hear most often",
+        faqDescription: "Here are the answers that matter before you apply.",
+        leadEyebrow: "Application",
+        leadTitle: "Apply for the Passion Plan",
+        leadDescription: "I review each request carefully and only move forward with businesses that feel like the right fit for the next phase.",
         businessName: "Business Name *",
-        contactPerson: "Contact Person *",
+        contactPerson: "Contact Name *",
         email: "Email *",
-        phone: "Phone Number *",
-        businessType: "Business Type",
-        website: "Website (optional)",
+        phone: "Phone *",
+        businessType: "Business Category",
+        website: "Existing Website",
         currentWebsite: "Current Website",
         businessAddress: "Business Address",
-        preferredPlan: "Preferred Plan",
-        domainOwnership: "Do you own the domain?",
-        budget: "Budget",
-        details: "Project Details",
-        consent: "I agree to be contacted about my website project.",
-        submit: "Get My Free Website Consultation",
-        submitSuccess: "Thanks! We will be in touch shortly.",
-        ctaHeading: "Ready to grow your business online?",
-        ctaDescription: "Let’s build a website that feels premium, converts better and stays supported month after month.",
-        ctaButton: "Let’s Build Your Website",
-        stats: [
-          { value: "7 days", label: "Typical launch time" },
-          { value: "24/7", label: "Support availability" },
-          { value: "100%", label: "Transparent pricing" },
-        ],
-        industries: ["Dentists", "Lawyers", "Physiotherapists", "Clinics", "Salons", "Restaurants", "Cafés", "Accountants"],
+        consent: "I understand this initiative is limited to selected businesses.",
+        submit: "Share Your Story",
+        submitSuccess: "Thank you. I will be in touch shortly.",
+        ctaHeading: "Let’s create something that truly matters.",
+        ctaDescription: "I’m not trying to become the biggest web agency. I’m focused on creating thoughtful websites that help local businesses grow with confidence and character.",
+        ctaButton: "Start Our Conversation",
       };
 
-  const pricingTiers = isGerman
+  const planHighlights = isGerman
     ? [
-        {
-          name: "Starter",
-          price: "€99/Monat",
-          highlight: false,
-          description: "Eine saubere, moderne Website für lokale Unternehmen, die schnell eine professionelle Online-Präsenz aufbauen möchten.",
-          bullets: [
-            "5-seitige responsive Website",
-            "Kontaktformular",
-            "Domain inklusive",
-            "Hosting inklusive",
-            "SSL-Zertifikat",
-            "Grundlegende SEO",
-            "Google Maps",
-            "WhatsApp-Integration",
-            "Monatliche Backups",
-            "Kleine Content-Updates",
-          ],
-          cta: "Jetzt starten",
-          ctaHref: "#lead-form",
-        },
-        {
-          name: "Growth",
-          price: "€149/Monat",
-          highlight: true,
-          description: "Perfekt für Unternehmen, die mehr Sichtbarkeit, bessere Conversions und laufenden Support möchten.",
-          bullets: [
-            "Alles aus Starter",
-            "KI-Chat-Assistent",
-            "Performance-Optimierung",
-            "Erweiterte SEO",
-            "Google Analytics",
-            "Monatliche Website-Updates",
-            "Blog-Setup",
-            "Geschwindigkeitsoptimierung",
-            "Priorisierter Support",
-          ],
-          cta: "Kostenlose Beratung buchen",
-          ctaHref: "#lead-form",
-        },
-        {
-          name: "Premium",
-          price: "€249/Monat",
-          description: "Für Unternehmen, die ein Premium-Digitalerlebnis mit erweiterten Buchungen und Integrationen brauchen.",
-          bullets: [
-            "Alles aus Growth",
-            "Online-Buchung",
-            "Mehrsprachige Unterstützung",
-            "Individuelle Integrationen",
-            "Monatliche SEO-Reports",
-            "Unbegrenzte Content-Updates",
-            "Priorisierte Umsetzung",
-          ],
-          cta: "Lass uns bauen",
-          ctaHref: "#lead-form",
-        },
+        { icon: BadgeCheck, title: "Eine Website mit Haltung", description: "Ich gestalte jede Website bewusst, damit sie nicht nur gut aussieht, sondern auch wirklich zu der Marke passt." },
+        { icon: Clock3, title: "Keine unnötige Eile", description: "Die erste Phase ist klar organisiert, damit der Prozess ruhig und verständlich bleibt." },
+        { icon: Crown, title: "Persönlicher Fokus", description: "Ich arbeite eng mit Ihnen zusammen und bleibe bei der Qualität, die wir gemeinsam schaffen." },
       ]
     : [
-        {
-          name: "Starter",
-          price: "€99/month",
-          highlight: false,
-          description: "A clean, modern website for local businesses that want a professional online presence fast.",
-          bullets: [
-            "5-page responsive website",
-            "Contact form",
-            "Domain included",
-            "Hosting included",
-            "SSL certificate",
-            "Basic SEO",
-            "Google Maps",
-            "WhatsApp integration",
-            "Monthly backup",
-            "Minor content updates",
-          ],
-          cta: "Start Today",
-          ctaHref: "#lead-form",
-        },
-        {
-          name: "Growth",
-          price: "€149/month",
-          highlight: true,
-          description: "Perfect for businesses that want stronger visibility, better conversion and ongoing support.",
-          bullets: [
-            "Everything in Starter",
-            "AI chat assistant",
-            "Performance optimisation",
-            "Advanced SEO",
-            "Google Analytics",
-            "Monthly website updates",
-            "Blog setup",
-            "Speed optimisation",
-            "Priority support",
-          ],
-          cta: "Book Free Consultation",
-          ctaHref: "#lead-form",
-        },
-        {
-          name: "Premium",
-          price: "€249/month",
-          description: "For businesses that need a premium digital experience with advanced bookings and integrations.",
-          bullets: [
-            "Everything in Growth",
-            "Online booking",
-            "Multi-language support",
-            "Custom integrations",
-            "Monthly SEO reports",
-            "Unlimited content updates",
-            "Priority turnaround",
-          ],
-          cta: "Let's Build It",
-          ctaHref: "#lead-form",
-        },
+        { icon: BadgeCheck, title: "A website with character", description: "Every site is designed with care so it feels aligned with the business and the people behind it." },
+        { icon: Clock3, title: "No rushed process", description: "The first phase is structured to feel calm, clear and manageable from the start." },
+        { icon: Crown, title: "Personal attention", description: "I stay close to the work and care deeply about how the final experience feels." },
       ];
 
-  const processSteps = isGerman
+  const journeyCards = isGerman
     ? [
-        { title: "Kostenlose Beratung", description: "Wir lernen Ihr Unternehmen, Ihre Ziele und Ihren Idealkunden kennen." },
-        { title: "Wir gestalten", description: "Wir formen die Website-Struktur, Botschaft und visuelle Richtung." },
-        { title: "Sie prüfen", description: "Sie prüfen das Konzept und geben Feedback vor dem Launch." },
-        { title: "Wir starten", description: "Wir gehen live mit einer polierten, schnellen und konversionsstarken Website." },
-        { title: "Wir pflegen", description: "Updates, Support und Hosting bleiben in Ihrem Plan inklusive." },
+        { title: "Gründer mit einer echten Geschichte", description: "Unternehmen, die ihre Arbeit mit Würde zeigen möchten, statt nur laut zu sein." },
+        { title: "Lokale Dienstleister", description: "Kleine Betriebe, die einen besseren digitalen Eindruck verdienen, ohne sich in ein großes Marketing-Setup zu verlieren." },
+        { title: "Unternehmen mit Mut zum Neubeginn", description: "Menschen, die bereit sind, ihre Marke bewusst neu zu definieren und die Zukunft ernst zu nehmen." },
       ]
     : [
-        { title: "Free Consultation", description: "We learn about your business, goals and ideal client." },
-        { title: "We Design", description: "We shape the site structure, messaging and visual direction." },
-        { title: "You Review", description: "You review the concept and give feedback before launch." },
-        { title: "We Launch", description: "We go live with a polished, fast and conversion-ready website." },
-        { title: "We Maintain", description: "Updates, support and hosting stay included in your plan." },
+        { title: "Founders with a real story", description: "Businesses that want to present their work with dignity rather than noise." },
+        { title: "Local service providers", description: "Smaller companies that deserve a better digital first impression without turning into a marketing machine." },
+        { title: "Businesses ready for a fresh start", description: "People who are ready to define their brand more intentionally and step into the next chapter with care." },
       ];
 
-  const includedFeatures = isGerman
+  const missionPoints = isGerman
     ? [
-        { icon: Globe2, title: "Hosting", description: "Schnelles, zuverlässiges Hosting ist in jedem Plan enthalten." },
-        { icon: ShieldCheck, title: "Sicherheit", description: "SSL, Schutz und sichere Infrastruktur sind bereits integriert." },
-        { icon: Layers3, title: "Backups", description: "Regelmäßige Backups, damit Ihr Unternehmen geschützt bleibt." },
-        { icon: Headphones, title: "Support", description: "Freundlicher Support, wann immer Sie Hilfe oder Updates brauchen." },
-        { icon: Wrench, title: "Updates", description: "Halten Sie Inhalte, Angebote und Botschaften ohne zusätzliche Kosten aktuell." },
-        { icon: BarChart3, title: "Performance", description: "Optimiert für Geschwindigkeit, Mobile-Experience und Core Web Vitals." },
-        { icon: Search, title: "SEO", description: "Mit integrierter Struktur, Meta-Daten und Sichtbarkeitsverbesserungen." },
-        { icon: Bot, title: "KI-Funktionen", description: "Optionale KI-Assistenten und intelligente Lead-Capture-Erlebnisse." },
+        { title: "Sichtbarkeit", description: "Eine gute Website hilft Menschen, Ihr Unternehmen schnell und ruhig zu verstehen." },
+        { title: "Werte", description: "Jede Seite soll die Art widerspiegeln, wie Ihr Unternehmen arbeitet und lebt." },
+        { title: "Vertrauen", description: "Die beste digitale Präsenz fühlt sich ehrlich an – und macht den ersten Eindruck leichter." },
       ]
     : [
-        { icon: Globe2, title: "Hosting", description: "Fast, reliable hosting included in every plan." },
-        { icon: ShieldCheck, title: "Security", description: "SSL, protection and secure infrastructure built in." },
-        { icon: Layers3, title: "Backups", description: "Regular backups so your business stays protected." },
-        { icon: Headphones, title: "Support", description: "Friendly support whenever you need help or updates." },
-        { icon: Wrench, title: "Updates", description: "Keep content, offers and messaging fresh without extra fees." },
-        { icon: BarChart3, title: "Performance", description: "Optimised for speed, mobile experience and core web vitals." },
-        { icon: Search, title: "SEO", description: "Built-in structure, metadata and visibility improvements." },
-        { icon: Bot, title: "AI Features", description: "Optional AI assistant and smart lead capture experiences." },
-      ];
-
-  const whyChooseUs = isGerman
-    ? [
-        { icon: Zap, title: "Schnelle Lieferung", description: "Starten Sie in nur 7 Tagen mit einem optimierten Onboarding-Prozess." },
-        { icon: Crown, title: "Premium-Design", description: "Eine moderne, glaubwürdige und vertrauenswürdige Erfahrung." },
-        { icon: BadgeCheck, title: "Transparente Preise", description: "Keine Überraschungen, keine versteckten Setup-Gebühren und keine teuren Überraschungen." },
-        { icon: Building2, title: "Fokus auf lokale Unternehmen", description: "Wir verstehen die Bedürfnisse von Zahnärzten, Anwälten, Kliniken, Salons und KMU." },
-        { icon: MonitorSmartphone, title: "Mobile First", description: "Jede Website ist so gebaut, dass sie auf jedem Gerät hervorragend funktioniert." },
-        { icon: ShieldCheck, title: "Sichere Infrastruktur", description: "Zuverlässiges Hosting, Schutz und Backups sind inklusive." },
-      ]
-    : [
-        { icon: Zap, title: "Fast Delivery", description: "Launch in as little as 7 days with a streamlined onboarding flow." },
-        { icon: Crown, title: "Premium Design", description: "A polished experience that feels modern, credible and trustworthy." },
-        { icon: BadgeCheck, title: "Transparent Pricing", description: "No surprises, no hidden setup fees and no expensive surprises." },
-        { icon: Building2, title: "Local Business Focus", description: "We understand the needs of dentists, lawyers, clinics, salons and SMEs." },
-        { icon: MonitorSmartphone, title: "Mobile First", description: "Every website is built to perform beautifully on any device." },
-        { icon: ShieldCheck, title: "Secure Infrastructure", description: "Reliable hosting, protection and backups are all included." },
+        { title: "Visibility", description: "A strong website helps people understand your business quickly and calmly." },
+        { title: "Values", description: "Every page should reflect the way your company works and the standards it stands for." },
+        { title: "Trust", description: "The strongest first impression feels honest, grounded and easy to believe in." },
       ];
 
   const faqItems = isGerman
     ? [
-        {
-          question: "Kann ich meine eigene Domain nutzen?",
-          answer: "Ja, absolut. Wenn Sie bereits eine Domain besitzen, verbinden wir sie. Wenn nicht, helfen wir Ihnen gerne bei der Registrierung.",
-        },
-        {
-          question: "Was, wenn ich bereits eine Website habe?",
-          answer: "Wir können sie neu gestalten, neu aufbauen oder aufwerten – je nachdem, was Sie am meisten verbessern möchten.",
-        },
-        {
-          question: "Kann ich jederzeit kündigen?",
-          answer: "Ja. Unsere Pläne sind flexibel, und Sie können bei Bedarf mit Frist pausieren oder kündigen.",
-        },
-        {
-          question: "Besitze ich meinen Content?",
-          answer: "Ja. Der gesamte für Ihre Website erstellte Content bleibt Ihr Eigentum, und wir machen die Übergabe einfach.",
-        },
-        {
-          question: "Wie lange dauert es?",
-          answer: "Die meisten Projekte gehen innerhalb von 7 bis 21 Tagen live – abhängig vom Umfang und Ihrer Feedback-Geschwindigkeit.",
-        },
-        {
-          question: "Können Sie meine aktuelle Website neu gestalten?",
-          answer: "Ja. Wir können eine bestehende Website modernisieren und sowohl Design als auch Performance verbessern.",
-        },
+        { question: "Wer ist berechtigt?", answer: "Wir prüfen jede Anfrage individuell. Das Angebot richtet sich vor allem an lokale Unternehmen, die ihre erste professionelle Online-Präsenz aufbauen möchten." },
+        { question: "Was passiert nach 3 Monaten?", answer: "Wenn Sie mit uns arbeiten möchten, können wir mit einem einfachen monatlichen Plan weiterlaufen. Wenn nicht, können wir die Website sauber übergeben oder auslaufen lassen." },
+        { question: "Kann ich meine Domain behalten?", answer: "Ja. Wenn Sie bereits eine Domain haben, übernehmen wir die Verbindung. Wenn nicht, können wir Ihnen bei der Einrichtung helfen." },
+        { question: "Kann ich Änderungen anfordern?", answer: "Ja. Wir arbeiten mit klaren Revisionen und einem strukturierten Feedback-Prozess, damit die Website wirklich zu Ihnen passt." },
+        { question: "Kann ich jederzeit upgraden?", answer: "Ja. Wir können jederzeit auf einen erweiterten Plan wechseln, wenn Ihr Unternehmen mehr Funktionen oder mehr Support braucht." },
+        { question: "Besitze ich meinen Content?", answer: "Ja. Alle Inhalte, die für Ihre Website erstellt wurden, bleiben Ihr Eigentum und werden sauber übergeben." },
       ]
     : [
-        {
-          question: "Can I use my own domain?",
-          answer: "Absolutely. If you already own a domain, we can connect it. If not, we can help you register one.",
-        },
-        {
-          question: "What if I already have a website?",
-          answer: "We can redesign, rebuild or upgrade it, depending on what you need to improve most.",
-        },
-        {
-          question: "Can I cancel anytime?",
-          answer: "Yes. Our plans are flexible, and you can pause or cancel with notice if your needs change.",
-        },
-        {
-          question: "Do I own my content?",
-          answer: "Yes. All content created for your website remains yours, and we make handover straightforward.",
-        },
-        {
-          question: "How long does it take?",
-          answer: "Most projects launch within 7 to 21 days depending on the scope and your feedback speed.",
-        },
-        {
-          question: "Can you redesign my current website?",
-          answer: "Yes. We can modernise an existing website and improve both design and performance.",
-        },
+        { question: "Who is eligible?", answer: "We review each request individually. This initiative is mainly for local businesses that want a thoughtful first website and a strong foundation for growth." },
+        { question: "What happens after 3 months?", answer: "If you want to continue, we can move to a simple monthly plan. If not, we can hand over the site or transition it smoothly." },
+        { question: "Can I keep my domain?", answer: "Yes. If you already own a domain, we can connect it. If not, we can help you set one up." },
+        { question: "Can I request changes?", answer: "Yes. We work with clear revisions and a structured feedback process so the website fits your business well." },
+        { question: "Can I upgrade anytime?", answer: "Yes. We can move you to a broader plan whenever you need more features, support or growth capacity." },
+        { question: "Do I own my content?", answer: "Yes. All content created for your website remains yours and is handed over clearly at the end of the project." },
       ];
 
   return (
@@ -483,14 +301,10 @@ export function WebsitePlansPage() {
       <SiteHeader locale={locale} setLocale={setLocale} />
 
       <main className="overflow-hidden">
-        <section className="px-6 pb-20 pt-16 sm:px-8 lg:px-10 lg:pt-24">
-          <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45 }}
-              className="max-w-2xl"
-            >
+        <section className="relative overflow-hidden px-6 pb-24 pt-16 sm:px-8 lg:px-10 lg:pt-24">
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(37,99,235,0.16),_transparent_42%)]" />
+          <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
+            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="max-w-2xl">
               <p className="inline-flex items-center rounded-full border border-blue-200 bg-white/80 px-3 py-1 text-sm font-medium text-blue-700 shadow-sm backdrop-blur">
                 <Sparkles className="mr-2 h-4 w-4" />
                 {copy.heroBadge}
@@ -502,7 +316,7 @@ export function WebsitePlansPage() {
                 {copy.heroDescription}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a href="#lead-form" className="inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700">
+                <a href="#lead-form" className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 via-blue-600 to-cyan-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_45px_-12px_rgba(37,99,235,0.65)] transition hover:-translate-y-0.5">
                   {copy.heroPrimary}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
@@ -517,20 +331,43 @@ export function WebsitePlansPage() {
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.05 }}
-              className="rounded-[2rem] border border-slate-200 bg-white/80 p-4 shadow-[0_30px_80px_-20px_rgba(15,23,42,0.22)] backdrop-blur"
-            >
-              <img src="/hero-illustration.svg" alt="Website mockup illustration" className="w-full rounded-[1.5rem]" />
+            <motion.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5, delay: 0.05 }} className="relative">
+              <div className="absolute left-6 top-8 h-40 w-40 rounded-full bg-cyan-400/20 blur-3xl" />
+              <div className="absolute bottom-8 right-0 h-48 w-48 rounded-full bg-blue-500/20 blur-3xl" />
+              <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white/85 p-4 shadow-[0_30px_80px_-20px_rgba(15,23,42,0.22)] backdrop-blur">
+                <div className="relative overflow-hidden rounded-[1.7rem] border border-slate-200 bg-slate-950 p-3">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[1.4rem]">
+                    <Image src="/baala.jpg" alt="Baala founder portrait" fill className="object-cover object-center" priority />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-white/10" />
+                    <div className="absolute left-4 top-4 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/90 backdrop-blur">
+                      Founder-led
+                    </div>
+                    <div className="absolute bottom-4 left-4 right-4 rounded-[1.15rem] border border-white/20 bg-white/10 p-4 text-white backdrop-blur">
+                      <p className="text-sm font-semibold">Every business deserves a digital home.</p>
+                      <p className="mt-1 text-xs uppercase tracking-[0.28em] text-slate-200">— Baala</p>
+                    </div>
+                  </div>
+                  <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }} className="absolute left-5 top-20 rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-semibold text-white backdrop-blur">
+                    <span className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-cyan-200" /> {isGerman ? "Mit Leidenschaft gebaut" : "Built with Passion"}</span>
+                  </motion.div>
+                  <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }} className="absolute bottom-20 right-5 rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-semibold text-white backdrop-blur">
+                    <span className="flex items-center gap-2"><Zap className="h-4 w-4 text-cyan-200" /> {isGerman ? "Schnell geliefert" : "Delivered Fast"}</span>
+                  </motion.div>
+                </div>
+              </div>
             </motion.div>
           </div>
         </section>
 
         <section className="border-y border-slate-200/80 bg-slate-50/70 px-6 py-8 sm:px-8 lg:px-10">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-3 text-sm font-medium text-slate-700">
-            {copy.industries.map((item) => (
+            {[
+              "Beautiful design",
+              "Fast delivery",
+              "Personal support",
+              "Modern stack",
+              "Local business focus",
+            ].map((item) => (
               <div key={item} className="flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm">
                 <Check className="mr-2 h-4 w-4 text-blue-600" />
                 {item}
@@ -540,126 +377,90 @@ export function WebsitePlansPage() {
         </section>
 
         <section className="px-6 py-20 sm:px-8 lg:px-10">
-          <div className="mx-auto max-w-7xl">
-            <SectionHeading
-              eyebrow={copy.whyEyebrow}
-              title={copy.whyTitle}
-              description={copy.whyDescription}
-            />
-
-            <div className="mt-10 grid gap-6 lg:grid-cols-2">
-              <motion.div
-                whileHover={{ y: -4, scale: 1.01 }}
-                transition={{ duration: 0.2 }}
-                className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
-              >
-                <h3 className="text-2xl font-semibold text-slate-900">Traditional Agency</h3>
-                <div className="mt-6 space-y-4 text-sm text-slate-600">
-                  {[
-                    "€2,000–€5,000 upfront",
-                    "Expensive maintenance",
-                    "Hosting extra",
-                    "Slow delivery",
-                  ].map((item) => (
-                    <div key={item} className="flex items-center gap-3 rounded-2xl bg-rose-50 px-4 py-3 text-rose-700">
-                      <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-rose-100 text-rose-700">✕</span>
-                      {item}
-                    </div>
-                  ))}
+          <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-center">
+            <div>
+              <SectionHeading eyebrow={copy.founderEyebrow} title={copy.founderTitle} description={copy.founderDescription[0]} />
+              <div className="mt-6 space-y-4 text-base leading-8 text-slate-600">
+                {copy.founderDescription.slice(1).map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+              <p className="mt-8 font-semibold tracking-[0.3em] text-slate-600">— The Digital Move</p>
+            </div>
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <div className="relative overflow-hidden rounded-[1.6rem] border border-slate-200 bg-gradient-to-br from-[#f7efe6] via-white to-[#e6f1ea] p-6">
+                <div className="absolute right-5 top-5 rounded-full border border-emerald-200 bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                  Founder
                 </div>
-              </motion.div>
-
-              <motion.div
-                whileHover={{ y: -4, scale: 1.01 }}
-                transition={{ duration: 0.2 }}
-                className="rounded-3xl border border-blue-200 bg-gradient-to-br from-blue-600 to-cyan-600 p-8 text-white shadow-[0_24px_45px_-18px_rgba(37,99,235,0.55)]"
-              >
-                <h3 className="text-2xl font-semibold">The Digital Move</h3>
-                <div className="mt-6 space-y-4 text-sm text-blue-50">
-                  {[
-                    "No upfront development cost",
-                    "Affordable monthly subscription",
-                    "Hosting included",
-                    "Updates included",
-                    "Security included",
-                    "Fast delivery",
-                  ].map((item) => (
-                    <div key={item} className="flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 px-4 py-3">
-                      <Check className="h-5 w-5 text-cyan-200" />
-                      {item}
-                    </div>
-                  ))}
+                <div className="rounded-[1.4rem] border border-white/70 bg-[radial-gradient(circle_at_top_left,_rgba(45,91,77,0.14),_transparent_45%),linear-gradient(135deg,_#ffffff_0%,_#f4eee4_100%)] p-6">
+                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">A quieter kind of growth</p>
+                  <p className="mt-4 text-2xl font-semibold leading-tight text-slate-900">Built with intention, not urgency.</p>
+                  <p className="mt-4 text-sm leading-7 text-slate-600">We are choosing to invest in local businesses first, because trust matters and beautiful websites should feel grounded, clear and lasting.</p>
+                  <p className="mt-6 text-sm font-semibold tracking-[0.25em] text-slate-500">— Baala</p>
                 </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        <section className="px-6 py-20 sm:px-8 lg:px-10">
+          <div className="mx-auto max-w-7xl rounded-[2rem] border border-blue-200 bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 p-8 text-white shadow-[0_24px_45px_-18px_rgba(15,23,42,0.35)] sm:p-10">
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-2xl">
+                <p className="inline-flex items-center rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-sm font-medium text-emerald-200">
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  {copy.planEyebrow}
+                </p>
+                <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{copy.planTitle}</h2>
+                <p className="mt-4 text-lg leading-8 text-slate-300">{copy.planDescription}</p>
+              </div>
+              <motion.div animate={{ scale: [1, 1.03, 1] }} transition={{ duration: 2.4, repeat: Infinity }} className="inline-flex items-center rounded-full border border-emerald-400/30 bg-white/10 px-4 py-3 text-sm font-semibold uppercase tracking-[0.2em] text-emerald-200">
+                <Zap className="mr-2 h-4 w-4" />
+                {copy.planNote}
               </motion.div>
             </div>
           </div>
         </section>
 
-        <section id="pricing" className="px-6 py-20 sm:px-8 lg:px-10">
+        <section id="journey" className="px-6 py-20 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-7xl">
-            <SectionHeading
-              eyebrow={copy.pricingEyebrow}
-              title={copy.pricingTitle}
-              description={copy.pricingDescription}
-              align="center"
-            />
-
+            <SectionHeading eyebrow={copy.planEyebrow} title={copy.planTitle} description={copy.planDescription} align="center" />
             <div className="mt-10 grid gap-6 lg:grid-cols-3">
-              {pricingTiers.map((plan, index) => (
-                <motion.div
-                  key={plan.name}
-                  whileHover={{ y: -6, scale: 1.01 }}
-                  transition={{ duration: 0.2 }}
-                  className={`rounded-3xl border p-8 shadow-sm ${plan.highlight ? "border-blue-300 bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500 text-white shadow-[0_24px_45px_-18px_rgba(37,99,235,0.55)]" : "border-slate-200 bg-white text-slate-900"}`}
-                >
-                  {plan.highlight ? (
-                    <div className="mb-4 inline-flex rounded-full border border-white/25 bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-50">
-                      Most Popular
-                    </div>
-                  ) : null}
-                  <h3 className={`text-2xl font-semibold ${plan.highlight ? "text-white" : "text-slate-900"}`}>{plan.name}</h3>
-                  <p className={`mt-3 text-sm leading-7 ${plan.highlight ? "text-blue-50" : "text-slate-600"}`}>{plan.description}</p>
-                  <div className="mt-6 flex items-end gap-2">
-                    <span className={`text-4xl font-semibold ${plan.highlight ? "text-white" : "text-slate-950"}`}>{plan.price}</span>
-                  </div>
-                  <ul className="mt-7 space-y-3 text-sm">
-                    {plan.bullets.map((bullet) => (
-                      <li key={bullet} className="flex items-start gap-3">
-                        <Check className={`mt-0.5 h-4 w-4 shrink-0 ${plan.highlight ? "text-cyan-100" : "text-blue-600"}`} />
-                        <span className={plan.highlight ? "text-blue-50" : "text-slate-600"}>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <a href={plan.ctaHref} className={`mt-8 inline-flex w-full items-center justify-center rounded-full px-4 py-3 text-sm font-semibold transition ${plan.highlight ? "bg-white text-blue-700 hover:bg-slate-50" : "bg-blue-600 text-white hover:bg-blue-700"}`}>
-                    {plan.cta}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </a>
-                </motion.div>
+              {planHighlights.map((item) => (
+                <FeatureCard key={item.title} icon={item.icon} title={item.title} description={item.description} />
               ))}
+            </div>
+            <div className="mt-8 rounded-[2rem] border border-slate-200 bg-slate-950 p-8 text-white shadow-[0_24px_45px_-18px_rgba(15,23,42,0.35)] sm:p-10">
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-200">{copy.planNote}</p>
+              <p className="mt-3 max-w-3xl text-xl leading-8 text-slate-200">{copy.planNoteText}</p>
             </div>
           </div>
         </section>
 
         <section className="px-6 py-20 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-7xl rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm sm:p-10">
-            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-              <div className="max-w-2xl">
-                <p className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700">
-                  <Clock3 className="mr-2 h-4 w-4" />
-                  Limited onboarding slots each month
-                </p>
-                <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-                  Most businesses get started within a single week.
-                </h2>
-                <p className="mt-4 text-lg leading-8 text-slate-600">
-                  Our process is structured, fast and collaborative—so you can go live quickly without sacrificing quality or clarity.
-                </p>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-3">
-                {copy.stats.map((stat) => (
-                  <div key={stat.label} className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center">
-                    <p className="text-2xl font-semibold text-slate-950">{stat.value}</p>
-                    <p className="mt-1 text-sm text-slate-600">{stat.label}</p>
+            <SectionHeading eyebrow={copy.journeyEyebrow} title={copy.journeyTitle} description={copy.journeyDescription} align="center" />
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {journeyCards.map((card, index) => (
+                <motion.div key={card.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.3, delay: index * 0.05 }} className="rounded-[1.6rem] border border-slate-200 bg-slate-50 p-6">
+                  <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">0{index + 1}</div>
+                  <h3 className="text-lg font-semibold text-slate-900">{card.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-slate-600">{card.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="px-0 py-20 sm:px-0 lg:px-0">
+          <div className="border-y border-[#dcd0bf] bg-[linear-gradient(135deg,_#fcf7ef_0%,_#f4ebde_100%)] px-6 py-16 text-slate-900 shadow-[0_24px_45px_-18px_rgba(76,64,44,0.2)] sm:px-8 lg:px-10 lg:py-20">
+            <div className="mx-auto max-w-7xl">
+              <SectionHeading eyebrow={copy.missionEyebrow} title={copy.missionTitle} description={copy.missionDescription} />
+              <div className="mt-10 grid gap-4 md:grid-cols-3">
+                {missionPoints.map((item) => (
+                  <div key={item.title} className="rounded-[1.4rem] border border-[#d9cbb7] bg-white/80 p-6 shadow-sm">
+                    <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-slate-600">{item.description}</p>
                   </div>
                 ))}
               </div>
@@ -668,70 +469,18 @@ export function WebsitePlansPage() {
         </section>
 
         <section className="px-6 py-20 sm:px-8 lg:px-10">
-          <div className="mx-auto max-w-7xl">
-            <SectionHeading
-              eyebrow={copy.processEyebrow}
-              title={copy.processTitle}
-              description={copy.processDescription}
-            />
-            <div className="mt-10 grid gap-4 lg:grid-cols-5">
-              {processSteps.map((step, index) => (
-                <motion.div
-                  key={step.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
-                >
-                  <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">
-                    0{index + 1}
-                  </div>
-                  <h3 className="text-lg font-semibold text-slate-900">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">{step.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="px-6 py-20 sm:px-8 lg:px-10">
-          <div className="mx-auto max-w-7xl">
-            <SectionHeading
-              eyebrow={copy.includedEyebrow}
-              title={copy.includedTitle}
-              description={copy.includedDescription}
-            />
-            <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-              {includedFeatures.map((item) => (
-                <FeatureCard key={item.title} icon={item.icon} title={item.title} description={item.description} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="px-6 py-20 sm:px-8 lg:px-10">
-          <div className="mx-auto max-w-7xl">
-            <SectionHeading
-              eyebrow={copy.whyChooseEyebrow}
-              title={copy.whyChooseTitle}
-              description={copy.whyChooseDescription}
-            />
-            <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {whyChooseUs.map((item) => (
-                <FeatureCard key={item.title} icon={item.icon} title={item.title} description={item.description} />
-              ))}
-            </div>
+          <div className="mx-auto max-w-7xl rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm sm:p-10">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-700">{copy.letterEyebrow}</p>
+            <blockquote className="mt-6 text-2xl leading-10 text-slate-800 sm:text-3xl">
+              “{copy.letterText}”
+            </blockquote>
+            <p className="mt-8 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">— Baala</p>
           </div>
         </section>
 
         <section className="px-6 py-20 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-7xl rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm sm:p-10">
-            <SectionHeading
-              eyebrow={copy.faqEyebrow}
-              title={copy.faqTitle}
-              description={copy.faqDescription}
-            />
+            <SectionHeading eyebrow={copy.faqEyebrow} title={copy.faqTitle} description={copy.faqDescription} />
             <div className="mt-10 grid gap-4 lg:grid-cols-2">
               {faqItems.map((item) => (
                 <details key={item.question} className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
@@ -750,12 +499,8 @@ export function WebsitePlansPage() {
                 <TrendingUp className="mr-2 h-4 w-4" />
                 {copy.leadEyebrow}
               </p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-                {copy.leadTitle}
-              </h2>
-              <p className="mt-4 text-lg leading-8 text-slate-600">
-                {copy.leadDescription}
-              </p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">{copy.leadTitle}</h2>
+              <p className="mt-4 text-lg leading-8 text-slate-600">{copy.leadDescription}</p>
 
               <form onSubmit={handleSubmit} className="mt-8 space-y-4">
                 <div className="grid gap-4 md:grid-cols-2">
@@ -772,10 +517,10 @@ export function WebsitePlansPage() {
                 <input value={form.businessAddress} onChange={(event) => setForm((current) => ({ ...current, businessAddress: event.target.value }))} className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-blue-400" placeholder={copy.businessAddress} />
                 <div className="grid gap-4 md:grid-cols-3">
                   <select value={form.preferredPlan} onChange={(event) => setForm((current) => ({ ...current, preferredPlan: event.target.value }))} className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-blue-400">
-                    <option>Starter</option>
-                    <option>Growth</option>
-                    <option>Premium</option>
-                    <option>Not Sure Yet</option>
+                    <option>Passion</option>
+                    <option>Business</option>
+                    <option>Growth AI</option>
+                    <option>Not sure yet</option>
                   </select>
                   <select value={form.domainOwnership} onChange={(event) => setForm((current) => ({ ...current, domainOwnership: event.target.value }))} className="rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-blue-400">
                     <option>Yes</option>
@@ -803,14 +548,15 @@ export function WebsitePlansPage() {
             </div>
 
             <div className="rounded-[1.75rem] border border-blue-100 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-8 text-white">
-              <h3 className="text-2xl font-semibold">Why businesses choose this model</h3>
+              <h3 className="text-2xl font-semibold">Why businesses choose us</h3>
               <div className="mt-6 space-y-4 text-sm text-slate-300">
                 {[
-                  "Response within 24 hours",
-                  "Free consultation",
-                  "No obligation",
-                  "Fixed monthly pricing",
-                  "Professional support",
+                  "No development cost",
+                  "No hosting cost",
+                  "Built with passion",
+                  "Fast turnaround",
+                  "Modern technologies",
+                  "Personal support",
                 ].map((item) => (
                   <div key={item} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-4 py-3">
                     <Check className="h-5 w-5 text-cyan-300" />
@@ -819,8 +565,8 @@ export function WebsitePlansPage() {
                 ))}
               </div>
               <div className="mt-8 rounded-2xl border border-white/10 bg-white/10 p-5">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-200">Satisfaction promise</p>
-                <p className="mt-2 text-sm leading-7 text-slate-300">We work closely with you to make sure the website is polished, effective and built around your business goals.</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-200">Why it feels different</p>
+                <p className="mt-2 text-sm leading-7 text-slate-300">We are investing in quality, trust and long-term relationships rather than pushing a generic sales pitch.</p>
               </div>
             </div>
           </div>
@@ -843,11 +589,11 @@ export function WebsitePlansPage() {
       <div className="fixed bottom-4 right-4 z-40 sm:hidden">
         <a href="#lead-form" className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-lg">
           <Rocket className="h-4 w-4" />
-          Get Started
+          {locale === "de" ? "Jetzt bewerben" : "Apply Now"}
         </a>
       </div>
 
-      <FooterSection locale="en" />
+      <FooterSection locale={locale} />
     </div>
   );
 }

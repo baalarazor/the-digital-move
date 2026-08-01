@@ -146,21 +146,21 @@ const COPY: Record<Locale, {
     assessmentTag: "The Digital Move Assessment",
     title: "Is Your Business Easy to Find Online?",
     subtitle: "Answer 10 quick questions and discover how your business performs online. It only takes 2 minutes.",
-    start: "Start Free Assessment",
+    start: "Start the Assessment",
     quickAssessment: "Quick Assessment",
     answered: "answered",
     currentScore: "Current score",
-    continue: "Continue to Free Report",
-    leadTitle: "Generate Your FREE Report",
+    continue: "Continue to Your Report",
+    leadTitle: "Generate Your Business Health Report",
     leadDescription: "Please provide your details before we show your personalised results.",
     contactPerson: "Contact Person *",
     phone: "Phone Number *",
-    generate: "Generate My FREE Report",
+    generate: "Generate My Report",
     scoreTitle: "Business Health Score",
     scoreDescription: "Your score is based on your answers across website, discoverability, responsiveness, and automation readiness.",
     recommended: "Recommended Services",
-    consultationPrompt: "Would you like a FREE 30-minute consultation to discuss these recommendations?",
-    bookConsultation: "Book Free Consultation",
+    consultationPrompt: "Would you like to discuss these recommendations in a short conversation?",
+    bookConsultation: "Start Our Conversation",
     thankYou: "Thank you!",
     successText: "Your Business Health Check has been completed successfully. We've received your information and will contact you shortly with personalised recommendations.",
     scoreBands: {
@@ -180,17 +180,17 @@ const COPY: Record<Locale, {
     quickAssessment: "Kurzanalyse",
     answered: "beantwortet",
     currentScore: "Aktueller Score",
-    continue: "Zum kostenlosen Bericht",
-    leadTitle: "Ihren KOSTENLOSEN Bericht erstellen",
+    continue: "Zum Bericht",
+    leadTitle: "Ihren Bericht erstellen",
     leadDescription: "Bitte geben Sie Ihre Kontaktdaten ein, bevor wir Ihre personalisierten Ergebnisse anzeigen.",
     contactPerson: "Ansprechpartner *",
     phone: "Telefonnummer *",
-    generate: "Meinen KOSTENLOSEN Bericht erstellen",
+    generate: "Meinen Bericht erstellen",
     scoreTitle: "Business Health Score",
     scoreDescription: "Ihr Score basiert auf Ihren Antworten zu Website, Auffindbarkeit, Reaktionsgeschwindigkeit und Automatisierungsgrad.",
     recommended: "Empfohlene Leistungen",
-    consultationPrompt: "Mochten Sie ein KOSTENLOSES 30-minutiges Beratungsgesprach zu diesen Empfehlungen?",
-    bookConsultation: "Kostenlose Beratung buchen",
+    consultationPrompt: "Möchten Sie diese Empfehlungen in einem kurzen Gespräch besprechen?",
+    bookConsultation: "Gespräch vereinbaren",
     thankYou: "Vielen Dank!",
     successText: "Ihr Business Health Check wurde erfolgreich abgeschlossen. Wir haben Ihre Angaben erhalten und melden uns kurz darauf mit personalisierten Empfehlungen.",
     scoreBands: {
@@ -416,7 +416,7 @@ export function BusinessHealthCheckClient() {
           </p>
           <p className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700">
             <Sparkles className="mr-2 h-4 w-4" />
-            FREE Business Health Check
+            Business Health Check
           </p>
           <h1 className="mt-5 text-3xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
             {copy.title}

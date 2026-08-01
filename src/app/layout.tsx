@@ -78,7 +78,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <meta name="twitter:image" content={"/og-image.svg"} />
       </head>
 
-      <body className="min-h-full bg-white text-slate-950">
+      <body className="min-h-full bg-[linear-gradient(180deg,_#fbf7f0_0%,_#f5efe7_100%)] text-slate-950">
         {/* Google Analytics (gtag.js) - uses NEXT_PUBLIC_GA_ID if set, otherwise falls back to provided ID */}
         <Script src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID ?? "G-ES538VSWD8"}`} strategy="afterInteractive" />
         <Script id="gtag-init" strategy="afterInteractive">

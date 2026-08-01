@@ -71,7 +71,7 @@ export function SiteHeader({ locale, setLocale }: SiteHeaderProps) {
             WhatsApp
           </a>
           <Link href="/website-plans#lead-form" className="hidden items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 via-blue-600 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-600/25 transition duration-200 hover:-translate-y-0.5 hover:shadow-xl sm:inline-flex">
-            {locale === "de" ? "Kostenlose Beratung" : "Book Free Consultation"}
+            {locale === "de" ? "Gespräch vereinbaren" : "Start Our Conversation"}
             <ArrowRight className="h-4 w-4" />
           </Link>
           <button
@@ -95,7 +95,7 @@ export function SiteHeader({ locale, setLocale }: SiteHeaderProps) {
               WhatsApp
             </a>
             <Link href="/website-plans#lead-form" onClick={() => setMobileMenuOpen(false)} className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-blue-600/20">
-              {locale === "de" ? "Kostenlose Beratung" : "Book Free Consultation"}
+              {locale === "de" ? "Gespräch vereinbaren" : "Start Our Conversation"}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>

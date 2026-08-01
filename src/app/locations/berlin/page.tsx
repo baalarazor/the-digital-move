@@ -59,7 +59,7 @@ export default function BerlinLocationPage() {
         <section className="mt-10 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
           <h2 className="text-2xl font-semibold text-slate-950">Why Berlin businesses choose us</h2>
           <p className="mt-4 text-sm leading-7 text-slate-700">
-            We combine SEO, website development, AI automation, and business workflow consulting in one service model. Our approach is practical for founders, managers, and marketing teams that need measurable uplift without unnecessary complexity.
+            We combine SEO, website development, AI automation, and business workflow consulting in one service model. Our approach is practical for founders, managers, and marketing teams that want thoughtful growth without unnecessary complexity.
           </p>
         </section>
         <section className="mt-8 grid gap-6 md:grid-cols-3">
@@ -69,7 +69,7 @@ export default function BerlinLocationPage() {
           </div>
           <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
             <h3 className="text-lg font-semibold text-slate-950">Modern websites</h3>
-            <p className="mt-3 text-sm leading-7 text-slate-700">We build campaigns and digital experiences that make your offer easier to understand and act on.</p>
+            <p className="mt-3 text-sm leading-7 text-slate-700">We build campaigns and digital experiences that make your work easier to understand and act on.</p>
           </div>
           <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
             <h3 className="text-lg font-semibold text-slate-950">Automation and AI</h3>

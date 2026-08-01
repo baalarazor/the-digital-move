@@ -228,7 +228,7 @@ Hi ${data.clientName},
 
 Thanks for reaching out to The Digital Move! We've received your consultation request and we're excited to connect with you.
 
-${hasDateTime ? `We've noted your preferred time: ${dateLabel}. A calendar invite is attached — please accept to confirm.` : "We'll be in touch shortly to arrange a convenient time for your free consultation."}
+${hasDateTime ? `We've noted your preferred time: ${dateLabel}. A calendar invite is attached — please accept to confirm.` : "We'll be in touch shortly to arrange a convenient time for a conversation."}
 
 What to expect:
 - A 30-minute conversation about your business

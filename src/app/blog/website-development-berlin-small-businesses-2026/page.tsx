@@ -26,7 +26,7 @@ export default function BlogPostPage() {
           </div>
           <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
             <h2 className="text-2xl font-semibold text-slate-950">Why a modern website matters</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-700">A website should help visitors understand your offer quickly, trust your business, and contact you with minimal friction. For Berlin-based businesses, it also needs to support local and organic visibility in Google.</p>
+            <p className="mt-4 text-sm leading-7 text-slate-700">A website should help visitors understand what you do quickly, trust your business, and contact you with minimal friction. For Berlin-based businesses, it also needs to support local and organic visibility in Google.</p>
           </section>
           <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
             <h2 className="text-2xl font-semibold text-slate-950">What to prioritize</h2>

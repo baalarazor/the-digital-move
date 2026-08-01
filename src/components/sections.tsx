@@ -10,6 +10,7 @@ import {
   Compass,
   FileText,
   Globe2,
+  HeartHandshake,
   Layers3,
   MessageCircleMore,
   ShieldCheck,
@@ -77,28 +78,26 @@ export function SectionCard({
 export function HeroSection({ locale }: LocaleProps) {
   const copy = locale === "de"
     ? {
-        badge: "KI • Automatisierung • Digitale Transformation",
-        headline: "Machen Sie Ihren",
-        highlight: "digitalen Schritt",
-        subheadline: "Wir liefern KI-Automatisierung, Workflow-Automatisierung, Website-Entwicklung, CRM-Integrationen und individuelle Software, damit manuelle Arbeit reduziert und Wachstum beschleunigt wird.",
-        primary: "Kostenlose Beratung buchen",
-        secondary: "Website-Pläne entdecken",
-        pill1: "KI-Automatisierung",
-        pill2: "Workflow-Automatisierung",
-        pill3: "Digitale Transformation",
+        badge: "Gründergeführt • Premium-Webdesign • Mit Haltung gebaut",
+        headline: "Refinierte Websites schaffen,",
+        highlight: "ein Unternehmen nach dem anderen.",
+        subheadline: "Hallo, ich bin Baala. Ich gestalte durchdachte digitale Erlebnisse für lokale Unternehmen und begleite ausgewählte Partner mit Ruhe, Qualität und echter Sorgfalt.",
+        primary: "❤️ An meiner Gründer-Initiative teilnehmen",
+        secondary: "Meine Geschichte lesen →",
+        quote: "Jedes Unternehmen verdient ein digitales Zuhause.",
+        signature: "Baala",
+        pills: ["Gründergeführt", "Mit Sorgfalt gebaut", "Modernes Design", "Persönlicher Support"],
       }
     : {
-        badge: "AI • Automation • Digital Transformation",
-        headline: "Make Your",
-        highlight: "Digital Move",
-        subheadline: "We deliver AI automation, workflow automation, website development, CRM integration, and custom software that reduces manual work and accelerates growth.",
-        primary: "Book a Free Consultation",
-        secondary: "Explore Website Plans",
-        healthCheck: "Free Business Health Check",
-        healthCheckHint: "2-minute score and instant recommendations",
-        pill1: "AI Automation",
-        pill2: "Workflow Automation",
-        pill3: "Digital Transformation",
+        badge: "Founder-led • Premium web design • No upfront cost",
+        headline: "Crafting Refined Websites,",
+        highlight: "One Business at a Time.",
+        subheadline: "Hi, I’m Baala. I create thoughtful digital experiences for local businesses and help selected founders launch with confidence through a founder-led collaboration built with care.",
+        primary: "❤️ Join My Founder Initiative",
+        secondary: "Read My Story →",
+        quote: "Built with passion. Offered with purpose.",
+        signature: "Baala",
+        pills: ["Founder-led", "Crafted with care", "Modern design", "Personal support"],
       };
 
   return (
@@ -112,11 +111,11 @@ export function HeroSection({ locale }: LocaleProps) {
           className="max-w-2xl"
         >
           <p className="inline-flex items-center rounded-full border border-blue-200 bg-white/80 px-3 py-1 text-sm font-medium text-blue-700 shadow-sm backdrop-blur">
-            <Zap className="mr-2 h-4 w-4" />
+            <HeartHandshake className="mr-2 h-4 w-4" />
             {copy.badge}
           </p>
           <h1 className="mt-6 text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-            {copy.headline} <span className="text-blue-600">{copy.highlight}</span>.
+            {copy.headline} <span className="text-blue-600">{copy.highlight}</span>
           </h1>
           <p className="mt-6 text-lg leading-8 text-slate-600 sm:text-xl">
             {copy.subheadline}
@@ -125,64 +124,83 @@ export function HeroSection({ locale }: LocaleProps) {
             <Link href="/website-plans" className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-sky-500 px-7 py-3.5 text-sm font-semibold text-white shadow-[0_16px_45px_-12px_rgba(37,99,235,0.65)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_55px_-12px_rgba(14,165,233,0.7)]">
               <span className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/0 to-white/20 opacity-0 transition duration-300 group-hover:opacity-100" />
               <span className="relative flex items-center">
+                {copy.primary}
+                <ArrowRight className="ml-2 h-4 w-4 transition group-hover:translate-x-0.5" />
+              </span>
+            </Link>
+            <Link href="/founder" className="group inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:text-blue-700">
+              <span className="flex items-center">
                 {copy.secondary}
                 <ArrowRight className="ml-2 h-4 w-4 transition group-hover:translate-x-0.5" />
               </span>
             </Link>
           </div>
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.15 }}
-            className="mt-5"
-          >
-            <Link
-              href="/business-health-check"
-              className="group relative inline-flex w-full max-w-xl items-center justify-between overflow-hidden rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 px-5 py-4 text-white shadow-[0_18px_35px_-18px_rgba(37,99,235,0.75)] transition hover:scale-[1.01] hover:shadow-[0_24px_40px_-16px_rgba(37,99,235,0.85)]"
-            >
-              <span className="absolute -right-5 -top-7 h-20 w-20 rounded-full bg-white/20 blur-xl transition group-hover:bg-white/30" />
-              <span className="relative flex items-center gap-3">
-                <span className="relative inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/20">
-                  <span className="absolute inline-flex h-10 w-10 animate-ping rounded-xl bg-white/35" />
-                  <Sparkles className="relative h-5 w-5" />
-                </span>
-                <span>
-                  <span className="block text-sm font-semibold sm:text-base">
-                    {locale === "de" ? "Kostenloser Business Health Check" : copy.healthCheck}
-                  </span>
-                  <span className="block text-xs text-blue-100 sm:text-sm">
-                    {locale === "de" ? "2-Minuten-Score mit sofortigen Empfehlungen" : copy.healthCheckHint}
-                  </span>
-                </span>
-              </span>
-              <span className="relative inline-flex items-center rounded-full border border-white/35 bg-white/15 px-3 py-1 text-xs font-semibold sm:text-sm">
-                {locale === "de" ? "Jetzt starten" : "Start Now"}
-                <ArrowRight className="ml-2 h-4 w-4 transition group-hover:translate-x-0.5" />
-              </span>
-            </Link>
-          </motion.div>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Pill>{copy.pill1}</Pill>
-            <Pill>{copy.pill2}</Pill>
-            <Pill>{copy.pill3}</Pill>
+            {copy.pills.map((pill) => (
+              <Pill key={pill}>{pill}</Pill>
+            ))}
           </div>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, x: 24 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.05 }}
-          className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-[0_30px_80px_-20px_rgba(15,23,42,0.22)]"
+          className="relative mx-auto w-full max-w-[560px]"
         >
-          <Image
-            src="/hero-illustration.svg"
-            alt="Illustration of business workflows becoming digital and automated"
-            width={780}
-            height={620}
-            priority
-            className="w-full rounded-[1.5rem]"
-          />
+          <div className="absolute inset-0 rounded-[2.3rem] bg-[radial-gradient(circle,_rgba(45,91,77,0.18),_transparent_60%)] blur-3xl" />
+          <div className="relative overflow-hidden rounded-[2.25rem] border border-white/70 bg-white/70 p-4 shadow-[0_30px_80px_-22px_rgba(15,23,42,0.25)] backdrop-blur-xl">
+            <div className="absolute inset-x-8 top-6 h-24 rounded-[1.6rem] bg-gradient-to-r from-[#eef5ef] via-white to-[#f8eee0] blur-2xl" />
+            <div className="relative overflow-hidden rounded-[1.8rem] border border-slate-200/80 bg-[linear-gradient(135deg,_#f7efe3_0%,_#f8faf8_100%)] p-6">
+              <div className="rounded-[1.4rem] border border-[#d9cbb7] bg-white/80 p-6 shadow-sm">
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-[#2d5b4d]">{locale === "de" ? "Mit Haltung gebaut" : "Built with intention"}</p>
+                <p className="mt-4 text-2xl font-semibold leading-tight text-slate-900">{copy.quote}</p>
+                <p className="mt-4 text-sm leading-7 text-slate-600">{locale === "de" ? "Jede Website wird sorgfältig geplant, gestaltet und mit ruhiger Klarheit umgesetzt." : "Every website is planned, designed and delivered with calm clarity and care."}</p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <span className="rounded-full border border-[#d9cbb7] bg-[#f7efe3] px-3 py-1 text-sm font-medium text-slate-700">{locale === "de" ? "Gründergeführt" : "Founder-led"}</span>
+                  <span className="rounded-full border border-[#d9cbb7] bg-[#f7efe3] px-3 py-1 text-sm font-medium text-slate-700">{locale === "de" ? "Persönlich" : "Personal"}</span>
+                </div>
+              </div>
+              <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }} className="mt-6 rounded-2xl border border-[#d9cbb7] bg-white/80 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm">
+                <span className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-[#2d5b4d]" /> {locale === "de" ? "Mit Leidenschaft gebaut" : "Built with Passion"}</span>
+              </motion.div>
+              <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }} className="mt-3 rounded-2xl border border-[#d9cbb7] bg-white/80 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm">
+                <span className="flex items-center gap-2"><Zap className="h-4 w-4 text-[#2d5b4d]" /> {locale === "de" ? "Schnell geliefert" : "Delivered Fast"}</span>
+              </motion.div>
+            </div>
+          </div>
         </motion.div>
       </div>
+    </section>
+  );
+}
+
+export function FounderLinkSection() {
+  return (
+    <section className="px-6 pb-12 sm:px-8 lg:px-10">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.35 }}
+        className="mx-auto flex max-w-7xl flex-col gap-6 overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-blue-50 p-8 shadow-[0_24px_55px_-24px_rgba(15,23,42,0.2)] sm:p-10 lg:flex-row lg:items-center lg:justify-between"
+      >
+        <div className="max-w-2xl">
+          <p className="inline-flex items-center rounded-full border border-blue-200 bg-white/80 px-3 py-1 text-sm font-medium text-blue-700 shadow-sm">
+            <Sparkles className="mr-2 h-4 w-4" />
+            Meet the Founder
+          </p>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
+            Why I started this studio
+          </h2>
+          <p className="mt-4 text-lg leading-8 text-slate-600">
+            A closer look at the philosophy behind The Digital Move and the way we build with intention.
+          </p>
+        </div>
+        <Link href="/founder" className="group inline-flex items-center gap-2 self-start rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-blue-400 hover:text-blue-700">
+          Read My Story
+          <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+        </Link>
+      </motion.div>
     </section>
   );
 }

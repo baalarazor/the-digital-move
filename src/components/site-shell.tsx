@@ -11,6 +11,7 @@ import {
   ContactSection,
   FAQSection,
   FooterSection,
+  FounderLinkSection,
   HeroSection,
   IndustriesSection,
   ProcessSection,
@@ -96,7 +97,7 @@ export function SiteShell() {
               WhatsApp
             </a>
             <a href="#contact" className="hidden rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 sm:inline-flex">
-              {locale === "de" ? "Kostenlose Beratung buchen" : "Book Free Consultation"}
+              {locale === "de" ? "Gespräch vereinbaren" : "Start Our Conversation"}
             </a>
             <button
               className="rounded-full border border-slate-200 p-2 text-slate-700 md:hidden dark:border-slate-700 dark:text-slate-200"
@@ -125,6 +126,7 @@ export function SiteShell() {
 
       <main id="home">
         <HeroSection locale={locale} />
+        <FounderLinkSection />
         <TrustSection locale={locale} />
         <AboutSection locale={locale} />
         <ServicesSection locale={locale} />

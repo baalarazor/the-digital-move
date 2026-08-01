@@ -65,7 +65,7 @@ export default function WebsiteDevelopmentPage() {
         <div className="mt-6 space-y-6">
           <h1 className="text-4xl font-semibold tracking-tight text-slate-950">Website Development for Berlin Businesses That Need More Leads</h1>
           <p className="max-w-3xl text-lg leading-8 text-slate-600">
-            We build modern, conversion-focused websites for dentists, clinics, lawyers, restaurants, retailers, and service businesses that want stronger visibility in Google and better lead generation from their online presence.
+            We build modern, conversion-focused websites for dentists, clinics, lawyers, restaurants, retailers, and service businesses that want a stronger digital presence and a more thoughtful online experience.
           </p>
         </div>
 
@@ -73,7 +73,7 @@ export default function WebsiteDevelopmentPage() {
           <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
             <h2 className="text-2xl font-semibold text-slate-950">What we deliver</h2>
             <p className="mt-4 text-sm leading-7 text-slate-700">
-              Every site is built with a clear strategy: fast loading, strong mobile UX, clear messaging, compelling calls to action, and structured content that supports search visibility. We focus on pages that help visitors understand your offer quickly and take the next step.
+              Every site is built with a clear strategy: fast loading, strong mobile UX, clear messaging, compelling calls to action, and structured content that supports search visibility. We focus on pages that help visitors understand what you do quickly and take the next step.
             </p>
             <ul className="mt-6 grid gap-4 text-sm leading-7 text-slate-700 md:grid-cols-2">
               <li>• Responsive websites built for performance and accessibility</li>
