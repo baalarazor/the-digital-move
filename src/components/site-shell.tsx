@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowUp, Menu, MessageCircle, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   AboutSection,
@@ -29,6 +30,9 @@ export function SiteShell() {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  const pathname = usePathname();
+  const router = useRouter();
+
   useEffect(() => {
     const savedLocale = (window.localStorage.getItem("tdm-locale") as "en" | "de" | null) ?? "en";
     const savedCookieConsent = window.localStorage.getItem("tdm-cookie-consent") === "accepted";
@@ -51,12 +55,35 @@ export function SiteShell() {
     window.localStorage.setItem("tdm-locale", locale);
   }, [locale]);
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
   const navItems = locale === "de" ? ["Start", "Leistungen", "Website-Pläne", "Branchen", "Über uns", "Blog", "Kontakt"] : ["Home", "Services", "Website Plans", "Industries", "About", "Blog", "Contact"];
   const navLinks = navItems.map((item) => {
     if (item === "Leistungen" || item === "Services") return "/services";
     if (item === "Website-Pläne" || item === "Website Plans") return "/website-plans";
     return `#${item.toLowerCase()}`;
   });
+  const handleLocaleChange = (nextLocale: "en" | "de") => {
+    setLocale(nextLocale);
+
+    const currentPath = pathname ?? "/";
+    if (currentPath === "/tattoo-artist-websites") {
+      router.push(nextLocale === "de" ? "/de/tattoo-artist-websites" : "/tattoo-artist-websites");
+      return;
+    }
+
+    if (currentPath === "/de/tattoo-artist-websites") {
+      router.push(nextLocale === "en" ? "/tattoo-artist-websites" : "/de/tattoo-artist-websites");
+      return;
+    }
+
+    if (currentPath.startsWith("/de/") && nextLocale === "en") {
+      router.push(currentPath.replace(/^\/de/, ""));
+      return;
+    }
+  };
 
   const acceptCookies = () => {
     window.localStorage.setItem("tdm-cookie-consent", "accepted");
@@ -81,13 +108,13 @@ export function SiteShell() {
           <div className="flex items-center gap-3">
             <div className="flex rounded-full border border-slate-200 bg-white p-1 shadow-sm">
               <button
-                onClick={() => setLocale("en")}
+                onClick={() => handleLocaleChange("en")}
                 className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${locale === "en" ? "bg-blue-600 text-white" : "text-slate-700"}`}
               >
                 EN
               </button>
               <button
-                onClick={() => setLocale("de")}
+                onClick={() => handleLocaleChange("de")}
                 className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${locale === "de" ? "bg-blue-600 text-white" : "text-slate-700"}`}
               >
                 DE

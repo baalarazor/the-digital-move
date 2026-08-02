@@ -51,6 +51,11 @@ const serviceItems = [
     href: "/services/website-development",
   },
   {
+    title: "Tattoo Artist Websites",
+    description: "Premium tattoo artist websites and tattoo studio websites that spotlight your portfolio, strengthen your brand, and improve enquiries.",
+    href: "/services/tattoo-artist-websites",
+  },
+  {
     title: "Custom Software",
     description: "Bespoke internal tools, dashboards, reporting systems, and automation platforms tailored to your business.",
     href: "/services/custom-software",

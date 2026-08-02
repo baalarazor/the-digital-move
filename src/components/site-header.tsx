@@ -2,6 +2,7 @@
 
 import { ArrowRight, Menu, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type Locale = "en" | "de";
@@ -13,11 +14,37 @@ type SiteHeaderProps = {
 
 export function SiteHeader({ locale, setLocale }: SiteHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     document.documentElement.lang = locale;
     window.localStorage.setItem("tdm-locale", locale);
   }, [locale]);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  const handleLocaleChange = (nextLocale: Locale) => {
+    setLocale(nextLocale);
+
+    const currentPath = pathname ?? "/";
+    if (currentPath === "/tattoo-artist-websites") {
+      router.push(nextLocale === "de" ? "/de/tattoo-artist-websites" : "/tattoo-artist-websites");
+      return;
+    }
+
+    if (currentPath === "/de/tattoo-artist-websites") {
+      router.push(nextLocale === "en" ? "/tattoo-artist-websites" : "/de/tattoo-artist-websites");
+      return;
+    }
+
+    if (currentPath.startsWith("/de/") && nextLocale === "en") {
+      router.push(currentPath.replace(/^\/de/, ""));
+      return;
+    }
+  };
 
   const navItems = locale === "de"
     ? [
@@ -55,13 +82,13 @@ export function SiteHeader({ locale, setLocale }: SiteHeaderProps) {
         <div className="flex items-center gap-3">
           <div className="flex rounded-full border border-slate-200 bg-white p-1 shadow-sm">
             <button
-              onClick={() => setLocale("en")}
+              onClick={() => handleLocaleChange("en")}
               className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${locale === "en" ? "bg-blue-600 text-white" : "text-slate-700"}`}
             >
               EN
             </button>
             <button
-              onClick={() => setLocale("de")}
+              onClick={() => handleLocaleChange("de")}
               className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${locale === "de" ? "bg-blue-600 text-white" : "text-slate-700"}`}
             >
               DE

@@ -28,21 +28,24 @@ type SectionHeadingProps = {
   title: string;
   description: string;
   align?: "left" | "center";
+  tone?: "default" | "light";
 };
 
 type LocaleProps = {
   locale: "en" | "de";
 };
 
-export function SectionHeading({ eyebrow, title, description, align = "left" }: SectionHeadingProps) {
+export function SectionHeading({ eyebrow, title, description, align = "left", tone = "default" }: SectionHeadingProps) {
+  const isLight = tone === "light";
+
   return (
     <div className={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
-      <p className="mb-3 inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700">
+      <p className={`mb-3 inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium ${isLight ? "border-white/20 bg-white/10 text-slate-100" : "border-blue-200 bg-blue-50 text-blue-700"}`}>
         <Sparkles className="mr-2 h-4 w-4" />
         {eyebrow}
       </p>
-      <h2 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">{title}</h2>
-      <p className="mt-4 text-lg leading-8 text-slate-600">{description}</p>
+      <h2 className={`text-3xl font-semibold tracking-tight sm:text-4xl ${isLight ? "text-white" : "text-slate-900"}`}>{title}</h2>
+      <p className={`mt-4 text-lg leading-8 ${isLight ? "text-slate-300" : "text-slate-600"}`}>{description}</p>
     </div>
   );
 }
@@ -365,6 +368,38 @@ export function ServicesSection({ locale }: LocaleProps) {
               </Link>
             </motion.article>
           ))}
+        </div>
+
+        <div className="mt-10 rounded-[2rem] border border-slate-200 bg-slate-50/90 p-6 shadow-sm sm:p-8">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-700">
+                {locale === "de" ? "Spezial-landing pages" : "Specialist landing pages"}
+              </p>
+              <h3 className="mt-2 text-2xl font-semibold text-slate-900">
+                {locale === "de" ? "Später weitere Branchen hinzufügen" : "Add more industries later"}
+              </h3>
+              <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-600">
+                {locale === "de"
+                  ? "Die Auswahl lässt sich später erweitern, wenn du weitere thematisch ähnliche Seiten für andere Dienstleistungsbereiche ergänzen möchtest."
+                  : "This section is ready to grow as you add more service-led pages for other industries later on."}
+              </p>
+            </div>
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <Link href="/tattoo-artist-websites" className="rounded-[1.3rem] border border-slate-200 bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+              <div className="text-sm font-semibold text-slate-900">{locale === "de" ? "Tattoo-Artist-Websites" : "Tattoo Artist Websites"}</div>
+              <div className="mt-2 text-sm leading-7 text-slate-600">{locale === "de" ? "Aktiv und bereit für weitere Anpassungen." : "Live and ready for future customisation."}</div>
+            </Link>
+            <div className="rounded-[1.3rem] border border-dashed border-slate-300 bg-white/70 p-5 text-slate-500">
+              <div className="text-sm font-semibold text-slate-700">{locale === "de" ? "Restaurant-Websites" : "Restaurant Websites"}</div>
+              <div className="mt-2 text-sm leading-7">{locale === "de" ? "Bald verfügbar" : "Coming soon"}</div>
+            </div>
+            <div className="rounded-[1.3rem] border border-dashed border-slate-300 bg-white/70 p-5 text-slate-500">
+              <div className="text-sm font-semibold text-slate-700">{locale === "de" ? "Wellness-Websites" : "Wellness Websites"}</div>
+              <div className="mt-2 text-sm leading-7">{locale === "de" ? "Bald verfügbar" : "Coming soon"}</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
