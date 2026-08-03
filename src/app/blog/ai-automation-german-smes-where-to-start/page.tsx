@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { JsonLd } from "@/components/json-ld";
 import { PageWithHeader } from "@/components/page-with-header";
 
 export const metadata: Metadata = {
@@ -9,6 +10,26 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPostPage() {
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "AI Automation for German SMEs: Where to Start",
+    description: "A practical guide to AI automation for German SMEs, with clear first steps for improving workflows and customer support.",
+    author: {
+      "@type": "Person",
+      name: "Baala",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "The Digital Move",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://thedigitalmove.com/og-image.svg",
+      },
+    },
+    mainEntityOfPage: "https://thedigitalmove.com/blog/ai-automation-german-smes-where-to-start",
+  };
+
   return (
     <PageWithHeader>
       <main className="mx-auto max-w-4xl px-6 py-20 sm:px-8 lg:px-10">
@@ -28,8 +49,17 @@ export default function BlogPostPage() {
             <h2 className="text-2xl font-semibold text-slate-950">Start with the biggest friction point</h2>
             <p className="mt-4 text-sm leading-7 text-slate-700">The fastest results often come from automating lead routing, FAQ responses, document handling, or appointment scheduling. Once the workflow is simple and reliable, it becomes easier to expand to larger use cases.</p>
           </section>
+          <section className="rounded-3xl border border-slate-200 bg-slate-50 p-8 shadow-sm">
+            <h2 className="text-2xl font-semibold text-slate-950">Related implementation pages</h2>
+            <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+              <Link href="/services/ai-automation" className="text-blue-600 hover:text-blue-700">AI Automation Service</Link>
+              <Link href="/services/automation" className="text-blue-600 hover:text-blue-700">Business Automation Service</Link>
+              <Link href="/services/ai-chatbots" className="text-blue-600 hover:text-blue-700">AI Chatbots Service</Link>
+            </div>
+          </section>
         </article>
       </main>
+      <JsonLd data={articleSchema} />
     </PageWithHeader>
   );
 }

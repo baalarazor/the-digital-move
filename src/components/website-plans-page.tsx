@@ -176,7 +176,7 @@ export function WebsitePlansPage() {
         faqTitle: "Die Fragen, die wir am häufigsten hören",
         faqDescription: "Hier sind die wichtigsten Antworten, bevor Sie sich bewerben.",
         leadEyebrow: "Bewerbung",
-        leadTitle: "Bewerben Sie sich für den Passion-Plan",
+        leadTitle: "Bewerben Sie sich für die Passion-Initiative",
         leadDescription: "Ich prüfe jede Anfrage sorgfältig und gehe nur mit Unternehmen weiter, die wirklich zur nächsten Phase passen.",
         businessName: "Unternehmensname *",
         contactPerson: "Kontaktperson *",
@@ -207,7 +207,7 @@ export function WebsitePlansPage() {
           "I create modern, carefully considered websites with clarity, calm and lasting quality.",
           "Instead of selling the usual pitch, I would rather show what a thoughtful first step can look like.",
         ],
-        planEyebrow: "The Passion Plan",
+        planEyebrow: "The Passion Initiative",
         planTitle: "A founder-sponsored website experience for the businesses I want to help.",
         planDescription: "This is not a subscription and not a typical service package. It is a deliberate invitation to work with a small number of companies whose work deserves to be seen clearly and built with care.",
         planNote: "Selected requests only",
@@ -224,7 +224,7 @@ export function WebsitePlansPage() {
         faqTitle: "The questions we hear most often",
         faqDescription: "Here are the answers that matter before you apply.",
         leadEyebrow: "Application",
-        leadTitle: "Apply for the Passion Plan",
+        leadTitle: "Apply for the Passion Initiative",
         leadDescription: "I review each request carefully and only move forward with businesses that feel like the right fit for the next phase.",
         businessName: "Business Name *",
         contactPerson: "Contact Name *",
@@ -281,18 +281,18 @@ export function WebsitePlansPage() {
   const faqItems = isGerman
     ? [
         { question: "Wer ist berechtigt?", answer: "Wir prüfen jede Anfrage individuell. Das Angebot richtet sich vor allem an lokale Unternehmen, die ihre erste professionelle Online-Präsenz aufbauen möchten." },
-        { question: "Was passiert nach 3 Monaten?", answer: "Wenn Sie mit uns arbeiten möchten, können wir mit einem einfachen monatlichen Plan weiterlaufen. Wenn nicht, können wir die Website sauber übergeben oder auslaufen lassen." },
+        { question: "Was passiert nach 3 Monaten?", answer: "Wenn Sie mit uns arbeiten möchten, können wir mit einer einfachen monatlichen Zusammenarbeit weiterlaufen. Wenn nicht, können wir die Website sauber übergeben oder auslaufen lassen." },
         { question: "Kann ich meine Domain behalten?", answer: "Ja. Wenn Sie bereits eine Domain haben, übernehmen wir die Verbindung. Wenn nicht, können wir Ihnen bei der Einrichtung helfen." },
         { question: "Kann ich Änderungen anfordern?", answer: "Ja. Wir arbeiten mit klaren Revisionen und einem strukturierten Feedback-Prozess, damit die Website wirklich zu Ihnen passt." },
-        { question: "Kann ich jederzeit upgraden?", answer: "Ja. Wir können jederzeit auf einen erweiterten Plan wechseln, wenn Ihr Unternehmen mehr Funktionen oder mehr Support braucht." },
+        { question: "Kann ich jederzeit erweitern?", answer: "Ja. Wir können jederzeit zu einer erweiterten Zusammenarbeit wechseln, wenn Ihr Unternehmen mehr Funktionen oder mehr Support braucht." },
         { question: "Besitze ich meinen Content?", answer: "Ja. Alle Inhalte, die für Ihre Website erstellt wurden, bleiben Ihr Eigentum und werden sauber übergeben." },
       ]
     : [
         { question: "Who is eligible?", answer: "We review each request individually. This initiative is mainly for local businesses that want a thoughtful first website and a strong foundation for growth." },
-        { question: "What happens after 3 months?", answer: "If you want to continue, we can move to a simple monthly plan. If not, we can hand over the site or transition it smoothly." },
+        { question: "What happens after 3 months?", answer: "If you want to continue, we can move to a simple monthly collaboration. If not, we can hand over the site or transition it smoothly." },
         { question: "Can I keep my domain?", answer: "Yes. If you already own a domain, we can connect it. If not, we can help you set one up." },
         { question: "Can I request changes?", answer: "Yes. We work with clear revisions and a structured feedback process so the website fits your business well." },
-        { question: "Can I upgrade anytime?", answer: "Yes. We can move you to a broader plan whenever you need more features, support or growth capacity." },
+        { question: "Can we expand the scope anytime?", answer: "Yes. We can move you to a broader collaboration whenever you need more features, support or growth capacity." },
         { question: "Do I own my content?", answer: "Yes. All content created for your website remains yours and is handed over clearly at the end of the project." },
       ];
 

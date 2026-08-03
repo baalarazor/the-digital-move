@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { JsonLd } from "@/components/json-ld";
 import { PageWithHeader } from "@/components/page-with-header";
 
 export const metadata: Metadata = {
@@ -9,6 +10,26 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPostPage() {
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Website Development in Berlin: What Small Businesses Need in 2026",
+    description: "A practical guide to website development in Berlin for small businesses that want better Google visibility, stronger trust, and more leads.",
+    author: {
+      "@type": "Person",
+      name: "Baala",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "The Digital Move",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://thedigitalmove.com/og-image.svg",
+      },
+    },
+    mainEntityOfPage: "https://thedigitalmove.com/blog/website-development-berlin-small-businesses-2026",
+  };
+
   return (
     <PageWithHeader>
       <main className="mx-auto max-w-4xl px-6 py-20 sm:px-8 lg:px-10">
@@ -37,8 +58,17 @@ export default function BlogPostPage() {
               <li>• Clear service pages and trust signals</li>
             </ul>
           </section>
+          <section className="rounded-3xl border border-slate-200 bg-slate-50 p-8 shadow-sm">
+            <h2 className="text-2xl font-semibold text-slate-950">Related implementation pages</h2>
+            <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
+              <Link href="/services/website-development" className="text-blue-600 hover:text-blue-700">Website Development Service</Link>
+              <Link href="/services/seo-optimisation" className="text-blue-600 hover:text-blue-700">SEO Optimisation Service</Link>
+              <Link href="/locations/berlin" className="text-blue-600 hover:text-blue-700">Berlin Location Page</Link>
+            </div>
+          </section>
         </article>
       </main>
+      <JsonLd data={articleSchema} />
     </PageWithHeader>
   );
 }

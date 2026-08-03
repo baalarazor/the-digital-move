@@ -65,6 +65,46 @@ const serviceItems = [
     description: "CRM, collaboration, and API integrations that keep your data flowing across tools and teams.",
     href: "/services/system-integration",
   },
+  {
+    title: "Website Redesign",
+    description: "Modern redesign services for businesses that need stronger positioning, better UX, and improved conversion outcomes.",
+    href: "/services/website-redesign",
+  },
+  {
+    title: "Website Maintenance",
+    description: "Proactive website maintenance covering updates, stability, security checks, and technical quality assurance.",
+    href: "/services/website-maintenance",
+  },
+  {
+    title: "AI Chatbots",
+    description: "AI chatbots for website lead capture, customer support, and intelligent enquiry qualification.",
+    href: "/services/ai-chatbots",
+  },
+  {
+    title: "SEO Optimisation",
+    description: "Technical and on-page SEO optimization for high-intent service visibility and qualified organic lead generation.",
+    href: "/services/seo-optimisation",
+  },
+  {
+    title: "Performance Optimisation",
+    description: "Core Web Vitals and front-end performance improvements to speed up user experience and improve conversion reliability.",
+    href: "/services/performance-optimisation",
+  },
+  {
+    title: "Hosting and Infrastructure",
+    description: "Reliable hosting architecture, deployment workflows, and monitoring setups for business-critical websites.",
+    href: "/services/hosting",
+  },
+  {
+    title: "Analytics and Measurement",
+    description: "Measurement architecture, event tracking, and growth dashboards aligned to business outcomes.",
+    href: "/services/analytics",
+  },
+  {
+    title: "Technical Maintenance",
+    description: "Continuous technical maintenance to preserve UX quality, SEO health, and platform stability over time.",
+    href: "/services/maintenance",
+  },
 ];
 
 const serviceSchema = buildServiceSchema({

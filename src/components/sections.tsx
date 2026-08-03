@@ -92,7 +92,7 @@ export function HeroSection({ locale }: LocaleProps) {
         pills: ["Gründergeführt", "Mit Sorgfalt gebaut", "Modernes Design", "Persönlicher Support"],
       }
     : {
-        badge: "Founder-led • Premium web design • No upfront cost",
+      badge: "Founder-led • Premium web design • Built with purpose",
         headline: "Crafting Refined Websites,",
         highlight: "One Business at a Time.",
         subheadline: "Hi, I’m Baala. I create thoughtful digital experiences for local businesses and help selected founders launch with confidence through a founder-led collaboration built with care.",

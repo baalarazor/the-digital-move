@@ -10,6 +10,14 @@ type ServiceSchemaInput = {
   serviceType: string;
 };
 
+type MedicalBusinessSchemaInput = {
+  name: string;
+  description: string;
+  url: string;
+  medicalSpecialty: string;
+  department?: string;
+};
+
 const organization = {
   "@type": "Organization",
   name: "The Digital Move",
@@ -70,5 +78,40 @@ export function buildBreadcrumbSchema(items: Array<{ name: string; url: string }
       name: item.name,
       item: item.url,
     })),
+  };
+}
+
+export function buildMedicalBusinessSchema({
+  name,
+  description,
+  url,
+  medicalSpecialty,
+  department,
+}: MedicalBusinessSchemaInput) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    name,
+    description,
+    url,
+    medicalSpecialty,
+    department,
+    areaServed: [
+      { "@type": "City", name: "Berlin" },
+      { "@type": "Country", name: "Germany" },
+    ],
+    provider: organization,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Berlin",
+      addressCountry: "DE",
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: "+49 175 5017453",
+      availableLanguage: ["English", "German"],
+    },
+    sameAs: ["https://thedigitalmove.com"],
   };
 }

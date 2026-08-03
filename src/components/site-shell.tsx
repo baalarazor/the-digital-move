@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUp, Menu, MessageCircle, X } from "lucide-react";
+import { ArrowUp, ChevronDown, ChevronRight, Menu, MessageCircle, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -22,6 +22,7 @@ import {
   WhyChooseUsSection,
 } from "@/components/sections";
 import { Chatbot } from "@/components/chatbot";
+import { healthcareNavItems } from "@/lib/healthcare";
 
 export function SiteShell() {
   const [locale, setLocale] = useState<"en" | "de">("en");
@@ -29,6 +30,9 @@ export function SiteShell() {
   const [cookieAccepted, setCookieAccepted] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [mobileHealthcareOpen, setMobileHealthcareOpen] = useState(false);
+  const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
+  const [mobileEngagementOpen, setMobileEngagementOpen] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -57,14 +61,115 @@ export function SiteShell() {
 
   useEffect(() => {
     setMobileMenuOpen(false);
+    setMobileHealthcareOpen(false);
+    setMobileMoreOpen(false);
+    setMobileEngagementOpen(false);
   }, [pathname]);
 
-  const navItems = locale === "de" ? ["Start", "Leistungen", "Website-Pläne", "Branchen", "Über uns", "Blog", "Kontakt"] : ["Home", "Services", "Website Plans", "Industries", "About", "Blog", "Contact"];
-  const navLinks = navItems.map((item) => {
-    if (item === "Leistungen" || item === "Services") return "/services";
-    if (item === "Website-Pläne" || item === "Website Plans") return "/website-plans";
-    return `#${item.toLowerCase()}`;
-  });
+  const primaryNavItems = locale === "de"
+    ? [
+        { label: "Start", href: "/" },
+        { label: "Leistungen", href: "/services" },
+        { label: "Lösungen", href: "/solutions" },
+        { label: "Branchen", href: "/industries" },
+      ]
+    : [
+        { label: "Home", href: "/" },
+        { label: "Services", href: "/services" },
+        { label: "Solutions", href: "/solutions" },
+        { label: "Industries", href: "/industries" },
+      ];
+
+  const moreNavItems = locale === "de"
+    ? [
+        { label: "Standorte", href: "/locations" },
+        { label: "Ressourcen", href: "/resources" },
+        { label: "Über uns", href: "/about" },
+        { label: "Portfolio", href: "/portfolio" },
+        { label: "Case Studies", href: "/case-studies" },
+      ]
+    : [
+        { label: "Locations", href: "/locations" },
+        { label: "Resources", href: "/resources" },
+        { label: "About", href: "/about" },
+        { label: "Portfolio", href: "/portfolio" },
+        { label: "Case Studies", href: "/case-studies" },
+      ];
+
+  const engagementNavItems = locale === "de"
+    ? [
+        { label: "Preise", href: "/pricing" },
+        { label: "Gründer-Initiative", href: "/website-plans" },
+        { label: "Kontakt", href: "/contact" },
+      ]
+    : [
+        { label: "Pricing", href: "/pricing" },
+        { label: "Founder Initiative", href: "/website-plans" },
+        { label: "Contact", href: "/contact" },
+      ];
+  const healthcareLabel = "Healthcare Solutions";
+  const healthcareOverviewLabel = "Overview";
+  const moreLabel = locale === "de" ? "Mehr" : "More";
+  const engagementLabel = locale === "de" ? "Zusammenarbeit" : "Engage";
+
+  const DesktopMenu = ({
+    label,
+    items,
+  }: {
+    label: string;
+    items: Array<{ label: string; href: string }>;
+  }) => (
+    <div className="group relative">
+      <button type="button" className="inline-flex items-center gap-1 transition hover:text-blue-600">
+        {label}
+        <ChevronDown className="h-4 w-4" />
+      </button>
+      <div className="invisible absolute left-0 top-full z-50 mt-3 w-64 rounded-2xl border border-slate-200 bg-white p-3 opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:opacity-100 dark:border-slate-700 dark:bg-slate-900">
+        {items.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="block rounded-xl px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-50 hover:text-blue-600 dark:text-slate-200 dark:hover:bg-slate-800"
+          >
+            {item.label}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+
+  const MobileMenuGroup = ({
+    label,
+    open,
+    onToggle,
+    items,
+  }: {
+    label: string;
+    open: boolean;
+    onToggle: () => void;
+    items: Array<{ label: string; href: string }>;
+  }) => (
+    <>
+      <button
+        type="button"
+        onClick={onToggle}
+        className="flex items-center justify-between rounded-xl border border-slate-200 px-3 py-2 text-left text-slate-700 dark:border-slate-700 dark:text-slate-200"
+        aria-expanded={open}
+      >
+        <span className="font-semibold">{label}</span>
+        {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+      </button>
+      {open ? (
+        <div className="ml-2 flex flex-col gap-2 border-l border-slate-200 pl-3 dark:border-slate-700">
+          {items.map((item) => (
+            <Link key={item.href} href={item.href} onClick={() => setMobileMenuOpen(false)}>
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      ) : null}
+    </>
+  );
   const handleLocaleChange = (nextLocale: "en" | "de") => {
     setLocale(nextLocale);
 
@@ -99,11 +204,34 @@ export function SiteShell() {
             The Digital Move
           </Link>
           <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex dark:text-slate-300">
-            {navItems.map((item, index) => (
-              <a key={item} href={navLinks[index]} className="transition hover:text-blue-600">
-                {item}
+            {primaryNavItems.map((item) => (
+              <a key={item.label} href={item.href} className="transition hover:text-blue-600">
+                {item.label}
               </a>
             ))}
+            <DesktopMenu label={moreLabel} items={moreNavItems} />
+            <DesktopMenu label={engagementLabel} items={engagementNavItems} />
+            <div className="group relative">
+              <button type="button" className="inline-flex items-center gap-1 transition hover:text-blue-600">
+                {healthcareLabel}
+                <ChevronDown className="h-4 w-4" />
+              </button>
+              <div className="invisible absolute left-0 top-full z-50 mt-3 w-72 rounded-2xl border border-slate-200 bg-white p-3 opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:opacity-100 dark:border-slate-700 dark:bg-slate-900">
+                <Link href="/healthcare" className="block rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-blue-600 dark:text-slate-200 dark:hover:bg-slate-800">
+                  {healthcareOverviewLabel}
+                </Link>
+                <div className="my-2 h-px bg-slate-100 dark:bg-slate-700" />
+                {healthcareNavItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="block rounded-xl px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-50 hover:text-blue-600 dark:text-slate-200 dark:hover:bg-slate-800"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </nav>
           <div className="flex items-center gap-3">
             <div className="flex rounded-full border border-slate-200 bg-white p-1 shadow-sm">
@@ -138,11 +266,29 @@ export function SiteShell() {
         {mobileMenuOpen ? (
           <div className="border-t border-slate-200 bg-white/95 px-6 py-4 backdrop-blur md:hidden dark:border-slate-800 dark:bg-slate-950/95">
             <div className="flex flex-col gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
-              {navItems.map((item, index) => (
-                <a key={item} href={navLinks[index]} onClick={() => setMobileMenuOpen(false)}>
-                  {item}
+              {primaryNavItems.map((item) => (
+                <a key={item.label} href={item.href} onClick={() => setMobileMenuOpen(false)}>
+                  {item.label}
                 </a>
               ))}
+              <MobileMenuGroup
+                label={moreLabel}
+                open={mobileMoreOpen}
+                onToggle={() => setMobileMoreOpen((open) => !open)}
+                items={moreNavItems}
+              />
+              <MobileMenuGroup
+                label={engagementLabel}
+                open={mobileEngagementOpen}
+                onToggle={() => setMobileEngagementOpen((open) => !open)}
+                items={engagementNavItems}
+              />
+              <MobileMenuGroup
+                label={healthcareLabel}
+                open={mobileHealthcareOpen}
+                onToggle={() => setMobileHealthcareOpen((open) => !open)}
+                items={[{ label: healthcareOverviewLabel, href: "/healthcare" }, ...healthcareNavItems]}
+              />
               <a href="https://wa.me/491755017453" target="_blank" rel="noreferrer" onClick={() => setMobileMenuOpen(false)} className="text-emerald-700 hover:text-emerald-900">
                 WhatsApp
               </a>

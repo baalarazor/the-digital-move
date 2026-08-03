@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { WebsitePlansPage } from "@/components/website-plans-page";
 
 export const metadata: Metadata = {
-  title: "Website Plans | A Founder-Led Passion Project | The Digital Move",
+  title: "Founder Initiative | A Founder-Led Passion Project | The Digital Move",
   description: "Explore the founder initiative, a founder-led collaboration for selected businesses who want a thoughtful, purpose-built website experience.",
   alternates: {
     canonical: "https://thedigitalmove.com/website-plans",
