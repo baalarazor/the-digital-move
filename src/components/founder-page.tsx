@@ -90,7 +90,15 @@ export function FounderPage() {
               <div className="relative overflow-hidden rounded-[2.25rem] border border-white/70 bg-white/70 p-4 shadow-[0_30px_80px_-22px_rgba(15,23,42,0.25)] backdrop-blur-xl">
                 <div className="relative overflow-hidden rounded-[1.8rem] border border-slate-200/80 bg-slate-950 p-3">
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[1.4rem]">
-                    <Image src="/baala.jpg" alt="Baala portrait" fill className="object-cover object-center" priority />
+                    <Image
+                      src="/baala.jpg"
+                      alt="Baala portrait"
+                      fill
+                      className="object-cover object-center"
+                      priority
+                      fetchPriority="high"
+                      sizes="(max-width: 768px) 90vw, (max-width: 1280px) 50vw, 560px"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/30 via-transparent to-white/10" />
                     <div className="absolute bottom-4 left-4 right-4 rounded-[1.15rem] border border-white/20 bg-white/10 p-4 text-white backdrop-blur">
                       <p className="text-sm font-semibold">Every business deserves a digital home.</p>

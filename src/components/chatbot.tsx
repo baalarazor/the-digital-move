@@ -457,7 +457,7 @@ export function Chatbot() {
           <div className="flex items-center justify-between bg-blue-600 px-5 py-4 text-white shrink-0">
             <div className="flex items-center gap-3">
               <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full ring-2 ring-white/30">
-                <Image src="/baala.jpg" alt="Baala" fill className="object-cover" />
+                <Image src="/baala.jpg" alt="Baala" fill className="object-cover" sizes="40px" />
               </div>
               <div>
                 <p className="text-sm font-semibold leading-none">Baala</p>
@@ -601,7 +601,7 @@ export function Chatbot() {
         {open ? (
           <><div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20"><X className="h-4 w-4" /></div> Close</>
         ) : (
-          <><div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full"><Image src="/baala.jpg" alt="Baala" fill className="object-cover" /></div> Chat with Baala</>
+          <><div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full"><Image src="/baala.jpg" alt="Baala" fill className="object-cover" sizes="32px" /></div> Chat with Baala</>
         )}
       </button>
     </div>

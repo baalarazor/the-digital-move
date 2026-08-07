@@ -1,28 +1,32 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowUp, ChevronDown, ChevronRight, Menu, MessageCircle, X } from "lucide-react";
+import dynamic from "next/dynamic";
+import { ArrowUp, ChevronDown, ChevronRight, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
-  AboutSection,
-  BlogSection,
-  CTASection,
-  ContactSection,
-  FAQSection,
-  FooterSection,
   FounderLinkSection,
   HeroSection,
-  IndustriesSection,
-  ProcessSection,
-  ServicesSection,
-  TestimonialsSection,
   TrustSection,
-  WhyChooseUsSection,
-} from "@/components/sections";
-import { Chatbot } from "@/components/chatbot";
+} from "@/components/home-above-fold";
 import { healthcareNavItems } from "@/lib/healthcare";
+
+const AboutSection = dynamic(() => import("@/components/sections").then((mod) => mod.AboutSection));
+const BlogSection = dynamic(() => import("@/components/sections").then((mod) => mod.BlogSection));
+const CTASection = dynamic(() => import("@/components/sections").then((mod) => mod.CTASection));
+const ContactSection = dynamic(() => import("@/components/sections").then((mod) => mod.ContactSection));
+const FAQSection = dynamic(() => import("@/components/sections").then((mod) => mod.FAQSection));
+const FooterSection = dynamic(() => import("@/components/sections").then((mod) => mod.FooterSection));
+const IndustriesSection = dynamic(() => import("@/components/sections").then((mod) => mod.IndustriesSection));
+const ProcessSection = dynamic(() => import("@/components/sections").then((mod) => mod.ProcessSection));
+const ServicesSection = dynamic(() => import("@/components/sections").then((mod) => mod.ServicesSection));
+const WhyChooseUsSection = dynamic(() => import("@/components/sections").then((mod) => mod.WhyChooseUsSection));
+
+const DeferredChatbot = dynamic(
+  () => import("@/components/chatbot").then((mod) => mod.Chatbot),
+  { ssr: false, loading: () => null },
+);
 
 export function SiteShell() {
   const [locale, setLocale] = useState<"en" | "de">("en");
@@ -197,7 +201,7 @@ export function SiteShell() {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 transition-colors duration-300">
-      {mounted ? <motion.div className="fixed inset-x-0 top-0 z-50 h-1 origin-left bg-blue-600" initial={false} animate={{ scaleX: 1 }} /> : null}
+      {mounted ? <div className="fixed inset-x-0 top-0 z-50 h-1 bg-blue-600" /> : null}
       <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/80">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 sm:px-8 lg:px-10">
           <Link href="/" className="text-lg font-semibold tracking-tight text-slate-950 dark:text-white">
@@ -205,9 +209,9 @@ export function SiteShell() {
           </Link>
           <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 md:flex dark:text-slate-300">
             {primaryNavItems.map((item) => (
-              <a key={item.label} href={item.href} className="transition hover:text-blue-600">
+              <Link key={item.label} href={item.href} className="transition hover:text-blue-600">
                 {item.label}
-              </a>
+              </Link>
             ))}
             <DesktopMenu label={moreLabel} items={moreNavItems} />
             <DesktopMenu label={engagementLabel} items={engagementNavItems} />
@@ -251,9 +255,9 @@ export function SiteShell() {
             <a href="https://wa.me/491755017453" target="_blank" rel="noreferrer" className="hidden rounded-full border border-emerald-500 bg-emerald-500/10 px-4 py-2 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-500/20 sm:inline-flex">
               WhatsApp
             </a>
-            <a href="#contact" className="hidden rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 sm:inline-flex">
+            <Link href="/#contact" className="hidden rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 sm:inline-flex">
               {locale === "de" ? "Gespräch vereinbaren" : "Start Our Conversation"}
-            </a>
+            </Link>
             <button
               className="rounded-full border border-slate-200 p-2 text-slate-700 md:hidden dark:border-slate-700 dark:text-slate-200"
               onClick={() => setMobileMenuOpen((open) => !open)}
@@ -267,9 +271,9 @@ export function SiteShell() {
           <div className="border-t border-slate-200 bg-white/95 px-6 py-4 backdrop-blur md:hidden dark:border-slate-800 dark:bg-slate-950/95">
             <div className="flex flex-col gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
               {primaryNavItems.map((item) => (
-                <a key={item.label} href={item.href} onClick={() => setMobileMenuOpen(false)}>
-                  {item.label}
-                </a>
+                  <Link key={item.label} href={item.href} onClick={() => setMobileMenuOpen(false)}>
+                    {item.label}
+                  </Link>
               ))}
               <MobileMenuGroup
                 label={moreLabel}
@@ -313,7 +317,7 @@ export function SiteShell() {
       </main>
 
       <FooterSection locale={locale} />
-      <Chatbot />
+      <DeferredChatbot />
 
 
       {showBackToTop ? (

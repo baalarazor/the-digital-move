@@ -337,7 +337,15 @@ export function WebsitePlansPage() {
               <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white/85 p-4 shadow-[0_30px_80px_-20px_rgba(15,23,42,0.22)] backdrop-blur">
                 <div className="relative overflow-hidden rounded-[1.7rem] border border-slate-200 bg-slate-950 p-3">
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[1.4rem]">
-                    <Image src="/baala.jpg" alt="Baala founder portrait" fill className="object-cover object-center" priority />
+                    <Image
+                      src="/baala.jpg"
+                      alt="Baala founder portrait"
+                      fill
+                      className="object-cover object-center"
+                      priority
+                      fetchPriority="high"
+                      sizes="(max-width: 768px) 90vw, (max-width: 1280px) 50vw, 560px"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/35 via-transparent to-white/10" />
                     <div className="absolute left-4 top-4 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/90 backdrop-blur">
                       Founder-led

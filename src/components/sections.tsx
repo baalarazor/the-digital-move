@@ -19,7 +19,6 @@ import {
   Zap,
   type LucideIcon,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -364,7 +363,7 @@ export function ServicesSection({ locale }: LocaleProps) {
                 ))}
               </ul>
               <Link href={service.href} className="mt-6 inline-flex items-center text-sm font-semibold text-blue-600 transition hover:text-blue-800">
-                {locale === "de" ? "Mehr erfahren" : "Learn more"}
+                {locale === "de" ? `${service.title} entdecken` : `Explore ${service.title} services`}
               </Link>
             </motion.article>
           ))}

@@ -160,7 +160,7 @@ export function IndustryCard({ profile }: IndustryCardProps) {
         href={`/solutions/${profile.slug}`}
         className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition group-hover:text-blue-700"
       >
-        Learn More
+        Explore {profile.name} healthcare solution
         <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
       </Link>
     </motion.article>
