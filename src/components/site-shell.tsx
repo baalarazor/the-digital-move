@@ -25,7 +25,7 @@ const WhyChooseUsSection = dynamic(() => import("@/components/sections").then((m
 
 const DeferredChatbot = dynamic(
   () => import("@/components/chatbot").then((mod) => mod.Chatbot),
-  { ssr: false, loading: () => null },
+  { loading: () => null },
 );
 
 export function SiteShell() {
